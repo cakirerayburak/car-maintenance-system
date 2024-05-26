@@ -5,96 +5,111 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<!-- The Basics -->
-	<groupId>com.ucoruh.calculator</groupId>
-	<artifactId>calculator-app</artifactId>
+	<groupId>com.ebcak.carmaintenance</groupId>
+	<artifactId>carmaintenance-app</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<!-- More Project Information -->
-	<name>calculator-app</name>
-	<url>https://github.com/ucoruh/eclipse-java-maven-template</url>
+	<name>carmaintenance-app</name>
+	<url>https://github.com/cakirerayburak/ce204-final-project-eray-burak-cakir-java</url>
 	<scm>
-		<url>https://github.com/ucoruh/eclipse-java-maven-template</url>
+		<url>https://github.com/cakirerayburak/ce204-final-project-eray-burak-cakir-java</url>
 	</scm>
 	<inceptionYear>2023</inceptionYear>
 	<developers>
 		<developer>
-			<name>Asst. Prof. Dr. Ugur CORUH</name>
-			<organization>RTEU</organization>
-			<email>ugur.coruh@erdogan.edu.tr</email>
+			<name>Eray Burak CAKIR</name>
+			<organization>AI2X</organization>
+			<email>erayburak_cakir21@erdogan.edu.tr</email>
 			<roles>
 				<role>Developer</role>
 				<role>Designer</role>
 			</roles>
 		</developer>
 		<developer>
-			<name>Other Person</name>
-			<organization>RTEU</organization>
-			<email>mail@gmail.com</email>
+			<name>Süleyman Mert ALMALI</name>
+			<organization>AI2X</organization>
+			<email>suleymanmert_almali@erdogan.edu.tr</email>
 			<roles>
 				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<name>Samet KARAS</name>
+			<organization>AI2X</organization>
+			<email>samet_karas21@erdogan.edu.tr</email>
+			<roles>
+				<role>Designer</role>
 			</roles>
 		</developer>
 	</developers>
 	<contributors>
 		<contributor>
-			<name>Asst. Prof. Dr. Ugur CORUH</name>
-			<email>ugur.coruh@erdogan.edu.tr</email>
-			<organization>RTEU</organization>
+			<name>Eray Burak CAKIR</name>
+			<organization>AI2X</organization>
+			<email>erayburak_cakir21@erdogan.edu.tr</email>
 			<roles>
 				<role>Developer</role>
 				<role>Designer</role>
 			</roles>
 		</contributor>
 		<contributor>
-			<name>Other Person</name>
-			<organization>RTEU</organization>
-			<email>mail@gmail.com</email>
+			<name>Suleyman Mert ALMALI</name>
+			<organization>AI2X</organization>
+			<email>suleymanmert_almali@erdogan.edu.tr</email>
 			<roles>
 				<role>Developer</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Samet KARAS</name>
+			<organization>AI2X</organization>
+			<email>samet_karas21@erdogan.edu.tr</email>
+			<roles>
+				<role>Designer</role>
 			</roles>
 		</contributor>
 	</contributors>
 	<description>Maven Example Template Project</description>
 	<organization>
-		<name>Recep Tayyip Erdogan University</name>
-		<url>www.erdogan.edu.tr</url>
+		<name>Artificial Intelligence To Everything</name>
 	</organization>
 	<!-- Environment Settings -->
 	<issueManagement>
 		<system>Github</system>
-		<url>https://github.com/ucoruh/eclipse-java-maven-template</url>
+		<url>https://github.com/cakirerayburak/ce204-final-project-eray-burak-cakir-java</url>
 	</issueManagement>
 	<ciManagement>
 		<system>Github</system>
 		<notifiers>
 			<notifier>
-				<address>ugur.coruh@erdogan.edu.tr</address>
+				<address>erayburak_cakir21@erdogan.edu.tr</address>
 				<sendOnSuccess>true</sendOnSuccess>
 				<sendOnError>true</sendOnError>
 				<sendOnFailure>true</sendOnFailure>
 				<sendOnWarning>true</sendOnWarning>
 			</notifier>
 		</notifiers>
-		<url>https://github.com/ucoruh/eclipse-java-maven-template</url>
+		<url>https://github.com/cakirerayburak/ce204-final-project-eray-burak-cakir-java</url>
 	</ciManagement>
 	<repositories>
 		<repository>
 			<id>eclipse-java-maven-template</id>
 			<name>eclipse-java-maven-template</name>
-			<url>https://github.com/ucoruh/eclipse-java-maven-template</url>
+			<url>https://github.com/cakirerayburak/ce204-final-project-eray-burak-cakir-java</url>
 		</repository>
 	</repositories>
 	<distributionManagement>
 		<site>
-			<name>https://github.com/ucoruh/eclipse-java-maven-template</name>
+			<name>https://github.com/cakirerayburak/ce204-final-project-eray-burak-cakir-java</name>
 			<id>eclipse-java-maven-template</id>
 		</site>
-		<downloadUrl>https://github.com/ucoruh/eclipse-java-maven-template</downloadUrl>
+		<downloadUrl>https://github.com/cakirerayburak/ce204-final-project-eray-burak-cakir-java</downloadUrl>
 		<repository>
 			<id>eclipse-java-maven-template</id>
 			<name>eclipse-java-maven-template</name>
-			<url>https://github.com/ucoruh/eclipse-java-maven-template</url>
+			<url>https://github.com/cakirerayburak/ce204-final-project-eray-burak-cakir-java</url>
 		</repository>
 	</distributionManagement>
 	<properties>
@@ -145,8 +160,8 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<includes>
-						<include>**/CalculatorAppTest.java</include>
-						<include>**/CalculatorTest.java</include>
+						<include>**/CarMaintenanceAppTest.java</include>
+						<include>**/CarMaintenanceTest.java</include>
 					</includes>
 				</configuration>
 			</plugin>
@@ -250,7 +265,7 @@
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>
-										com.ucoruh.calculator.CalculatorApp</mainClass>
+										com.ebcak.carmaintenance.CarMaintenanceApp</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>

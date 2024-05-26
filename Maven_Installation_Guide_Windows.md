@@ -24,11 +24,11 @@ Follow the steps outlined below to install Apache Maven on Windows.
 
 2. Click on the appropriate link to download the binary zip archive of the latest version of Maven. As of the time of writing this tutorial, that is version 3.8.4.
 
-![](C:\Users\ugur.coruh\AppData\Roaming\marktext\images\2023-10-27-20-22-59-image.png)
+![](C:\Users\ebcak\AppData\Roaming\marktext\images\2023-10-27-20-22-59-image.png)
 
 3. Since there is no installation process, extract the Maven archive to a directory of your choice once the download is complete. For this tutorial, we are using *C:\Program Files\Maven\apache-maven-3.8.4*.
 
-![](C:\Users\ugur.coruh\AppData\Roaming\marktext\images\2023-10-27-20-24-57-image.png)
+![](C:\Users\ebcak\AppData\Roaming\marktext\images\2023-10-27-20-24-57-image.png)
 
 ### Step 2: Add MAVEN_HOME System Variable
 
@@ -36,39 +36,39 @@ Follow the steps outlined below to install Apache Maven on Windows.
 
 2. Click the **Edit the system environment variables** result.
 
-![](C:\Users\ugur.coruh\AppData\Roaming\marktext\images\2023-10-27-20-25-31-image.png)
+![](C:\Users\ebcak\AppData\Roaming\marktext\images\2023-10-27-20-25-31-image.png)
 
 3. Under the *Advanced tab* in the *System Properties* window, click **Environment Variables**.
 
-![](C:\Users\ugur.coruh\AppData\Roaming\marktext\images\2023-10-27-20-25-48-image.png)
+![](C:\Users\ebcak\AppData\Roaming\marktext\images\2023-10-27-20-25-48-image.png)
 
 4. Click the **New** button under the *System variables* section to add a new system environment variable.
 
-![](C:\Users\ugur.coruh\AppData\Roaming\marktext\images\2023-10-27-20-26-07-image.png)
+![](C:\Users\ebcak\AppData\Roaming\marktext\images\2023-10-27-20-26-07-image.png)
 
 5. Enter **MAVEN_HOME** as the variable name and the path to the Maven directory as the variable value. Click **OK** to save the new system variable.
 
-![](C:\Users\ugur.coruh\AppData\Roaming\marktext\images\2023-10-27-20-27-23-image.png)
+![](C:\Users\ebcak\AppData\Roaming\marktext\images\2023-10-27-20-27-23-image.png)
 
 ### Step 3: Add MAVEN_HOME Directory in PATH Variable
 
 1. Select the **Path** variable under the *System variables* section in the *Environment Variables* window. Click the **Edit** button to edit the variable.
 
-![](C:\Users\ugur.coruh\AppData\Roaming\marktext\images\2023-10-27-20-27-51-image.png)
+![](C:\Users\ebcak\AppData\Roaming\marktext\images\2023-10-27-20-27-51-image.png)
 
 2. Click the **New** button in the *Edit environment variable* window.
 
-![](C:\Users\ugur.coruh\AppData\Roaming\marktext\images\2023-10-27-20-28-09-image.png)
+![](C:\Users\ebcak\AppData\Roaming\marktext\images\2023-10-27-20-28-09-image.png)
 
 3. Enter **%MAVEN_HOME%\bin** in the new field. Click **OK** to save changes to the **Path** variable.
 
-![](C:\Users\ugur.coruh\AppData\Roaming\marktext\images\2023-10-27-20-29-17-image.png)
+![](C:\Users\ebcak\AppData\Roaming\marktext\images\2023-10-27-20-29-17-image.png)
 
 **Note:** Not adding the path to the Maven home directory to the **Path** variable causes the **`'mvn' is not recognized as an internal or external command, operable program or batch file`** error when using the **`mvn`** command.
 
 4. Click **OK** in the *Environment Variables* window to save the changes to the system variables.
 
-![](C:\Users\ugur.coruh\AppData\Roaming\marktext\images\2023-10-27-20-29-52-image.png)
+![](C:\Users\ebcak\AppData\Roaming\marktext\images\2023-10-27-20-29-52-image.png)
 
 ### Step 4: Verify Maven Installation
 
@@ -78,7 +78,7 @@ In the command prompt, use the following command to verify the installation by c
 mvn -version
 ```
 
-![](C:\Users\ugur.coruh\AppData\Roaming\marktext\images\2023-10-27-20-30-28-image.png)
+![](C:\Users\ebcak\AppData\Roaming\marktext\images\2023-10-27-20-30-28-image.png)
 
 ## Conclusion
 
