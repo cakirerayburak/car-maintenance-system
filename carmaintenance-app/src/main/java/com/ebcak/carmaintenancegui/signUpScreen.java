@@ -1,4 +1,5 @@
 package com.ebcak.carmaintenancegui;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -6,7 +7,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,6 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.JOptionPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class signUpScreen extends JFrame {
     private JTextField usernameField;
@@ -25,7 +28,7 @@ public class signUpScreen extends JFrame {
         setSize(450, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
 
         // Üst kısım: Başlık
         JPanel titlePanel = new JPanel();
@@ -34,7 +37,7 @@ public class signUpScreen extends JFrame {
         lblTitle.setFont(new Font("SansSerif", Font.BOLD, 24));
         lblTitle.setForeground(Color.WHITE);
         titlePanel.add(lblTitle);
-        add(titlePanel, BorderLayout.NORTH);
+        getContentPane().add(titlePanel, BorderLayout.NORTH);
 
         // Orta kısım: Giriş formu
         JPanel formPanel = new JPanel(new GridBagLayout());
@@ -95,6 +98,24 @@ public class signUpScreen extends JFrame {
 
         // btnSignUp ekle
         JButton btnSignUp = new JButton("Sign up");
+        btnSignUp.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		String username = usernameField.getText();
+        		String password = new String(passwordField.getPassword());
+        		String email = emailField.getText();
+        		
+        		userControl control = new userControl();
+        		int result = control.registerUser(username, password, email);
+        		
+        		if (result == 0) {
+        		    JOptionPane.showMessageDialog(signUpScreen.this, "Sign up successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        		    dispose();
+        		    new signInScreen().setVisible(true);
+        		} else {
+        		    JOptionPane.showMessageDialog(signUpScreen.this, "Sign up failed!", "Error", JOptionPane.ERROR_MESSAGE);
+        		}
+        	}
+        });
         btnSignUp.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnSignUp.setForeground(Color.WHITE);
         btnSignUp.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -105,14 +126,14 @@ public class signUpScreen extends JFrame {
         gbcBtnSignUp.gridy = 3;
         formPanel.add(btnSignUp, gbcBtnSignUp);
 
-        add(formPanel, BorderLayout.CENTER);
+        getContentPane().add(formPanel, BorderLayout.CENTER);
 
         // Geri butonu ekle
         JPanel backPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton btnBack = new JButton("Back");
         btnBack.setFont(new Font("SansSerif", Font.PLAIN, 14));
         backPanel.add(btnBack);
-        add(backPanel, BorderLayout.SOUTH);
+        getContentPane().add(backPanel, BorderLayout.SOUTH);
 
         // Butona tıklama işlemi ekleyin
         btnBack.addActionListener(e -> {

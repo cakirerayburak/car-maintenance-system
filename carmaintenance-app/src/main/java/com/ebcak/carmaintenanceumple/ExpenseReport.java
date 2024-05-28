@@ -5,8 +5,8 @@ package com.ebcak.carmaintenanceumple;
 
 import java.sql.Date;
 
-// line 31 "model.ump"
-// line 79 "model.ump"
+// line 43 "model.ump"
+// line 78 "model.ump"
 public class ExpenseReport
 {
 
@@ -20,36 +20,34 @@ public class ExpenseReport
   private double dailyFuel;
   private double annualFuel;
   private double totalCost;
+  private int serviceRecord_id;
 
   //ExpenseReport Associations
+  private User user;
   private ServiceRecord serviceRecord;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public ExpenseReport(int aReport_id, Date aReportDate, double aDailyFuel, double aAnnualFuel, double aTotalCost, ServiceRecord aServiceRecord)
+  public ExpenseReport(int aReport_id, Date aReportDate, double aDailyFuel, double aAnnualFuel, double aTotalCost, int aServiceRecord_id, User aUser, ServiceRecord aServiceRecord)
   {
     report_id = aReport_id;
     reportDate = aReportDate;
     dailyFuel = aDailyFuel;
     annualFuel = aAnnualFuel;
     totalCost = aTotalCost;
-    if (aServiceRecord == null || aServiceRecord.getExpenseReport() != null)
+    serviceRecord_id = aServiceRecord_id;
+    boolean didAddUser = setUser(aUser);
+    if (!didAddUser)
     {
-      throw new RuntimeException("Unable to create ExpenseReport due to aServiceRecord. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create expenseReport due to user. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    serviceRecord = aServiceRecord;
-  }
-
-  public ExpenseReport(int aReport_id, Date aReportDate, double aDailyFuel, double aAnnualFuel, double aTotalCost, int aRecord_idForServiceRecord, String aCarBrandForServiceRecord, String aWhatToDoForServiceRecord, String aDriverNameForServiceRecord, String aDriverPhoneForServiceRecord, int aKilometerForServiceRecord, FuelEfficiencyReport aFuelEfficiencyReportForServiceRecord)
-  {
-    report_id = aReport_id;
-    reportDate = aReportDate;
-    dailyFuel = aDailyFuel;
-    annualFuel = aAnnualFuel;
-    totalCost = aTotalCost;
-    serviceRecord = new ServiceRecord(aRecord_idForServiceRecord, aCarBrandForServiceRecord, aWhatToDoForServiceRecord, aDriverNameForServiceRecord, aDriverPhoneForServiceRecord, aKilometerForServiceRecord, aFuelEfficiencyReportForServiceRecord, this);
+    boolean didAddServiceRecord = setServiceRecord(aServiceRecord);
+    if (!didAddServiceRecord)
+    {
+      throw new RuntimeException("Unable to create expenseReport due to serviceRecord. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
   //------------------------
@@ -96,55 +94,108 @@ public class ExpenseReport
     return wasSet;
   }
 
+  public boolean setServiceRecord_id(int aServiceRecord_id)
+  {
+    boolean wasSet = false;
+    serviceRecord_id = aServiceRecord_id;
+    wasSet = true;
+    return wasSet;
+  }
+
   public int getReport_id()
   {
     return report_id;
   }
 
-  /**
-   * Rapor tarihi
-   */
   public Date getReportDate()
   {
     return reportDate;
   }
 
-  /**
-   * G??nl??k yak??t t??ketimi
-   */
   public double getDailyFuel()
   {
     return dailyFuel;
   }
 
-  /**
-   * Y??ll??k yak??t t??ketimi
-   */
   public double getAnnualFuel()
   {
     return annualFuel;
   }
 
-  /**
-   * Toplam masraf miktar??
-   */
   public double getTotalCost()
   {
     return totalCost;
+  }
+
+  /**
+   * Reference to the ServiceRecord
+   */
+  public int getServiceRecord_id()
+  {
+    return serviceRecord_id;
+  }
+  /* Code from template association_GetOne */
+  public User getUser()
+  {
+    return user;
   }
   /* Code from template association_GetOne */
   public ServiceRecord getServiceRecord()
   {
     return serviceRecord;
   }
+  /* Code from template association_SetOneToMany */
+  public boolean setUser(User aUser)
+  {
+    boolean wasSet = false;
+    if (aUser == null)
+    {
+      return wasSet;
+    }
+
+    User existingUser = user;
+    user = aUser;
+    if (existingUser != null && !existingUser.equals(aUser))
+    {
+      existingUser.removeExpenseReport(this);
+    }
+    user.addExpenseReport(this);
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setServiceRecord(ServiceRecord aServiceRecord)
+  {
+    boolean wasSet = false;
+    if (aServiceRecord == null)
+    {
+      return wasSet;
+    }
+
+    ServiceRecord existingServiceRecord = serviceRecord;
+    serviceRecord = aServiceRecord;
+    if (existingServiceRecord != null && !existingServiceRecord.equals(aServiceRecord))
+    {
+      existingServiceRecord.removeExpenseReport(this);
+    }
+    serviceRecord.addExpenseReport(this);
+    wasSet = true;
+    return wasSet;
+  }
 
   public void delete()
   {
-    ServiceRecord existingServiceRecord = serviceRecord;
-    serviceRecord = null;
-    if (existingServiceRecord != null)
+    User placeholderUser = user;
+    this.user = null;
+    if(placeholderUser != null)
     {
-      existingServiceRecord.delete();
+      placeholderUser.removeExpenseReport(this);
+    }
+    ServiceRecord placeholderServiceRecord = serviceRecord;
+    this.serviceRecord = null;
+    if(placeholderServiceRecord != null)
+    {
+      placeholderServiceRecord.removeExpenseReport(this);
     }
   }
 
@@ -155,8 +206,10 @@ public class ExpenseReport
             "report_id" + ":" + getReport_id()+ "," +
             "dailyFuel" + ":" + getDailyFuel()+ "," +
             "annualFuel" + ":" + getAnnualFuel()+ "," +
-            "totalCost" + ":" + getTotalCost()+ "]" + System.getProperties().getProperty("line.separator") +
+            "totalCost" + ":" + getTotalCost()+ "," +
+            "serviceRecord_id" + ":" + getServiceRecord_id()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "reportDate" + "=" + (getReportDate() != null ? !getReportDate().equals(this)  ? getReportDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "serviceRecord = "+(getServiceRecord()!=null?Integer.toHexString(System.identityHashCode(getServiceRecord())):"null");
   }
 }

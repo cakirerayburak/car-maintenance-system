@@ -1,26 +1,16 @@
 package com.ebcak.carmaintenancegui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+import java.awt.*;
 
 public class signInScreen extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private userControl userController;
 
     public signInScreen() {
+        userController = new userControl();
+
         setTitle("Sign In");
         setSize(450, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,7 +86,7 @@ public class signInScreen extends JFrame {
         gbcBtnSignIn.fill = GridBagConstraints.HORIZONTAL;
         gbcBtnSignIn.gridx = 1;
         gbcBtnSignIn.gridy = 3;
-        formPanel.add(btnSignIn, gbcBtnSignIn);
+        formPanel.add(btnSignIn, gbcBtnSignIn);  
 
         // btnSignUp ekle
         JButton btnSignUp = new JButton("Sign up");
@@ -114,17 +104,28 @@ public class signInScreen extends JFrame {
 
         // Sign in butonuna tıklama işlemi
         btnSignIn.addActionListener(e -> {
-            // Mevcut pencereyi kapat ve carServiceMenuScreen'i aç
-            dispose();
-            new carServiceMenuScreen().setVisible(true);
+            performSignIn();
         });
 
         // Sign up butonuna tıklama işlemi
         btnSignUp.addActionListener(e -> {
-            // Mevcut pencereyi kapat ve signUpScreen'i aç
             dispose();
             new signUpScreen().setVisible(true);
         });
+    }
+
+    private void performSignIn() {
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
+
+        if (userController.loginUser(username, password)) {
+            JOptionPane.showMessageDialog(this, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+            // Proceed to the next screen or application functionality
+            dispose();
+            new carServiceMenuScreen().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void main(String[] args) {

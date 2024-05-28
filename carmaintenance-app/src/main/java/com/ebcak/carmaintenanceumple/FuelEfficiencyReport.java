@@ -5,7 +5,7 @@ package com.ebcak.carmaintenanceumple;
 
 import java.sql.Date;
 
-// line 24 "model.ump"
+// line 35 "model.ump"
 // line 73 "model.ump"
 public class FuelEfficiencyReport
 {
@@ -19,34 +19,33 @@ public class FuelEfficiencyReport
   private Date reportDate;
   private double mpg;
   private double lper100km;
+  private int serviceRecord_id;
 
   //FuelEfficiencyReport Associations
+  private User user;
   private ServiceRecord serviceRecord;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public FuelEfficiencyReport(int aReport_id, Date aReportDate, double aMpg, double aLper100km, ServiceRecord aServiceRecord)
+  public FuelEfficiencyReport(int aReport_id, Date aReportDate, double aMpg, double aLper100km, int aServiceRecord_id, User aUser, ServiceRecord aServiceRecord)
   {
     report_id = aReport_id;
     reportDate = aReportDate;
     mpg = aMpg;
     lper100km = aLper100km;
-    if (aServiceRecord == null || aServiceRecord.getFuelEfficiencyReport() != null)
+    serviceRecord_id = aServiceRecord_id;
+    boolean didAddUser = setUser(aUser);
+    if (!didAddUser)
     {
-      throw new RuntimeException("Unable to create FuelEfficiencyReport due to aServiceRecord. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create fuelEfficiencyReport due to user. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    serviceRecord = aServiceRecord;
-  }
-
-  public FuelEfficiencyReport(int aReport_id, Date aReportDate, double aMpg, double aLper100km, int aRecord_idForServiceRecord, String aCarBrandForServiceRecord, String aWhatToDoForServiceRecord, String aDriverNameForServiceRecord, String aDriverPhoneForServiceRecord, int aKilometerForServiceRecord, ExpenseReport aExpenseReportForServiceRecord)
-  {
-    report_id = aReport_id;
-    reportDate = aReportDate;
-    mpg = aMpg;
-    lper100km = aLper100km;
-    serviceRecord = new ServiceRecord(aRecord_idForServiceRecord, aCarBrandForServiceRecord, aWhatToDoForServiceRecord, aDriverNameForServiceRecord, aDriverPhoneForServiceRecord, aKilometerForServiceRecord, this, aExpenseReportForServiceRecord);
+    boolean didAddServiceRecord = setServiceRecord(aServiceRecord);
+    if (!didAddServiceRecord)
+    {
+      throw new RuntimeException("Unable to create fuelEfficiencyReport due to serviceRecord. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
   //------------------------
@@ -85,47 +84,103 @@ public class FuelEfficiencyReport
     return wasSet;
   }
 
+  public boolean setServiceRecord_id(int aServiceRecord_id)
+  {
+    boolean wasSet = false;
+    serviceRecord_id = aServiceRecord_id;
+    wasSet = true;
+    return wasSet;
+  }
+
   public int getReport_id()
   {
     return report_id;
   }
 
-  /**
-   * Rapor tarihi
-   */
   public Date getReportDate()
   {
     return reportDate;
   }
 
-  /**
-   * Miles per gallon
-   */
   public double getMpg()
   {
     return mpg;
   }
 
-  /**
-   * Liters per 100 kilometers
-   */
   public double getLper100km()
   {
     return lper100km;
+  }
+
+  /**
+   * Reference to the ServiceRecord
+   */
+  public int getServiceRecord_id()
+  {
+    return serviceRecord_id;
+  }
+  /* Code from template association_GetOne */
+  public User getUser()
+  {
+    return user;
   }
   /* Code from template association_GetOne */
   public ServiceRecord getServiceRecord()
   {
     return serviceRecord;
   }
+  /* Code from template association_SetOneToMany */
+  public boolean setUser(User aUser)
+  {
+    boolean wasSet = false;
+    if (aUser == null)
+    {
+      return wasSet;
+    }
+
+    User existingUser = user;
+    user = aUser;
+    if (existingUser != null && !existingUser.equals(aUser))
+    {
+      existingUser.removeFuelEfficiencyReport(this);
+    }
+    user.addFuelEfficiencyReport(this);
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setServiceRecord(ServiceRecord aServiceRecord)
+  {
+    boolean wasSet = false;
+    if (aServiceRecord == null)
+    {
+      return wasSet;
+    }
+
+    ServiceRecord existingServiceRecord = serviceRecord;
+    serviceRecord = aServiceRecord;
+    if (existingServiceRecord != null && !existingServiceRecord.equals(aServiceRecord))
+    {
+      existingServiceRecord.removeFuelEfficiencyReport(this);
+    }
+    serviceRecord.addFuelEfficiencyReport(this);
+    wasSet = true;
+    return wasSet;
+  }
 
   public void delete()
   {
-    ServiceRecord existingServiceRecord = serviceRecord;
-    serviceRecord = null;
-    if (existingServiceRecord != null)
+    User placeholderUser = user;
+    this.user = null;
+    if(placeholderUser != null)
     {
-      existingServiceRecord.delete();
+      placeholderUser.removeFuelEfficiencyReport(this);
+    }
+    ServiceRecord placeholderServiceRecord = serviceRecord;
+    this.serviceRecord = null;
+    if(placeholderServiceRecord != null)
+    {
+      placeholderServiceRecord.removeFuelEfficiencyReport(this);
     }
   }
 
@@ -135,8 +190,10 @@ public class FuelEfficiencyReport
     return super.toString() + "["+
             "report_id" + ":" + getReport_id()+ "," +
             "mpg" + ":" + getMpg()+ "," +
-            "lper100km" + ":" + getLper100km()+ "]" + System.getProperties().getProperty("line.separator") +
+            "lper100km" + ":" + getLper100km()+ "," +
+            "serviceRecord_id" + ":" + getServiceRecord_id()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "reportDate" + "=" + (getReportDate() != null ? !getReportDate().equals(this)  ? getReportDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "serviceRecord = "+(getServiceRecord()!=null?Integer.toHexString(System.identityHashCode(getServiceRecord())):"null");
   }
 }

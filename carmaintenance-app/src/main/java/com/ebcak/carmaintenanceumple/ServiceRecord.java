@@ -1,4 +1,5 @@
 package com.ebcak.carmaintenanceumple;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
@@ -6,8 +7,8 @@ package com.ebcak.carmaintenanceumple;
 import java.util.*;
 import java.sql.Date;
 
-// line 11 "model.ump"
-// line 64 "model.ump"
+// line 14 "model.ump"
+// line 61 "model.ump"
 public class ServiceRecord
 {
 
@@ -22,18 +23,19 @@ public class ServiceRecord
   private String driverName;
   private String driverPhone;
   private int kilometer;
+  private int user_id;
 
   //ServiceRecord Associations
-  private FuelEfficiencyReport fuelEfficiencyReport;
-  private ExpenseReport expenseReport;
   private List<Reminder> reminders;
-  private List<User> users;
+  private List<FuelEfficiencyReport> fuelEfficiencyReports;
+  private List<ExpenseReport> expenseReports;
+  private User user;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public ServiceRecord(int aRecord_id, String aCarBrand, String aWhatToDo, String aDriverName, String aDriverPhone, int aKilometer, FuelEfficiencyReport aFuelEfficiencyReport, ExpenseReport aExpenseReport)
+  public ServiceRecord(int aRecord_id, String aCarBrand, String aWhatToDo, String aDriverName, String aDriverPhone, int aKilometer, int aUser_id, User aUser)
   {
     record_id = aRecord_id;
     carBrand = aCarBrand;
@@ -41,32 +43,15 @@ public class ServiceRecord
     driverName = aDriverName;
     driverPhone = aDriverPhone;
     kilometer = aKilometer;
-    if (aFuelEfficiencyReport == null || aFuelEfficiencyReport.getServiceRecord() != null)
-    {
-      throw new RuntimeException("Unable to create ServiceRecord due to aFuelEfficiencyReport. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    fuelEfficiencyReport = aFuelEfficiencyReport;
-    if (aExpenseReport == null || aExpenseReport.getServiceRecord() != null)
-    {
-      throw new RuntimeException("Unable to create ServiceRecord due to aExpenseReport. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    expenseReport = aExpenseReport;
+    user_id = aUser_id;
     reminders = new ArrayList<Reminder>();
-    users = new ArrayList<User>();
-  }
-
-  public ServiceRecord(int aRecord_id, String aCarBrand, String aWhatToDo, String aDriverName, String aDriverPhone, int aKilometer, int aReport_idForFuelEfficiencyReport, Date aReportDateForFuelEfficiencyReport, double aMpgForFuelEfficiencyReport, double aLper100kmForFuelEfficiencyReport, int aReport_idForExpenseReport, Date aReportDateForExpenseReport, double aDailyFuelForExpenseReport, double aAnnualFuelForExpenseReport, double aTotalCostForExpenseReport)
-  {
-    record_id = aRecord_id;
-    carBrand = aCarBrand;
-    whatToDo = aWhatToDo;
-    driverName = aDriverName;
-    driverPhone = aDriverPhone;
-    kilometer = aKilometer;
-    fuelEfficiencyReport = new FuelEfficiencyReport(aReport_idForFuelEfficiencyReport, aReportDateForFuelEfficiencyReport, aMpgForFuelEfficiencyReport, aLper100kmForFuelEfficiencyReport, this);
-    expenseReport = new ExpenseReport(aReport_idForExpenseReport, aReportDateForExpenseReport, aDailyFuelForExpenseReport, aAnnualFuelForExpenseReport, aTotalCostForExpenseReport, this);
-    reminders = new ArrayList<Reminder>();
-    users = new ArrayList<User>();
+    fuelEfficiencyReports = new ArrayList<FuelEfficiencyReport>();
+    expenseReports = new ArrayList<ExpenseReport>();
+    boolean didAddUser = setUser(aUser);
+    if (!didAddUser)
+    {
+      throw new RuntimeException("Unable to create serviceRecord due to user. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
   //------------------------
@@ -121,59 +106,50 @@ public class ServiceRecord
     return wasSet;
   }
 
+  public boolean setUser_id(int aUser_id)
+  {
+    boolean wasSet = false;
+    user_id = aUser_id;
+    wasSet = true;
+    return wasSet;
+  }
+
   public int getRecord_id()
   {
     return record_id;
   }
 
-  /**
-   * Ara?? markas??
-   */
   public String getCarBrand()
   {
     return carBrand;
   }
 
-  /**
-   * Yap??lacak i??lemler
-   */
   public String getWhatToDo()
   {
     return whatToDo;
   }
 
-  /**
-   * S??r??c??n??n ad?? (zorunlu alan)
-   */
   public String getDriverName()
   {
     return driverName;
   }
 
-  /**
-   * S??r??c??n??n telefon numaras??
-   */
   public String getDriverPhone()
   {
     return driverPhone;
   }
 
-  /**
-   * Ara?? kilometre bilgisi
-   */
   public int getKilometer()
   {
     return kilometer;
   }
-  /* Code from template association_GetOne */
-  public FuelEfficiencyReport getFuelEfficiencyReport()
+
+  /**
+   * Reference to the User
+   */
+  public int getUser_id()
   {
-    return fuelEfficiencyReport;
-  }
-  /* Code from template association_GetOne */
-  public ExpenseReport getExpenseReport()
-  {
-    return expenseReport;
+    return user_id;
   }
   /* Code from template association_GetMany */
   public Reminder getReminder(int index)
@@ -182,9 +158,6 @@ public class ServiceRecord
     return aReminder;
   }
 
-  /**
-   * Her servis kayd?? i??in birden fazla hat??rlat??c??
-   */
   public List<Reminder> getReminders()
   {
     List<Reminder> newReminders = Collections.unmodifiableList(reminders);
@@ -209,34 +182,69 @@ public class ServiceRecord
     return index;
   }
   /* Code from template association_GetMany */
-  public User getUser(int index)
+  public FuelEfficiencyReport getFuelEfficiencyReport(int index)
   {
-    User aUser = users.get(index);
-    return aUser;
+    FuelEfficiencyReport aFuelEfficiencyReport = fuelEfficiencyReports.get(index);
+    return aFuelEfficiencyReport;
   }
 
-  public List<User> getUsers()
+  public List<FuelEfficiencyReport> getFuelEfficiencyReports()
   {
-    List<User> newUsers = Collections.unmodifiableList(users);
-    return newUsers;
+    List<FuelEfficiencyReport> newFuelEfficiencyReports = Collections.unmodifiableList(fuelEfficiencyReports);
+    return newFuelEfficiencyReports;
   }
 
-  public int numberOfUsers()
+  public int numberOfFuelEfficiencyReports()
   {
-    int number = users.size();
+    int number = fuelEfficiencyReports.size();
     return number;
   }
 
-  public boolean hasUsers()
+  public boolean hasFuelEfficiencyReports()
   {
-    boolean has = users.size() > 0;
+    boolean has = fuelEfficiencyReports.size() > 0;
     return has;
   }
 
-  public int indexOfUser(User aUser)
+  public int indexOfFuelEfficiencyReport(FuelEfficiencyReport aFuelEfficiencyReport)
   {
-    int index = users.indexOf(aUser);
+    int index = fuelEfficiencyReports.indexOf(aFuelEfficiencyReport);
     return index;
+  }
+  /* Code from template association_GetMany */
+  public ExpenseReport getExpenseReport(int index)
+  {
+    ExpenseReport aExpenseReport = expenseReports.get(index);
+    return aExpenseReport;
+  }
+
+  public List<ExpenseReport> getExpenseReports()
+  {
+    List<ExpenseReport> newExpenseReports = Collections.unmodifiableList(expenseReports);
+    return newExpenseReports;
+  }
+
+  public int numberOfExpenseReports()
+  {
+    int number = expenseReports.size();
+    return number;
+  }
+
+  public boolean hasExpenseReports()
+  {
+    boolean has = expenseReports.size() > 0;
+    return has;
+  }
+
+  public int indexOfExpenseReport(ExpenseReport aExpenseReport)
+  {
+    int index = expenseReports.indexOf(aExpenseReport);
+    return index;
+  }
+  /* Code from template association_GetOne */
+  public User getUser()
+  {
+    return user;
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfReminders()
@@ -244,9 +252,9 @@ public class ServiceRecord
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Reminder addReminder(int aReminder_id, Date aReminderDate, String aReminderType)
+  public Reminder addReminder(int aReminder_id, Date aReminderDate, String aReminderType, int aServiceRecord_id, User aUser)
   {
-    return new Reminder(aReminder_id, aReminderDate, aReminderType, this);
+    return new Reminder(aReminder_id, aReminderDate, aReminderType, aServiceRecord_id, aUser, this);
   }
 
   public boolean addReminder(Reminder aReminder)
@@ -311,101 +319,191 @@ public class ServiceRecord
     return wasAdded;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfUsers()
+  public static int minimumNumberOfFuelEfficiencyReports()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public User addUser(int aUser_id, String aUsername, String aPassword, String aEmail)
+  public FuelEfficiencyReport addFuelEfficiencyReport(int aReport_id, Date aReportDate, double aMpg, double aLper100km, int aServiceRecord_id, User aUser)
   {
-    return new User(aUser_id, aUsername, aPassword, aEmail, this);
+    return new FuelEfficiencyReport(aReport_id, aReportDate, aMpg, aLper100km, aServiceRecord_id, aUser, this);
   }
 
-  public boolean addUser(User aUser)
+  public boolean addFuelEfficiencyReport(FuelEfficiencyReport aFuelEfficiencyReport)
   {
     boolean wasAdded = false;
-    if (users.contains(aUser)) { return false; }
-    ServiceRecord existingServiceRecord = aUser.getServiceRecord();
+    if (fuelEfficiencyReports.contains(aFuelEfficiencyReport)) { return false; }
+    ServiceRecord existingServiceRecord = aFuelEfficiencyReport.getServiceRecord();
     boolean isNewServiceRecord = existingServiceRecord != null && !this.equals(existingServiceRecord);
     if (isNewServiceRecord)
     {
-      aUser.setServiceRecord(this);
+      aFuelEfficiencyReport.setServiceRecord(this);
     }
     else
     {
-      users.add(aUser);
+      fuelEfficiencyReports.add(aFuelEfficiencyReport);
     }
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeUser(User aUser)
+  public boolean removeFuelEfficiencyReport(FuelEfficiencyReport aFuelEfficiencyReport)
   {
     boolean wasRemoved = false;
-    //Unable to remove aUser, as it must always have a serviceRecord
-    if (!this.equals(aUser.getServiceRecord()))
+    //Unable to remove aFuelEfficiencyReport, as it must always have a serviceRecord
+    if (!this.equals(aFuelEfficiencyReport.getServiceRecord()))
     {
-      users.remove(aUser);
+      fuelEfficiencyReports.remove(aFuelEfficiencyReport);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addUserAt(User aUser, int index)
+  public boolean addFuelEfficiencyReportAt(FuelEfficiencyReport aFuelEfficiencyReport, int index)
   {  
     boolean wasAdded = false;
-    if(addUser(aUser))
+    if(addFuelEfficiencyReport(aFuelEfficiencyReport))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfUsers()) { index = numberOfUsers() - 1; }
-      users.remove(aUser);
-      users.add(index, aUser);
+      if(index > numberOfFuelEfficiencyReports()) { index = numberOfFuelEfficiencyReports() - 1; }
+      fuelEfficiencyReports.remove(aFuelEfficiencyReport);
+      fuelEfficiencyReports.add(index, aFuelEfficiencyReport);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveUserAt(User aUser, int index)
+  public boolean addOrMoveFuelEfficiencyReportAt(FuelEfficiencyReport aFuelEfficiencyReport, int index)
   {
     boolean wasAdded = false;
-    if(users.contains(aUser))
+    if(fuelEfficiencyReports.contains(aFuelEfficiencyReport))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfUsers()) { index = numberOfUsers() - 1; }
-      users.remove(aUser);
-      users.add(index, aUser);
+      if(index > numberOfFuelEfficiencyReports()) { index = numberOfFuelEfficiencyReports() - 1; }
+      fuelEfficiencyReports.remove(aFuelEfficiencyReport);
+      fuelEfficiencyReports.add(index, aFuelEfficiencyReport);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addUserAt(aUser, index);
+      wasAdded = addFuelEfficiencyReportAt(aFuelEfficiencyReport, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfExpenseReports()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public ExpenseReport addExpenseReport(int aReport_id, Date aReportDate, double aDailyFuel, double aAnnualFuel, double aTotalCost, int aServiceRecord_id, User aUser)
+  {
+    return new ExpenseReport(aReport_id, aReportDate, aDailyFuel, aAnnualFuel, aTotalCost, aServiceRecord_id, aUser, this);
+  }
+
+  public boolean addExpenseReport(ExpenseReport aExpenseReport)
+  {
+    boolean wasAdded = false;
+    if (expenseReports.contains(aExpenseReport)) { return false; }
+    ServiceRecord existingServiceRecord = aExpenseReport.getServiceRecord();
+    boolean isNewServiceRecord = existingServiceRecord != null && !this.equals(existingServiceRecord);
+    if (isNewServiceRecord)
+    {
+      aExpenseReport.setServiceRecord(this);
+    }
+    else
+    {
+      expenseReports.add(aExpenseReport);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeExpenseReport(ExpenseReport aExpenseReport)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aExpenseReport, as it must always have a serviceRecord
+    if (!this.equals(aExpenseReport.getServiceRecord()))
+    {
+      expenseReports.remove(aExpenseReport);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addExpenseReportAt(ExpenseReport aExpenseReport, int index)
+  {  
+    boolean wasAdded = false;
+    if(addExpenseReport(aExpenseReport))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfExpenseReports()) { index = numberOfExpenseReports() - 1; }
+      expenseReports.remove(aExpenseReport);
+      expenseReports.add(index, aExpenseReport);
+      wasAdded = true;
     }
     return wasAdded;
   }
 
+  public boolean addOrMoveExpenseReportAt(ExpenseReport aExpenseReport, int index)
+  {
+    boolean wasAdded = false;
+    if(expenseReports.contains(aExpenseReport))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfExpenseReports()) { index = numberOfExpenseReports() - 1; }
+      expenseReports.remove(aExpenseReport);
+      expenseReports.add(index, aExpenseReport);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addExpenseReportAt(aExpenseReport, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setUser(User aUser)
+  {
+    boolean wasSet = false;
+    if (aUser == null)
+    {
+      return wasSet;
+    }
+
+    User existingUser = user;
+    user = aUser;
+    if (existingUser != null && !existingUser.equals(aUser))
+    {
+      existingUser.removeServiceRecord(this);
+    }
+    user.addServiceRecord(this);
+    wasSet = true;
+    return wasSet;
+  }
+
   public void delete()
   {
-    FuelEfficiencyReport existingFuelEfficiencyReport = fuelEfficiencyReport;
-    fuelEfficiencyReport = null;
-    if (existingFuelEfficiencyReport != null)
-    {
-      existingFuelEfficiencyReport.delete();
-    }
-    ExpenseReport existingExpenseReport = expenseReport;
-    expenseReport = null;
-    if (existingExpenseReport != null)
-    {
-      existingExpenseReport.delete();
-    }
     for(int i=reminders.size(); i > 0; i--)
     {
       Reminder aReminder = reminders.get(i - 1);
       aReminder.delete();
     }
-    for(int i=users.size(); i > 0; i--)
+    for(int i=fuelEfficiencyReports.size(); i > 0; i--)
     {
-      User aUser = users.get(i - 1);
-      aUser.delete();
+      FuelEfficiencyReport aFuelEfficiencyReport = fuelEfficiencyReports.get(i - 1);
+      aFuelEfficiencyReport.delete();
+    }
+    for(int i=expenseReports.size(); i > 0; i--)
+    {
+      ExpenseReport aExpenseReport = expenseReports.get(i - 1);
+      aExpenseReport.delete();
+    }
+    User placeholderUser = user;
+    this.user = null;
+    if(placeholderUser != null)
+    {
+      placeholderUser.removeServiceRecord(this);
     }
   }
 
@@ -418,8 +516,8 @@ public class ServiceRecord
             "whatToDo" + ":" + getWhatToDo()+ "," +
             "driverName" + ":" + getDriverName()+ "," +
             "driverPhone" + ":" + getDriverPhone()+ "," +
-            "kilometer" + ":" + getKilometer()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "fuelEfficiencyReport = "+(getFuelEfficiencyReport()!=null?Integer.toHexString(System.identityHashCode(getFuelEfficiencyReport())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "expenseReport = "+(getExpenseReport()!=null?Integer.toHexString(System.identityHashCode(getExpenseReport())):"null");
+            "kilometer" + ":" + getKilometer()+ "," +
+            "user_id" + ":" + getUser_id()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");
   }
 }

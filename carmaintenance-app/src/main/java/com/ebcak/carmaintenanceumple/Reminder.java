@@ -5,8 +5,8 @@ package com.ebcak.carmaintenanceumple;
 
 import java.sql.Date;
 
-// line 39 "model.ump"
-// line 58 "model.ump"
+// line 28 "model.ump"
+// line 68 "model.ump"
 public class Reminder
 {
 
@@ -18,19 +18,27 @@ public class Reminder
   private int reminder_id;
   private Date reminderDate;
   private String reminderType;
+  private int serviceRecord_id;
 
   //Reminder Associations
+  private User user;
   private ServiceRecord serviceRecord;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Reminder(int aReminder_id, Date aReminderDate, String aReminderType, ServiceRecord aServiceRecord)
+  public Reminder(int aReminder_id, Date aReminderDate, String aReminderType, int aServiceRecord_id, User aUser, ServiceRecord aServiceRecord)
   {
     reminder_id = aReminder_id;
     reminderDate = aReminderDate;
     reminderType = aReminderType;
+    serviceRecord_id = aServiceRecord_id;
+    boolean didAddUser = setUser(aUser);
+    if (!didAddUser)
+    {
+      throw new RuntimeException("Unable to create reminder due to user. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
     boolean didAddServiceRecord = setServiceRecord(aServiceRecord);
     if (!didAddServiceRecord)
     {
@@ -66,30 +74,64 @@ public class Reminder
     return wasSet;
   }
 
+  public boolean setServiceRecord_id(int aServiceRecord_id)
+  {
+    boolean wasSet = false;
+    serviceRecord_id = aServiceRecord_id;
+    wasSet = true;
+    return wasSet;
+  }
+
   public int getReminder_id()
   {
     return reminder_id;
   }
 
-  /**
-   * Hat??rlat??c?? tarihi
-   */
   public Date getReminderDate()
   {
     return reminderDate;
   }
 
-  /**
-   * Hat??rlat??c?? t??r?? (??rn. ya?? de??i??imi, fren kontrol??)
-   */
   public String getReminderType()
   {
     return reminderType;
+  }
+
+  /**
+   * Reference to the ServiceRecord
+   */
+  public int getServiceRecord_id()
+  {
+    return serviceRecord_id;
+  }
+  /* Code from template association_GetOne */
+  public User getUser()
+  {
+    return user;
   }
   /* Code from template association_GetOne */
   public ServiceRecord getServiceRecord()
   {
     return serviceRecord;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setUser(User aUser)
+  {
+    boolean wasSet = false;
+    if (aUser == null)
+    {
+      return wasSet;
+    }
+
+    User existingUser = user;
+    user = aUser;
+    if (existingUser != null && !existingUser.equals(aUser))
+    {
+      existingUser.removeReminder(this);
+    }
+    user.addReminder(this);
+    wasSet = true;
+    return wasSet;
   }
   /* Code from template association_SetOneToMany */
   public boolean setServiceRecord(ServiceRecord aServiceRecord)
@@ -113,6 +155,12 @@ public class Reminder
 
   public void delete()
   {
+    User placeholderUser = user;
+    this.user = null;
+    if(placeholderUser != null)
+    {
+      placeholderUser.removeReminder(this);
+    }
     ServiceRecord placeholderServiceRecord = serviceRecord;
     this.serviceRecord = null;
     if(placeholderServiceRecord != null)
@@ -126,8 +174,10 @@ public class Reminder
   {
     return super.toString() + "["+
             "reminder_id" + ":" + getReminder_id()+ "," +
-            "reminderType" + ":" + getReminderType()+ "]" + System.getProperties().getProperty("line.separator") +
+            "reminderType" + ":" + getReminderType()+ "," +
+            "serviceRecord_id" + ":" + getServiceRecord_id()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "reminderDate" + "=" + (getReminderDate() != null ? !getReminderDate().equals(this)  ? getReminderDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "serviceRecord = "+(getServiceRecord()!=null?Integer.toHexString(System.identityHashCode(getServiceRecord())):"null");
   }
 }
