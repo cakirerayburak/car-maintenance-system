@@ -1,14 +1,16 @@
 package com.ebcak.carmaintenancelogiclayer;
 
+import com.ebcak.carmaintenance.DALExpenseReport;
+import com.ebcak.carmaintenance.DALReminder;
+import com.ebcak.carmaintenance.DALServiceRecord;
 import com.ebcak.carmaintenance.DALUser;
+import com.ebcak.carmaintenanceumple.ExpenseReport;
+import com.ebcak.carmaintenanceumple.Reminder;
+import com.ebcak.carmaintenanceumple.ServiceRecord;
 import com.ebcak.carmaintenanceumple.User;
 
+import java.sql.Date;
 import java.util.List;
-
-import com.ebcak.carmaintenance.DALExpenseReport;
-import com.ebcak.carmaintenance.DALServiceRecord;
-import com.ebcak.carmaintenanceumple.ExpenseReport;
-import com.ebcak.carmaintenanceumple.ServiceRecord;
 
 public class logicJava {
 
@@ -41,6 +43,14 @@ public class logicJava {
         return DALServiceRecord.deleteServiceRecordByDriverName(driverName);
     }
 
+    public static List<Reminder> getRemindersByServiceRecordId(int serviceRecordId) {
+        return DALReminder.getRemindersByServiceRecordId(serviceRecordId);
+    }
+
+    public static boolean addReminder(Reminder reminder) {
+        return DALReminder.addReminder(reminder);
+    }
+
     public List<ExpenseReport> getExpenseReportsByDriverName(String driverName) {
         ServiceRecord serviceRecord = DALServiceRecord.getServiceRecordByDriverName(driverName);
         if (serviceRecord == null) {
@@ -54,7 +64,7 @@ public class logicJava {
         if (serviceRecord == null) {
             return false;
         }
-        ExpenseReport expenseReport = new ExpenseReport(0, new java.sql.Date(System.currentTimeMillis()), dailyFuel, annualFuel, totalCost, serviceRecord.getRecord_id(), serviceRecord);
+        ExpenseReport expenseReport = new ExpenseReport(0, new Date(System.currentTimeMillis()), dailyFuel, annualFuel, totalCost, serviceRecord.getRecord_id(), serviceRecord);
         return DALExpenseReport.addExpenseReport(expenseReport);
     }
 }

@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
  
 public class databaseConnectionTest {
-	private static final String DB_URL = "jdbc:sqlite:./SQLite/carMaintenanceDatabase.db";
+	private static final String DB_URL = "jdbc:sqlite:./SQLite/test_carMaintenanceDatabase.db";
     private Connection connection;
 
     @Before 

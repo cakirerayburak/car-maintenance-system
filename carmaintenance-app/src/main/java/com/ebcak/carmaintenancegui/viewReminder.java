@@ -1,22 +1,12 @@
 package com.ebcak.carmaintenancegui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import com.ebcak.carmaintenancelogiclayer.logicJava;
+import com.ebcak.carmaintenanceumple.Reminder;
+import com.ebcak.carmaintenanceumple.ServiceRecord;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 public class viewReminder extends JFrame {
 
@@ -24,11 +14,11 @@ public class viewReminder extends JFrame {
     private JLabel lblBrand;
     private JLabel lblDriver;
     private JLabel lblKilometer;
-    private JLabel lblYearlyCost;
+    private JLabel lblReminder;
     private JPanel infoPanel;
 
     public viewReminder() {
-        setTitle("View Expense Menu");
+        setTitle("View Reminder Menu");
         setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -88,13 +78,13 @@ public class viewReminder extends JFrame {
         lblDriver.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblKilometer = new JLabel("Kilometer:");
         lblKilometer.setFont(new Font("SansSerif", Font.PLAIN, 18));
-        lblYearlyCost = new JLabel("Reminder:");
-        lblYearlyCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblReminder = new JLabel("Reminder:");
+        lblReminder.setFont(new Font("SansSerif", Font.PLAIN, 18));
 
         infoPanel.add(lblBrand);
         infoPanel.add(lblDriver);
         infoPanel.add(lblKilometer);
-        infoPanel.add(lblYearlyCost);
+        infoPanel.add(lblReminder);
 
         formPanel.add(infoPanel);
 
@@ -118,22 +108,29 @@ public class viewReminder extends JFrame {
     }
 
     private void listDriverInfo() {
-        // Bu örnekte, bilgileri manuel olarak giriyoruz. Gerçek uygulamalarda bu bilgiler veritabanından veya başka bir kaynaktan alınabilir.
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a driver name.");
             return;
         }
 
-        // Örnek veriler
-        String brand = "Toyota";
-        String kilometer = "12000 km";
-        String reminderDate = "12-07-2024";
-        
-        lblBrand.setText("Brand: " + brand);
-        lblDriver.setText("Driver Name: " + driverName);
-        lblKilometer.setText("Kilometer: " + kilometer);
-        lblYearlyCost.setText("Reminder: " + reminderDate);
+        ServiceRecord serviceRecord = logicJava.getServiceRecordByDriverName(driverName);
+        if (serviceRecord == null) {
+            JOptionPane.showMessageDialog(this, "No service record found for the given driver name.");
+            return;
+        }
+
+        List<Reminder> reminders = logicJava.getRemindersByServiceRecordId(serviceRecord.getRecord_id());
+        if (reminders.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No reminders found for the given driver name.");
+            return;
+        }
+
+        Reminder reminder = reminders.get(0); // İlk hatırlatmayı göster
+        lblBrand.setText("Brand: " + serviceRecord.getCarBrand());
+        lblDriver.setText("Driver Name: " + serviceRecord.getDriverName());
+        lblKilometer.setText("Kilometer: " + serviceRecord.getKilometer());
+        lblReminder.setText("Reminder: " + reminder.getReminderDate().toString());
 
         infoPanel.setVisible(true); // Bilgileri göster
     }

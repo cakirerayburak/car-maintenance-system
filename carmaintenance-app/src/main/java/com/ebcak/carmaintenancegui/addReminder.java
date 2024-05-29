@@ -1,21 +1,14 @@
 package com.ebcak.carmaintenancegui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import com.ebcak.carmaintenanceumple.Reminder;
+import com.ebcak.carmaintenanceumple.ServiceRecord;
+import com.ebcak.carmaintenancelogiclayer.logicJava;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+import java.awt.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.sql.Date;
 
 public class addReminder extends JFrame {
 
@@ -27,8 +20,10 @@ public class addReminder extends JFrame {
     private JTextField txtKilometer;
     private JPanel infoPanel;
     private JTextField textField;
+    private logicJava logic;
 
     public addReminder() {
+        logic = new logicJava();
         setTitle("Edit Service Entry");
         setSize(1000, 700); // Pencere boyutu
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -131,16 +126,16 @@ public class addReminder extends JFrame {
         btnBack.setForeground(Color.WHITE);
         btnBack.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnBack.setUI(new roundedButtonUI());
-        formPanel.add(btnBack);	
-        
+        formPanel.add(btnBack);
+
         getContentPane().add(formPanel, BorderLayout.CENTER);
-        
+
         JLabel lblReminderTime = new JLabel("Reminder Time :");
         lblReminderTime.setForeground(Color.WHITE);
         lblReminderTime.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblReminderTime.setBounds(239, 385, 145, 24);
         formPanel.add(lblReminderTime);
-        
+
         textField = new JTextField(20);
         textField.setFont(new Font("SansSerif", Font.PLAIN, 18));
         textField.setBounds(394, 382, 286, 30);
@@ -150,36 +145,69 @@ public class addReminder extends JFrame {
             dispose();
             new maintenanceRemindersMenu().setVisible(true);
         });
-        
+
         // Butonlara tıklama işlemleri
         btnShow.addActionListener(e -> showDriverInfo());
-        btnEdit.addActionListener(e -> {
-            // Düzenleme işlemi burada gerçekleştirilecek
-            JOptionPane.showMessageDialog(this, "Reminder Added.");
-        });
+        btnEdit.addActionListener(e -> addReminder());
     }
 
     private void showDriverInfo() {
-        // Bu örnekte, bilgileri manuel olarak giriyoruz. Gerçek uygulamalarda bu bilgiler veritabanından veya başka bir kaynaktan alınabilir.
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a driver name.");
             return;
         }
 
-        // Örnek veriler
-        String carBrand = "Toyota";
-        String whatToDo = "Oil Change";
-        String driverNameEdit = driverName;
-        String contactNum = "123-456-7890";
-        String kilometer = "15000";
-        txtCarBrand.setText(carBrand);
-        txtWhatToDo.setText(whatToDo);
-        txtDriverNameEdit.setText(driverNameEdit);
-        txtContactNum.setText(contactNum);
-        txtKilometer.setText(kilometer);
+        ServiceRecord serviceRecord = logic.getServiceRecordByDriverName(driverName);
+        if (serviceRecord == null) {
+            JOptionPane.showMessageDialog(this, "Service record not found for the driver name.");
+            return;
+        }
+
+        txtCarBrand.setText(serviceRecord.getCarBrand());
+        txtWhatToDo.setText(serviceRecord.getWhatToDo());
+        txtDriverNameEdit.setText(serviceRecord.getDriverName());
+        txtContactNum.setText(serviceRecord.getDriverPhone());
+        txtKilometer.setText(String.valueOf(serviceRecord.getKilometer()));
 
         infoPanel.setVisible(true); // Bilgileri göster
+    }
+
+    private void addReminder() {
+        String driverName = txtDriverName.getText();
+        if (driverName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a driver name.");
+            return;
+        }
+
+        String reminderTimeText = textField.getText();
+        if (reminderTimeText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a reminder time.");
+            return;
+        }
+
+        Date reminderDate;
+        try {
+            reminderDate = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(reminderTimeText).getTime());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Invalid date format. Please use yyyy-MM-dd.");
+            return;
+        }
+
+        ServiceRecord serviceRecord = logic.getServiceRecordByDriverName(driverName);
+        if (serviceRecord == null) {
+            JOptionPane.showMessageDialog(this, "Service record not found for the driver name.");
+            return;
+        }
+
+        Reminder reminder = new Reminder(0, reminderDate, "Service", serviceRecord.getRecord_id(), serviceRecord);
+
+        boolean result = logic.addReminder(reminder);
+        if (result) {
+            JOptionPane.showMessageDialog(this, "Reminder added successfully.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to add reminder.");
+        }
     }
 
     public static void main(String[] args) {
