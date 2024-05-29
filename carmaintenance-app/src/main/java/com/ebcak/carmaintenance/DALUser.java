@@ -7,7 +7,9 @@ import java.sql.SQLException;
 
 public class DALUser {
 
-    private static Connection conn = databaseConnection.getInstance().getConnection();
+    private static Connection getConnection() {
+        return databaseConnection.getInstance("jdbc:sqlite:./SQLite/carMaintenanceDatabase.db").getConnection();
+    }
 
     /**
      * Registers a new user with the provided username, password, and email.
@@ -18,7 +20,8 @@ public class DALUser {
      */
     public static boolean registerUser(String username, String password, String email) {
         String sql = "INSERT INTO user(username, password, email) VALUES(?, ?, ?)";
-
+        Connection conn = getConnection();
+        
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
@@ -39,7 +42,8 @@ public class DALUser {
      */
     public static boolean loginUser(String username, String password) {
         String sql = "SELECT * FROM user WHERE username = ? AND password = ?";
-
+        Connection conn = getConnection();
+        
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
