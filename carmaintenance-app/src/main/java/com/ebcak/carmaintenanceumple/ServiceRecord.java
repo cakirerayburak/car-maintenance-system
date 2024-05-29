@@ -1,5 +1,4 @@
 package com.ebcak.carmaintenanceumple;
-
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
@@ -7,8 +6,8 @@ package com.ebcak.carmaintenanceumple;
 import java.util.*;
 import java.sql.Date;
 
-// line 14 "model.ump"
-// line 61 "model.ump"
+// line 11 "model.ump"
+// line 58 "model.ump"
 public class ServiceRecord
 {
 
@@ -144,9 +143,6 @@ public class ServiceRecord
     return kilometer;
   }
 
-  /**
-   * Reference to the User
-   */
   public int getUser_id()
   {
     return user_id;
@@ -252,9 +248,9 @@ public class ServiceRecord
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Reminder addReminder(int aReminder_id, Date aReminderDate, String aReminderType, int aServiceRecord_id, User aUser)
+  public Reminder addReminder(int aReminder_id, Date aReminderDate, String aReminderType, int aServiceRecord_id)
   {
-    return new Reminder(aReminder_id, aReminderDate, aReminderType, aServiceRecord_id, aUser, this);
+    return new Reminder(aReminder_id, aReminderDate, aReminderType, aServiceRecord_id, this);
   }
 
   public boolean addReminder(Reminder aReminder)
@@ -324,9 +320,9 @@ public class ServiceRecord
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public FuelEfficiencyReport addFuelEfficiencyReport(int aReport_id, Date aReportDate, double aMpg, double aLper100km, int aServiceRecord_id, User aUser)
+  public FuelEfficiencyReport addFuelEfficiencyReport(int aReport_id, Date aReportDate, double aMpg, double aLper100km, int aServiceRecord_id)
   {
-    return new FuelEfficiencyReport(aReport_id, aReportDate, aMpg, aLper100km, aServiceRecord_id, aUser, this);
+    return new FuelEfficiencyReport(aReport_id, aReportDate, aMpg, aLper100km, aServiceRecord_id, this);
   }
 
   public boolean addFuelEfficiencyReport(FuelEfficiencyReport aFuelEfficiencyReport)
@@ -396,9 +392,9 @@ public class ServiceRecord
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public ExpenseReport addExpenseReport(int aReport_id, Date aReportDate, double aDailyFuel, double aAnnualFuel, double aTotalCost, int aServiceRecord_id, User aUser)
+  public ExpenseReport addExpenseReport(int aReport_id, Date aReportDate, double aDailyFuel, double aAnnualFuel, double aTotalCost, int aServiceRecord_id)
   {
-    return new ExpenseReport(aReport_id, aReportDate, aDailyFuel, aAnnualFuel, aTotalCost, aServiceRecord_id, aUser, this);
+    return new ExpenseReport(aReport_id, aReportDate, aDailyFuel, aAnnualFuel, aTotalCost, aServiceRecord_id, this);
   }
 
   public boolean addExpenseReport(ExpenseReport aExpenseReport)

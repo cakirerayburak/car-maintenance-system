@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import com.ebcak.carmaintenanceumple.User;
 
 public class DALUser {
 
@@ -11,13 +12,6 @@ public class DALUser {
         return databaseConnection.getInstance("jdbc:sqlite:./SQLite/carMaintenanceDatabase.db").getConnection();
     }
 
-    /**
-     * Registers a new user with the provided username, password, and email.
-     * @param username the user's username
-     * @param password the user's password
-     * @param email the user's email address
-     * @return true if the registration is successful, false otherwise
-     */
     public static boolean registerUser(String username, String password, String email) {
         String sql = "INSERT INTO user(username, password, email) VALUES(?, ?, ?)";
         Connection conn = getConnection();
@@ -34,12 +28,6 @@ public class DALUser {
         }
     }
 
-    /**
-     * Logs in a user with the provided username and password.
-     * @param username the user's username
-     * @param password the user's password
-     * @return true if the login is successful, false otherwise
-     */
     public static boolean loginUser(String username, String password) {
         String sql = "SELECT * FROM user WHERE username = ? AND password = ?";
         Connection conn = getConnection();
@@ -54,5 +42,42 @@ public class DALUser {
             System.out.println("An error occurred during login: " + e.getMessage());
             return false;
         }
+    }
+    
+    public static int getUserIdByUsername(String username) {
+        String sql = "SELECT user_id FROM user WHERE username = ?";
+        Connection conn = getConnection();
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("user_id");
+            }
+        } catch (SQLException e) {
+            System.out.println("An error occurred while retrieving the user ID: " + e.getMessage());
+        }
+        return -1; // Return -1 if the user is not found
+    }
+
+    public static User getUserById(int userId) {
+        String sql = "SELECT * FROM user WHERE user_id = ?";
+        Connection conn = getConnection();
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                return new User(userId, username, password, email);
+            }
+        } catch (SQLException e) {
+            System.out.println("An error occurred while retrieving the user: " + e.getMessage());
+        }
+        return null; // Return null if the user is not found
     }
 }

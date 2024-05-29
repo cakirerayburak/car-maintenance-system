@@ -1,4 +1,5 @@
 package com.ebcak.carmaintenancegui;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,6 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import com.ebcak.carmaintenanceumple.ServiceRecord;
+import com.ebcak.carmaintenancelogiclayer.logicJava;
+
 public class editServiceEntryMenu extends JFrame {
 
     private JTextField txtDriverName;
@@ -25,8 +29,12 @@ public class editServiceEntryMenu extends JFrame {
     private JTextField txtContactNum;
     private JTextField txtKilometer;
     private JPanel infoPanel;
+    private ServiceRecordControl serviceRecordControl;
+    private ServiceRecord currentServiceRecord;
 
     public editServiceEntryMenu() {
+        serviceRecordControl = new ServiceRecordControl();
+        
         setTitle("Edit Service Entry");
         setSize(500, 500); // Pencere boyutu
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -188,30 +196,64 @@ public class editServiceEntryMenu extends JFrame {
 
         // Butonlara tıklama işlemleri
         btnShow.addActionListener(e -> showDriverInfo());
+        btnEdit.addActionListener(e -> editServiceRecord());
     }
 
     private void showDriverInfo() {
-        // Bu örnekte, bilgileri manuel olarak giriyoruz. Gerçek uygulamalarda bu bilgiler veritabanından veya başka bir kaynaktan alınabilir.
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a driver name.");
             return;
         }
 
-        // Örnek veriler
-        String carBrand = "Toyota";
-        String whatToDo = "Oil Change";
-        String driverNameEdit = driverName;
-        String contactNum = "123-456-7890";
-        String kilometer = "15000";
+        currentServiceRecord = serviceRecordControl.getServiceRecordByDriverName(driverName);
+        if (currentServiceRecord == null) {
+            JOptionPane.showMessageDialog(this, "Service record not found for driver: " + driverName);
+            return;
+        }
 
-        txtCarBrand.setText(carBrand);
-        txtWhatToDo.setText(whatToDo);
-        txtDriverNameEdit.setText(driverNameEdit);
-        txtContactNum.setText(contactNum);
-        txtKilometer.setText(kilometer);
+        txtCarBrand.setText(currentServiceRecord.getCarBrand());
+        txtWhatToDo.setText(currentServiceRecord.getWhatToDo());
+        txtDriverNameEdit.setText(currentServiceRecord.getDriverName());
+        txtContactNum.setText(currentServiceRecord.getDriverPhone());
+        txtKilometer.setText(String.valueOf(currentServiceRecord.getKilometer()));
 
-        infoPanel.setVisible(true); // Bilgileri göster
+        infoPanel.setVisible(true);
+    }
+
+    private void editServiceRecord() {
+        if (currentServiceRecord == null) {
+            JOptionPane.showMessageDialog(this, "Please load a service record first.");
+            return;
+        }
+
+        String carBrand = txtCarBrand.getText();
+        String whatToDo = txtWhatToDo.getText();
+        String driverName = txtDriverNameEdit.getText();
+        String driverPhone = txtContactNum.getText();
+        int kilometer;
+
+        try {
+            kilometer = Integer.parseInt(txtKilometer.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid number for kilometer.");
+            return;
+        }
+
+        boolean success = serviceRecordControl.updateServiceRecord(
+                currentServiceRecord.getRecord_id(),
+                carBrand,
+                whatToDo,
+                driverName,
+                driverPhone,
+                kilometer
+        );
+
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Service record updated successfully.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to update service record.");
+        }
     }
 
     public static void main(String[] args) {
@@ -223,4 +265,3 @@ public class editServiceEntryMenu extends JFrame {
         });
     }
 }
-

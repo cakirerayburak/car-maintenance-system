@@ -5,8 +5,8 @@ package com.ebcak.carmaintenanceumple;
 
 import java.sql.Date;
 
-// line 35 "model.ump"
-// line 73 "model.ump"
+// line 32 "model.ump"
+// line 70 "model.ump"
 public class FuelEfficiencyReport
 {
 
@@ -22,25 +22,19 @@ public class FuelEfficiencyReport
   private int serviceRecord_id;
 
   //FuelEfficiencyReport Associations
-  private User user;
   private ServiceRecord serviceRecord;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public FuelEfficiencyReport(int aReport_id, Date aReportDate, double aMpg, double aLper100km, int aServiceRecord_id, User aUser, ServiceRecord aServiceRecord)
+  public FuelEfficiencyReport(int aReport_id, Date aReportDate, double aMpg, double aLper100km, int aServiceRecord_id, ServiceRecord aServiceRecord)
   {
     report_id = aReport_id;
     reportDate = aReportDate;
     mpg = aMpg;
     lper100km = aLper100km;
     serviceRecord_id = aServiceRecord_id;
-    boolean didAddUser = setUser(aUser);
-    if (!didAddUser)
-    {
-      throw new RuntimeException("Unable to create fuelEfficiencyReport due to user. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
     boolean didAddServiceRecord = setServiceRecord(aServiceRecord);
     if (!didAddServiceRecord)
     {
@@ -112,41 +106,14 @@ public class FuelEfficiencyReport
     return lper100km;
   }
 
-  /**
-   * Reference to the ServiceRecord
-   */
   public int getServiceRecord_id()
   {
     return serviceRecord_id;
   }
   /* Code from template association_GetOne */
-  public User getUser()
-  {
-    return user;
-  }
-  /* Code from template association_GetOne */
   public ServiceRecord getServiceRecord()
   {
     return serviceRecord;
-  }
-  /* Code from template association_SetOneToMany */
-  public boolean setUser(User aUser)
-  {
-    boolean wasSet = false;
-    if (aUser == null)
-    {
-      return wasSet;
-    }
-
-    User existingUser = user;
-    user = aUser;
-    if (existingUser != null && !existingUser.equals(aUser))
-    {
-      existingUser.removeFuelEfficiencyReport(this);
-    }
-    user.addFuelEfficiencyReport(this);
-    wasSet = true;
-    return wasSet;
   }
   /* Code from template association_SetOneToMany */
   public boolean setServiceRecord(ServiceRecord aServiceRecord)
@@ -170,12 +137,6 @@ public class FuelEfficiencyReport
 
   public void delete()
   {
-    User placeholderUser = user;
-    this.user = null;
-    if(placeholderUser != null)
-    {
-      placeholderUser.removeFuelEfficiencyReport(this);
-    }
     ServiceRecord placeholderServiceRecord = serviceRecord;
     this.serviceRecord = null;
     if(placeholderServiceRecord != null)
@@ -193,7 +154,6 @@ public class FuelEfficiencyReport
             "lper100km" + ":" + getLper100km()+ "," +
             "serviceRecord_id" + ":" + getServiceRecord_id()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "reportDate" + "=" + (getReportDate() != null ? !getReportDate().equals(this)  ? getReportDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "serviceRecord = "+(getServiceRecord()!=null?Integer.toHexString(System.identityHashCode(getServiceRecord())):"null");
   }
 }

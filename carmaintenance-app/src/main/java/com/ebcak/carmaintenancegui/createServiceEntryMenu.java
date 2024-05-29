@@ -1,6 +1,5 @@
 package com.ebcak.carmaintenancegui;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +12,7 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -24,6 +24,7 @@ public class createServiceEntryMenu extends JFrame {
     private JTextField txtDriverName;
     private JTextField txtDriverNum;
     private JTextField txtKilometer;
+    private ServiceRecordControl serviceRecordControl;
 
     public createServiceEntryMenu() {
         setTitle("Create Service Entry");
@@ -31,6 +32,8 @@ public class createServiceEntryMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+
+        serviceRecordControl = new ServiceRecordControl();
 
         // Üst kısım: Başlık
         JPanel titlePanel = new JPanel();
@@ -139,6 +142,7 @@ public class createServiceEntryMenu extends JFrame {
         gbc.gridy = 5;
         gbc.gridwidth = 2;
         formPanel.add(btnAdd, gbc);
+        btnAdd.addActionListener(e -> addServiceRecord());
 
         add(formPanel, BorderLayout.CENTER);
 
@@ -153,6 +157,23 @@ public class createServiceEntryMenu extends JFrame {
         btnExit.addActionListener(e -> dispose());
         exitPanel.add(btnExit);
         add(exitPanel, BorderLayout.SOUTH);
+    }
+
+    private void addServiceRecord() {
+        String carBrand = txtCarBrand.getText();
+        String whatToDo = txtWhatToDo.getText();
+        String driverName = txtDriverName.getText();
+        String driverPhone = txtDriverNum.getText();
+        int kilometer = Integer.parseInt(txtKilometer.getText());
+
+        boolean isAdded = serviceRecordControl.addServiceRecord(carBrand, whatToDo, driverName, driverPhone, kilometer);
+        if (isAdded) {
+            JOptionPane.showMessageDialog(this, "Service record added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+            new serviceRecordsMenu().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to add service record", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void main(String[] args) {
