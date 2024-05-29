@@ -1,13 +1,12 @@
 package com.ebcak.carmaintenancegui;
 
+import com.ebcak.carmaintenanceumple.ServiceRecord;
+import com.ebcak.carmaintenancelogiclayer.logicJava;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,8 +25,12 @@ public class deleteServiceEntryMenu extends JFrame {
     private JLabel lblContactNum;
     private JLabel lblKilometer;
     private JPanel infoPanel;
+    private userControl userControlInstance;
+    private ServiceRecord currentServiceRecord;
 
     public deleteServiceEntryMenu() {
+        userControlInstance = new userControl();
+
         setTitle("Delete Service Entry");
         setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,27 +87,27 @@ public class deleteServiceEntryMenu extends JFrame {
         infoPanel.setLayout(null);
 
         lblBrand = new JLabel("Brand:");
-        lblBrand.setBounds(0, 0, 0, 0);
+        lblBrand.setBounds(10, 17, 210, 19);
         lblBrand.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(lblBrand);
 
         lblWhatToDo = new JLabel("What to do:");
-        lblWhatToDo.setBounds(10, 22, 198, 19);
+        lblWhatToDo.setBounds(10, 43, 210, 19);
         lblWhatToDo.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(lblWhatToDo);
 
         lblDriverName = new JLabel("Driver Name:");
-        lblDriverName.setBounds(10, 51, 208, 19);
+        lblDriverName.setBounds(10, 72, 210, 19);
         lblDriverName.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(lblDriverName);
 
         lblContactNum = new JLabel("Contact Num:");
-        lblContactNum.setBounds(10, 80, 198, 19);
+        lblContactNum.setBounds(10, 101, 210, 19);
         lblContactNum.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(lblContactNum);
 
         lblKilometer = new JLabel("Kilometer:");
-        lblKilometer.setBounds(232, 85, 64, 19);
+        lblKilometer.setBounds(10, 130, 210, 19);
         lblKilometer.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(lblKilometer);
 
@@ -122,7 +125,7 @@ public class deleteServiceEntryMenu extends JFrame {
         JButton btnBack = new JButton("Back");
         btnBack.setBounds(385, 585, 230, 40);
         formPanel.add(btnBack);
-        btnBack.setBackground(new Color(0, 51, 153)); // Mavi renk
+        btnBack.setBackground(new Color(238, 98, 3)); // Kırmızı renk
         btnBack.setForeground(Color.WHITE);
         btnBack.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnBack.setPreferredSize(new Dimension(230, 40));
@@ -132,13 +135,8 @@ public class deleteServiceEntryMenu extends JFrame {
             dispose();
             new serviceRecordsMenu().setVisible(true);
         });
-        
-	        btnDelete.addActionListener(e -> {
-	                    // Silme işlemi burada gerçekleştirilecek
-	                    JOptionPane.showMessageDialog(this, "Service entry deleted.");
-	                    dispose();
-	                    new serviceRecordsMenu().setVisible(true);
-	                });
+
+        btnDelete.addActionListener(e -> deleteDriverInfo());
 
         // Alt kısım: Exit ve Delete butonları
         JPanel bottomPanel = new JPanel();
@@ -150,26 +148,41 @@ public class deleteServiceEntryMenu extends JFrame {
     }
 
     private void listDriverInfo() {
-        // Bu örnekte, bilgileri manuel olarak giriyoruz. Gerçek uygulamalarda bu bilgiler veritabanından veya başka bir kaynaktan alınabilir.
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a driver name.");
             return;
         }
 
-        // Örnek veriler
-        String brand = "Toyota";
-        String whatToDo = "Oil Change";
-        String contactNum = "123-456-7890";
-        String kilometer = "15000";
+        currentServiceRecord = userControlInstance.getServiceRecordByDriverName(driverName);
+        if (currentServiceRecord == null) {
+            JOptionPane.showMessageDialog(this, "Service record not found for driver: " + driverName);
+            return;
+        }
 
-        lblBrand.setText("Brand: " + brand);
-        lblWhatToDo.setText("What to do: " + whatToDo);
-        lblDriverName.setText("Driver Name: " + driverName);
-        lblContactNum.setText("Contact Num: " + contactNum);
-        lblKilometer.setText("Kilometer: " + kilometer);
+        lblBrand.setText("Brand: " + currentServiceRecord.getCarBrand());
+        lblWhatToDo.setText("What to do: " + currentServiceRecord.getWhatToDo());
+        lblDriverName.setText("Driver Name: " + currentServiceRecord.getDriverName());
+        lblContactNum.setText("Contact Num: " + currentServiceRecord.getDriverPhone());
+        lblKilometer.setText("Kilometer: " + currentServiceRecord.getKilometer());
 
         infoPanel.setVisible(true); // Bilgileri göster
+    }
+
+    private void deleteDriverInfo() {
+        if (currentServiceRecord == null) {
+            JOptionPane.showMessageDialog(this, "Please list the driver information first.");
+            return;
+        }
+
+        boolean result = userControlInstance.deleteServiceRecordByDriverName(currentServiceRecord.getDriverName());
+
+        if (result) {
+            JOptionPane.showMessageDialog(this, "Service entry deleted successfully.");
+            infoPanel.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to delete service entry.");
+        }
     }
 
     public static void main(String[] args) {

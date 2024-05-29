@@ -38,7 +38,7 @@ public class logicJava {
     public boolean deleteServiceRecordByDriverName(String driverName) {
         return DALServiceRecord.deleteServiceRecordByDriverName(driverName);
     }
-   
+    
     public static boolean addExpenseReport(String driverName, double dailyFuel, double annualFuel, double totalCost) {
         ServiceRecord serviceRecord = DALServiceRecord.getServiceRecordByDriverName(driverName);
         if (serviceRecord == null) {
@@ -47,5 +47,4 @@ public class logicJava {
         ExpenseReport expenseReport = new ExpenseReport(0, new java.sql.Date(System.currentTimeMillis()), dailyFuel, annualFuel, totalCost, serviceRecord.getRecord_id(), serviceRecord);
         return DALExpenseReport.addExpenseReport(expenseReport);
     }
-
 }

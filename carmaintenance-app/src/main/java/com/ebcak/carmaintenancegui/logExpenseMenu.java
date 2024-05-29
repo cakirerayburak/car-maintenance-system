@@ -1,13 +1,12 @@
 package com.ebcak.carmaintenancegui;
 
+import com.ebcak.carmaintenancelogiclayer.logicJava;
+import com.ebcak.carmaintenanceumple.ServiceRecord;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -28,8 +27,12 @@ public class logExpenseMenu extends JFrame {
     private JLabel lblDriver;
     private JLabel lblKilometer;
     private JPanel infoPanel;
+    private userControl userControlInstance;
+    private ServiceRecord currentServiceRecord;
 
     public logExpenseMenu() {
+        userControlInstance = new userControl();
+
         setTitle("Log Expense Menu");
         setSize(1000, 1000);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,7 +64,7 @@ public class logExpenseMenu extends JFrame {
         lblDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblDriverName.setForeground(Color.WHITE);
         formPanel.add(lblDriverName);
-
+ 
         txtDriverName = new JTextField();
         txtDriverName.setBounds(385, 239, 230, 30);
         txtDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
@@ -158,28 +161,50 @@ public class logExpenseMenu extends JFrame {
 
         // Butonlara tıklama işlemleri
         btnList.addActionListener(e -> listDriverInfo());
-        btnAdd.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Expense logged.");
-        });
+        btnAdd.addActionListener(e -> addExpense());
     }
 
     private void listDriverInfo() {
-        // Bu örnekte, bilgileri manuel olarak giriyoruz. Gerçek uygulamalarda bu bilgiler veritabanından veya başka bir kaynaktan alınabilir.
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a driver name.");
             return;
         }
 
-        // Örnek veriler
-        String brand = "Toyota";
-        String kilometer = "12000 km";
+        currentServiceRecord = userControlInstance.getServiceRecordByDriverName(driverName);
+        if (currentServiceRecord == null) {
+            JOptionPane.showMessageDialog(this, "Service record not found for driver: " + driverName);
+            return;
+        }
 
-        lblBrand.setText("Brand: " + brand);
-        lblDriver.setText("Driver Name: " + driverName);
-        lblKilometer.setText("Kilometer: " + kilometer);
+        lblBrand.setText("Brand: " + currentServiceRecord.getCarBrand());
+        lblDriver.setText("Driver Name: " + currentServiceRecord.getDriverName());
+        lblKilometer.setText("Kilometer: " + currentServiceRecord.getKilometer());
 
         infoPanel.setVisible(true); // Bilgileri göster
+    }
+
+    private void addExpense() {
+        if (currentServiceRecord == null) {
+            JOptionPane.showMessageDialog(this, "Please list the driver information first.");
+            return;
+        }
+
+        try {
+            double fuelCost = Double.parseDouble(txtFuelCost.getText());
+            double yearlyCost = Double.parseDouble(txtYearlyCost.getText());
+            double yearlyRepairCost = Double.parseDouble(txtYearlyRepairCost.getText());
+
+            boolean result = logicJava.addExpenseReport(currentServiceRecord.getDriverName(), fuelCost, yearlyCost, yearlyRepairCost);
+
+            if (result) {
+                JOptionPane.showMessageDialog(this, "Expense logged successfully.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to log expense.");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numeric values for costs.");
+        }
     }
 
     public static void main(String[] args) {

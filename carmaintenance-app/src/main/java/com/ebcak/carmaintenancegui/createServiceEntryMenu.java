@@ -2,7 +2,6 @@ package com.ebcak.carmaintenancegui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,8 +18,11 @@ public class createServiceEntryMenu extends JFrame {
     private JTextField txtDriverName;
     private JTextField txtDriverNum;
     private JTextField txtKilometer;
+    private userControl userControlInstance;
 
     public createServiceEntryMenu() {
+        userControlInstance = new userControl();
+        
         setTitle("Create Service Entry");
         setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -134,9 +136,31 @@ public class createServiceEntryMenu extends JFrame {
 
         // Add butonuna tıklama işlemi
         btnAdd.addActionListener(e -> {
-            // Servis girişini kaydetme işlemleri burada yapılabilir
-            JOptionPane.showMessageDialog(this, "Service entry added.");
+            addServiceEntry();
         });
+    }
+
+    private void addServiceEntry() {
+        String carBrand = txtCarBrand.getText();
+        String whatToDo = txtWhatToDo.getText();
+        String driverName = txtDriverName.getText();
+        String driverNum = txtDriverNum.getText();
+        int kilometer;
+
+        try {
+            kilometer = Integer.parseInt(txtKilometer.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Kilometer must be a number.");
+            return;
+        }
+
+        boolean isAdded = userControlInstance.addServiceRecord(carBrand, whatToDo, driverName, driverNum, kilometer);
+
+        if (isAdded) {
+            JOptionPane.showMessageDialog(this, "Service entry added successfully.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to add service entry.");
+        }
     }
 
     public static void main(String[] args) {

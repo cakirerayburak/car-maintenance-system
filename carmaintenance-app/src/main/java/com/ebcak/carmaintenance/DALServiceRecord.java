@@ -28,7 +28,7 @@ public class DALServiceRecord {
             pstmt.setInt(5, serviceRecord.getKilometer());
             pstmt.setInt(6, serviceRecord.getUser_id());
             int result = pstmt.executeUpdate();
-            return result > 0; 
+            return result > 0;  
         } catch (SQLException e) {
             System.out.println("An error occurred during adding service record: " + e.getMessage());
             return false;

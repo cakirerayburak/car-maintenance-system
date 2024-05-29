@@ -1,21 +1,12 @@
 package com.ebcak.carmaintenancegui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import com.ebcak.carmaintenancelogiclayer.logicJava;
+import com.ebcak.carmaintenanceumple.ServiceRecord;
+import com.ebcak.carmaintenanceumple.User;
+import com.ebcak.carmaintenance.DALUser;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+import java.awt.*;
 
 public class editServiceEntryMenu extends JFrame {
 
@@ -26,8 +17,11 @@ public class editServiceEntryMenu extends JFrame {
     private JTextField txtContactNum;
     private JTextField txtKilometer;
     private JPanel infoPanel;
+    private userControl userControlInstance;
 
     public editServiceEntryMenu() {
+        userControlInstance = new userControl();
+        
         setTitle("Edit Service Entry");
         setSize(1000, 700); // Pencere boyutu
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -175,6 +169,7 @@ public class editServiceEntryMenu extends JFrame {
         txtKilometer = new JTextField(20);
         txtKilometer.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(txtKilometer, gbcInfo);
+
         JButton btnEdit = new JButton("Edit");
         btnEdit.setBounds(239, 435, 508, 34);
         btnEdit.setBackground(new Color(0, 51, 153)); // Mavi renk
@@ -200,41 +195,62 @@ public class editServiceEntryMenu extends JFrame {
         
         // Butonlara tıklama işlemleri
         btnShow.addActionListener(e -> showDriverInfo());
-        btnEdit.addActionListener(e -> {
-            // Düzenleme işlemi burada gerçekleştirilecek
-            JOptionPane.showMessageDialog(this, "Service entry edited.");
-        });
+        btnEdit.addActionListener(e -> editServiceRecord());
     }
 
     private void showDriverInfo() {
-        // Bu örnekte, bilgileri manuel olarak giriyoruz. Gerçek uygulamalarda bu bilgiler veritabanından veya başka bir kaynaktan alınabilir.
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a driver name.");
             return;
         }
 
-        // Örnek veriler
-        String carBrand = "Toyota";
-        String whatToDo = "Oil Change";
-        String driverNameEdit = driverName;
-        String contactNum = "123-456-7890";
-        String kilometer = "15000";
-        txtCarBrand.setText(carBrand);
-        txtWhatToDo.setText(whatToDo);
-        txtDriverNameEdit.setText(driverNameEdit);
-        txtContactNum.setText(contactNum);
-        txtKilometer.setText(kilometer);
+        ServiceRecord serviceRecord = userControlInstance.getServiceRecordByDriverName(driverName);
+        if (serviceRecord == null) {
+            JOptionPane.showMessageDialog(this, "Service record not found for driver name: " + driverName);
+            return;
+        }
+
+        txtCarBrand.setText(serviceRecord.getCarBrand());
+        txtWhatToDo.setText(serviceRecord.getWhatToDo());
+        txtDriverNameEdit.setText(serviceRecord.getDriverName());
+        txtContactNum.setText(serviceRecord.getDriverPhone());
+        txtKilometer.setText(String.valueOf(serviceRecord.getKilometer()));
 
         infoPanel.setVisible(true); // Bilgileri göster
     }
 
+    private void editServiceRecord() {
+        String driverName = txtDriverName.getText();
+        String carBrand = txtCarBrand.getText();
+        String whatToDo = txtWhatToDo.getText();
+        String driverNameEdit = txtDriverNameEdit.getText();
+        String contactNum = txtContactNum.getText();
+        int kilometer = Integer.parseInt(txtKilometer.getText());
+
+        ServiceRecord serviceRecord = userControlInstance.getServiceRecordByDriverName(driverName);
+        if (serviceRecord == null) {
+            JOptionPane.showMessageDialog(this, "Service record not found for driver name: " + driverName);
+            return;
+        }
+
+        boolean isUpdated = userControlInstance.updateServiceRecord(
+                serviceRecord.getRecord_id(),
+                carBrand,
+                whatToDo,
+                driverNameEdit,
+                contactNum,
+                kilometer
+        );
+ 
+        if (isUpdated) {
+            JOptionPane.showMessageDialog(this, "Service entry updated successfully.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to update service entry.");
+        }
+    }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new editServiceEntryMenu().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new editServiceEntryMenu().setVisible(true));
     }
 }
