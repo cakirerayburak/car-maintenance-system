@@ -7,9 +7,17 @@ public class signInScreen extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private userControl userController;
+    private boolean nextScreenVisible = false;
+    private boolean signUpScreenVisible = false;
 
+    // Varsayılan yapıcı (parametresiz)
     public signInScreen() {
-        userController = new userControl();
+        this(new userControl()); // Varsayılan userControl ile oluştur
+    }
+
+    // userControl parametresi alan yapıcı
+    public signInScreen(userControl userController) {
+        this.userController = userController;
 
         setTitle("Sign In");
         setSize(1000, 700);
@@ -43,6 +51,7 @@ public class signInScreen extends JFrame {
         usernameField = new JTextField();
         usernameField.setBounds(385, 300, 204, 30);
         usernameField.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        usernameField.setName("usernameField"); // Set name for testing
         formPanel.add(usernameField);
 
         // lblPassword ekle
@@ -55,6 +64,7 @@ public class signInScreen extends JFrame {
         passwordField = new JPasswordField();
         passwordField.setBounds(385, 411, 204, 30);
         passwordField.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        passwordField.setName("passwordField"); // Set name for testing
         formPanel.add(passwordField);
 
         // btnSignIn ekle
@@ -64,6 +74,7 @@ public class signInScreen extends JFrame {
         btnSignIn.setForeground(Color.WHITE);
         btnSignIn.setFont(new Font("SansSerif", Font.PLAIN, 18)); // btnSignIn font boyutunu artırdım
         btnSignIn.setUI(new roundedButtonUI());
+        btnSignIn.setName("btnSignIn"); // Set name for testing
         formPanel.add(btnSignIn);
 
         // btnSignUp ekle
@@ -74,21 +85,22 @@ public class signInScreen extends JFrame {
         btnSignUp.setBackground(new Color(173, 216, 230)); // Açık mavi arka plan rengi
         btnSignUp.setHorizontalAlignment(SwingConstants.CENTER);
         btnSignUp.setUI(new roundedButtonUI());
+        btnSignUp.setName("btnSignUp"); // Set name for testing
         formPanel.add(btnSignUp);
 
         getContentPane().add(formPanel, BorderLayout.CENTER);
-        
-                // Üst kısım: Başlık
-                roundedPanelUI titlePanel = new roundedPanelUI(30); // Yuvarlak köşe yarıçapı
-                titlePanel.setBounds(20, 25, 950, 130);
-                formPanel.add(titlePanel);
-                titlePanel.setBackground(new Color(24, 154, 180)); // Sarı renk
-                titlePanel.setLayout(null);
-                JLabel lblTitle = new JLabel("WELCOME TO THE CAR MAINTENANCE SERVICE");
-                lblTitle.setBounds(213, 44, 573, 32);
-                lblTitle.setFont(new Font("SansSerif", Font.BOLD, 24)); // Başlık font boyutunu artırdım
-                lblTitle.setForeground(Color.WHITE);
-                titlePanel.add(lblTitle);
+
+        // Üst kısım: Başlık
+        roundedPanelUI titlePanel = new roundedPanelUI(30); // Yuvarlak köşe yarıçapı
+        titlePanel.setBounds(20, 25, 950, 130);
+        formPanel.add(titlePanel);
+        titlePanel.setBackground(new Color(24, 154, 180)); // Sarı renk
+        titlePanel.setLayout(null);
+        JLabel lblTitle = new JLabel("WELCOME TO THE CAR MAINTENANCE SERVICE");
+        lblTitle.setBounds(213, 44, 573, 32);
+        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 24)); // Başlık font boyutunu artırdım
+        lblTitle.setForeground(Color.WHITE);
+        titlePanel.add(lblTitle);
 
         // Sign in butonuna tıklama işlemi
         btnSignIn.addActionListener(e -> {
@@ -97,8 +109,7 @@ public class signInScreen extends JFrame {
 
         // Sign up butonuna tıklama işlemi
         btnSignUp.addActionListener(e -> {
-            dispose();
-            new signUpScreen().setVisible(true);
+            performSignUp();
         });
     }
 
@@ -108,20 +119,31 @@ public class signInScreen extends JFrame {
 
         if (userController.loginUser(username, password)) {
             JOptionPane.showMessageDialog(this, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-            // Proceed to the next screen or application functionality
+            nextScreenVisible = true;
             dispose();
             new carServiceMenuScreen().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
+            nextScreenVisible = false;
         }
     }
 
+    private void performSignUp() {
+        dispose();
+        signUpScreenVisible = true;
+        new signUpScreen().setVisible(true);
+    }
+
+    public boolean isNextScreenVisible() {
+        return nextScreenVisible;
+    }
+
+    public boolean isSignUpScreenVisible() {
+        return signUpScreenVisible;
+    }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new signInScreen().setVisible(true);
-            }
-        });
+        userControl userController = new userControl();
+        SwingUtilities.invokeLater(() -> new signInScreen(userController).setVisible(true));
     }
 }
