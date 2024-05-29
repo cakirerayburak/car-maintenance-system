@@ -18,20 +18,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-public class logExpenseMenu extends JFrame {
+public class viewReminder extends JFrame {
 
     private JTextField txtDriverName;
-    private JTextField txtFuelCost;
-    private JTextField txtYearlyCost;
-    private JTextField txtYearlyRepairCost;
     private JLabel lblBrand;
     private JLabel lblDriver;
     private JLabel lblKilometer;
+    private JLabel lblYearlyCost;
     private JPanel infoPanel;
 
-    public logExpenseMenu() {
-        setTitle("Log Expense Menu");
-        setSize(1000, 1000);
+    public viewReminder() {
+        setTitle("View Expense Menu");
+        setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
@@ -44,8 +42,8 @@ public class logExpenseMenu extends JFrame {
         titlePanel.setBounds(20, 25, 950, 130);
         titlePanel.setBackground(new Color(24, 154, 180)); // Turkuaz
         titlePanel.setLayout(null);
-        JLabel lblTitle = new JLabel("LOG EXPENSE MENU");
-        lblTitle.setBounds(320, 44, 400, 32);
+        JLabel lblTitle = new JLabel("VIEW REMINDER MENU");
+        lblTitle.setBounds(385, 43, 280, 32);
         lblTitle.setFont(new Font("SansSerif", Font.BOLD, 24));
         lblTitle.setForeground(Color.WHITE);
         titlePanel.add(lblTitle);
@@ -57,109 +55,65 @@ public class logExpenseMenu extends JFrame {
 
         // lblDriverName ekle
         JLabel lblDriverName = new JLabel("Driver Name:");
-        lblDriverName.setBounds(385, 182, 230, 30);
+        lblDriverName.setBounds(385, 180, 230, 30);
         lblDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblDriverName.setForeground(Color.WHITE);
         formPanel.add(lblDriverName);
 
         txtDriverName = new JTextField();
-        txtDriverName.setBounds(385, 239, 230, 30);
+        txtDriverName.setBounds(385, 220, 230, 30);
         txtDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
         formPanel.add(txtDriverName);
 
         // btnList ekle
         JButton btnList = new JButton("List");
-        btnList.setBounds(385, 301, 230, 40);
+        btnList.setBounds(625, 220, 100, 30);
         btnList.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnList.setForeground(Color.WHITE);
         btnList.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnList.setUI(new roundedButtonUI());
         formPanel.add(btnList);
 
-        // infoPanel ekle
+        // Bilgi paneli ekle
         infoPanel = new JPanel();
-        infoPanel.setBounds(100, 194, 230, 180);
+        infoPanel.setBounds(385, 270, 340, 160);
         infoPanel.setBackground(new Color(204, 255, 204)); // Açık yeşil renk
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setBorder(BorderFactory.createTitledBorder("Car and Kilometer Info"));
-        infoPanel.setVisible(false); // Başlangıçta görünmez olacak
-        formPanel.add(infoPanel);
+        infoPanel.setVisible(false); // İlk başta gizli
 
         lblBrand = new JLabel("Brand:");
-        lblBrand.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lblBrand.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblDriver = new JLabel("Driver Name:");
-        lblDriver.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lblDriver.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblKilometer = new JLabel("Kilometer:");
-        lblKilometer.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lblKilometer.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblYearlyCost = new JLabel("Reminder:");
+        lblYearlyCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
 
         infoPanel.add(lblBrand);
         infoPanel.add(lblDriver);
         infoPanel.add(lblKilometer);
+        infoPanel.add(lblYearlyCost);
 
-        // lblFuelCost ekle
-        JLabel lblFuelCost = new JLabel("Fuel Cost:");
-        lblFuelCost.setBounds(385, 400, 230, 30);
-        lblFuelCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
-        lblFuelCost.setForeground(Color.WHITE);
-        formPanel.add(lblFuelCost);
-
-        txtFuelCost = new JTextField();
-        txtFuelCost.setBounds(385, 451, 230, 30);
-        txtFuelCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
-        formPanel.add(txtFuelCost);
-
-        // lblYearlyCost ekle
-        JLabel lblYearlyCost = new JLabel("Yearly Cost:");
-        lblYearlyCost.setBounds(385, 505, 230, 30);
-        lblYearlyCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
-        lblYearlyCost.setForeground(Color.WHITE);
-        formPanel.add(lblYearlyCost);
-
-        txtYearlyCost = new JTextField();
-        txtYearlyCost.setBounds(385, 545, 230, 30);
-        txtYearlyCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
-        formPanel.add(txtYearlyCost);
-
-        // lblYearlyRepairCost ekle
-        JLabel lblYearlyRepairCost = new JLabel("Yearly Repair Cost:");
-        lblYearlyRepairCost.setBounds(385, 585, 230, 30);
-        lblYearlyRepairCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
-        lblYearlyRepairCost.setForeground(Color.WHITE);
-        formPanel.add(lblYearlyRepairCost);
-
-        txtYearlyRepairCost = new JTextField();
-        txtYearlyRepairCost.setBounds(385, 625, 230, 30);
-        txtYearlyRepairCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
-        formPanel.add(txtYearlyRepairCost);
-
-        // btnAdd ekle
-        JButton btnAdd = new JButton("Add");
-        btnAdd.setBounds(385, 665, 230, 40);
-        btnAdd.setBackground(new Color(0, 51, 153)); // Mavi renk
-        btnAdd.setForeground(Color.WHITE);
-        btnAdd.setFont(new Font("SansSerif", Font.PLAIN, 18));
-        btnAdd.setUI(new roundedButtonUI());
-        formPanel.add(btnAdd);
+        formPanel.add(infoPanel);
 
         getContentPane().add(formPanel, BorderLayout.CENTER);
-        JButton btnBack = new JButton("Back");
-        btnBack.setBounds(385, 725, 230, 40);
-        formPanel.add(btnBack);
-        btnBack.setBackground(new Color(238, 98, 3)); // Kırmızı renk
-        btnBack.setForeground(Color.WHITE);
-        btnBack.setFont(new Font("SansSerif", Font.PLAIN, 18));
-        btnBack.setPreferredSize(new Dimension(230, 40));
-        btnBack.setUI(new roundedButtonUI());
-        btnBack.addActionListener(e -> dispose());
 
         // Alt kısım: Back butonu
-        JPanel backPanel = new JPanel();
-        getContentPane().add(backPanel, BorderLayout.SOUTH);
+        JButton btnBack = new JButton("Back");
+        btnBack.setBounds(385, 463, 345, 56);
+        btnBack.setBackground(new Color(238, 98, 3)); // Açık mavi renk
+        btnBack.setForeground(Color.WHITE);
+        btnBack.setFont(new Font("SansSerif", Font.BOLD, 18));
+        btnBack.setUI(new roundedButtonUI());
+        formPanel.add(btnBack);
 
         // Butonlara tıklama işlemleri
         btnList.addActionListener(e -> listDriverInfo());
-        btnAdd.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Expense logged.");
+        btnBack.addActionListener(e -> {
+            dispose();
+            new maintenanceRemindersMenu().setVisible(true);
         });
     }
 
@@ -174,10 +128,12 @@ public class logExpenseMenu extends JFrame {
         // Örnek veriler
         String brand = "Toyota";
         String kilometer = "12000 km";
-
+        String reminderDate = "12-07-2024";
+        
         lblBrand.setText("Brand: " + brand);
         lblDriver.setText("Driver Name: " + driverName);
         lblKilometer.setText("Kilometer: " + kilometer);
+        lblYearlyCost.setText("Reminder: " + reminderDate);
 
         infoPanel.setVisible(true); // Bilgileri göster
     }
@@ -186,7 +142,7 @@ public class logExpenseMenu extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new logExpenseMenu().setVisible(true);
+                new viewReminder().setVisible(true);
             }
         });
     }

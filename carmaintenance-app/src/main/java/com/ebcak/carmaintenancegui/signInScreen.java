@@ -12,95 +12,83 @@ public class signInScreen extends JFrame {
         userController = new userControl();
 
         setTitle("Sign In");
-        setSize(450, 300);
+        setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
 
-        // Üst kısım: Başlık
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(new Color(255, 204, 0)); // Sarı renk
-        JLabel lblTitle = new JLabel("WELCOME TO THE CAR MAINTENANCE SERVICE");
-        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 16));
-        lblTitle.setForeground(Color.WHITE);
-        titlePanel.add(lblTitle);
-        add(titlePanel, BorderLayout.NORTH);
+        // Uygulamanın arka plan rengini ayarla
+        getContentPane().setBackground(new Color(0x023F5C));
 
         // Orta kısım: Giriş formu
-        JPanel formPanel = new JPanel(new GridBagLayout());
+        JPanel formPanel = new JPanel();
+        formPanel.setForeground(new Color(4, 2, 0));
+        formPanel.setOpaque(false); // Arka planın görünmesini sağlamak için paneli şeffaf yap
+        formPanel.setLayout(null);
 
         // lblSignIn ekle
-        JLabel lblSignIn = new JLabel("Sign In");
-        lblSignIn.setFont(new Font("SansSerif", Font.BOLD, 18));
-        GridBagConstraints gbcSignIn = new GridBagConstraints();
-        gbcSignIn.insets = new Insets(10, 10, 10, 10);
-        gbcSignIn.fill = GridBagConstraints.HORIZONTAL;
-        gbcSignIn.gridx = 0;
-        gbcSignIn.gridy = 0;
-        gbcSignIn.gridwidth = 2;
-        formPanel.add(lblSignIn, gbcSignIn);
+        JLabel lblSignIn = new JLabel("          Sign In");
+        lblSignIn.setBounds(385, 175, 204, 70);
+        lblSignIn.setFont(new Font("SansSerif", Font.BOLD, 22)); // "Sign In" font boyutunu artırdım
+        lblSignIn.setForeground(Color.WHITE);
+        formPanel.add(lblSignIn);
 
         // lblUsername ekle
         JLabel lblUsername = new JLabel("Username");
-        lblUsername.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        GridBagConstraints gbcUsername = new GridBagConstraints();
-        gbcUsername.insets = new Insets(10, 10, 10, 10);
-        gbcUsername.fill = GridBagConstraints.HORIZONTAL;
-        gbcUsername.gridx = 0;
-        gbcUsername.gridy = 1;
-        formPanel.add(lblUsername, gbcUsername);
+        lblUsername.setBounds(385, 255, 99, 35);
+        lblUsername.setFont(new Font("SansSerif", Font.PLAIN, 18)); // "Username" font boyutunu artırdım
+        lblUsername.setForeground(Color.WHITE);
+        formPanel.add(lblUsername);
 
         usernameField = new JTextField();
-        GridBagConstraints gbcUsernameField = new GridBagConstraints();
-        gbcUsernameField.insets = new Insets(10, 10, 10, 10);
-        gbcUsernameField.fill = GridBagConstraints.HORIZONTAL;
-        gbcUsernameField.gridx = 1;
-        gbcUsernameField.gridy = 1;
-        formPanel.add(usernameField, gbcUsernameField);
+        usernameField.setBounds(385, 300, 204, 30);
+        usernameField.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        formPanel.add(usernameField);
 
         // lblPassword ekle
         JLabel lblPassword = new JLabel("Password");
-        lblPassword.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        GridBagConstraints gbcPassword = new GridBagConstraints();
-        gbcPassword.insets = new Insets(10, 10, 10, 10);
-        gbcPassword.fill = GridBagConstraints.HORIZONTAL;
-        gbcPassword.gridx = 0;
-        gbcPassword.gridy = 2;
-        formPanel.add(lblPassword, gbcPassword);
+        lblPassword.setBounds(385, 355, 204, 36);
+        lblPassword.setFont(new Font("SansSerif", Font.PLAIN, 18)); // "Password" font boyutunu artırdım
+        lblPassword.setForeground(Color.WHITE);
+        formPanel.add(lblPassword);
 
         passwordField = new JPasswordField();
-        GridBagConstraints gbcPasswordField = new GridBagConstraints();
-        gbcPasswordField.insets = new Insets(10, 10, 10, 10);
-        gbcPasswordField.fill = GridBagConstraints.HORIZONTAL;
-        gbcPasswordField.gridx = 1;
-        gbcPasswordField.gridy = 2;
-        formPanel.add(passwordField, gbcPasswordField);
+        passwordField.setBounds(385, 411, 204, 30);
+        passwordField.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        formPanel.add(passwordField);
 
         // btnSignIn ekle
         JButton btnSignIn = new JButton("Sign in");
+        btnSignIn.setBounds(385, 466, 204, 34);
         btnSignIn.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnSignIn.setForeground(Color.WHITE);
-        btnSignIn.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        GridBagConstraints gbcBtnSignIn = new GridBagConstraints();
-        gbcBtnSignIn.insets = new Insets(10, 10, 10, 10);
-        gbcBtnSignIn.fill = GridBagConstraints.HORIZONTAL;
-        gbcBtnSignIn.gridx = 1;
-        gbcBtnSignIn.gridy = 3;
-        formPanel.add(btnSignIn, gbcBtnSignIn);  
+        btnSignIn.setFont(new Font("SansSerif", Font.PLAIN, 18)); // btnSignIn font boyutunu artırdım
+        btnSignIn.setUI(new roundedButtonUI());
+        formPanel.add(btnSignIn);
 
         // btnSignUp ekle
         JButton btnSignUp = new JButton("Sign up");
-        btnSignUp.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        btnSignUp.setBounds(385, 526, 204, 34);
+        btnSignUp.setFont(new Font("SansSerif", Font.PLAIN, 18)); // btnSignUp font boyutunu artırdım
         btnSignUp.setForeground(new Color(0, 102, 204)); // Mavi renk
+        btnSignUp.setBackground(new Color(173, 216, 230)); // Açık mavi arka plan rengi
         btnSignUp.setHorizontalAlignment(SwingConstants.CENTER);
-        GridBagConstraints gbcBtnSignUp = new GridBagConstraints();
-        gbcBtnSignUp.insets = new Insets(10, 10, 10, 10);
-        gbcBtnSignUp.fill = GridBagConstraints.HORIZONTAL;
-        gbcBtnSignUp.gridx = 1;
-        gbcBtnSignUp.gridy = 4;
-        formPanel.add(btnSignUp, gbcBtnSignUp);
+        btnSignUp.setUI(new roundedButtonUI());
+        formPanel.add(btnSignUp);
 
-        add(formPanel, BorderLayout.CENTER);
+        getContentPane().add(formPanel, BorderLayout.CENTER);
+        
+                // Üst kısım: Başlık
+                roundedPanelUI titlePanel = new roundedPanelUI(30); // Yuvarlak köşe yarıçapı
+                titlePanel.setBounds(20, 25, 950, 130);
+                formPanel.add(titlePanel);
+                titlePanel.setBackground(new Color(24, 154, 180)); // Sarı renk
+                titlePanel.setLayout(null);
+                JLabel lblTitle = new JLabel("WELCOME TO THE CAR MAINTENANCE SERVICE");
+                lblTitle.setBounds(213, 44, 573, 32);
+                lblTitle.setFont(new Font("SansSerif", Font.BOLD, 24)); // Başlık font boyutunu artırdım
+                lblTitle.setForeground(Color.WHITE);
+                titlePanel.add(lblTitle);
 
         // Sign in butonuna tıklama işlemi
         btnSignIn.addActionListener(e -> {

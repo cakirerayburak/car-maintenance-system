@@ -1,4 +1,5 @@
 package com.ebcak.carmaintenancegui;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,54 +25,59 @@ public class createReportsMenu extends JFrame {
 
     public createReportsMenu() {
         setTitle("Create Reports Menu");
-        setSize(500, 450);
+        setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
 
-        // Üst kısım: Başlık
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(new Color(255, 204, 0)); // Sarı renk
+        // Uygulamanın arka plan rengini ayarla
+        getContentPane().setBackground(new Color(0x023F5C));
+
+        // Başlık paneli ekle
+        roundedPanelUI titlePanel = new roundedPanelUI(30); // Yuvarlak köşe yarıçapı
+        titlePanel.setBounds(20, 25, 950, 130);
+        titlePanel.setBackground(new Color(24, 154, 180)); // Turkuaz
+        titlePanel.setLayout(null);
         JLabel lblTitle = new JLabel("CREATE REPORTS MENU");
-        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
+        lblTitle.setBounds(320, 44, 480, 32);
+        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 24));
         lblTitle.setForeground(Color.WHITE);
         titlePanel.add(lblTitle);
-        add(titlePanel, BorderLayout.NORTH);
 
-        // Orta kısım: Form ve bilgi paneli
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        JPanel formPanel = new JPanel();
+        formPanel.setOpaque(false); // Arka planın görünmesini sağlamak için paneli şeffaf yap
+        formPanel.setLayout(null);
+        formPanel.add(titlePanel);
 
+        // lblDriverName ekle
         JLabel lblDriverName = new JLabel("Driver Name:");
-        lblDriverName.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        formPanel.add(lblDriverName, gbc);
+        lblDriverName.setBounds(385, 180, 230, 30);
+        lblDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblDriverName.setForeground(Color.WHITE);
+        formPanel.add(lblDriverName);
 
-        txtDriverName = new JTextField(15); // Kullanıcının yazı yazabilmesi için boşluk bırak
-        txtDriverName.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        formPanel.add(txtDriverName, gbc);
+        txtDriverName = new JTextField();
+        txtDriverName.setBounds(385, 220, 230, 30);
+        txtDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        formPanel.add(txtDriverName);
 
+        // btnList ekle
         JButton btnList = new JButton("List");
+        btnList.setBounds(385, 270, 230, 40);
         btnList.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnList.setForeground(Color.WHITE);
-        btnList.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        btnList.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnList.setUI(new roundedButtonUI());
-        gbc.gridx = 3;
-        gbc.gridy = 0;
-        gbc.gridwidth = 1;
-        formPanel.add(btnList, gbc);
+        formPanel.add(btnList);
 
+        // infoPanel ekle
         infoPanel = new JPanel();
+        infoPanel.setBounds(385, 330, 230, 130);
         infoPanel.setBackground(new Color(204, 255, 204)); // Açık yeşil renk
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setBorder(BorderFactory.createTitledBorder("Car and Kilometer Info"));
         infoPanel.setVisible(false); // Başlangıçta görünmez olacak
+        formPanel.add(infoPanel);
 
         JLabel lblBrand = new JLabel("Brand:");
         lblBrand.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -84,28 +90,27 @@ public class createReportsMenu extends JFrame {
         infoPanel.add(lblDriver);
         infoPanel.add(lblKilometer);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 4;
-        gbc.fill = GridBagConstraints.BOTH;
-        formPanel.add(infoPanel, gbc);
-
-        add(formPanel, BorderLayout.CENTER);
+        getContentPane().add(formPanel, BorderLayout.CENTER);
+        JButton btnBack = new JButton("Back");
+        btnBack.setBounds(385, 573, 230, 40);
+        formPanel.add(btnBack);
+        btnBack.setBackground(new Color(173, 216, 230)); // Açık mavi renk
+        btnBack.setForeground(Color.WHITE);
+        btnBack.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        btnBack.setPreferredSize(new Dimension(230, 40));
+        btnBack.setUI(new roundedButtonUI());
+        btnBack.addActionListener(e -> {
+            dispose();
+            new carServiceMenuScreen().setVisible(true);
+        });
 
         // Alt kısım: Back butonu
         JPanel backPanel = new JPanel();
-        JButton btnBack = new JButton("Back");
-        btnBack.setBackground(new Color(173, 216, 230)); // Açık mavi renk
-        btnBack.setForeground(Color.WHITE);
-        btnBack.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        btnBack.setPreferredSize(new Dimension(100, 30));
-        btnBack.setUI(new roundedButtonUI());
-        backPanel.add(btnBack);
-        add(backPanel, BorderLayout.SOUTH);
+        backPanel.setOpaque(false); // Arka planın görünmesini sağlamak için paneli şeffaf yap
+        getContentPane().add(backPanel, BorderLayout.SOUTH);
 
         // Butonlara tıklama işlemleri
         btnList.addActionListener(e -> listDriverInfo(lblBrand, lblDriver, lblKilometer));
-        btnBack.addActionListener(e -> dispose());
     }
 
     private void listDriverInfo(JLabel lblBrand, JLabel lblDriver, JLabel lblKilometer) {
@@ -136,4 +141,3 @@ public class createReportsMenu extends JFrame {
         });
     }
 }
-

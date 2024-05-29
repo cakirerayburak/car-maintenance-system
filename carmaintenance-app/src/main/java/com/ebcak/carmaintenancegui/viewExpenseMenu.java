@@ -1,4 +1,5 @@
 package com.ebcak.carmaintenancegui;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,67 +31,71 @@ public class viewExpenseMenu extends JFrame {
 
     public viewExpenseMenu() {
         setTitle("View Expense Menu");
-        setSize(500, 450);
+        setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
 
-        // Üst kısım: Başlık
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(new Color(255, 204, 0)); // Sarı renk
+        // Uygulamanın arka plan rengini ayarla
+        getContentPane().setBackground(new Color(0x023F5C));
+
+        // Başlık paneli ekle
+        roundedPanelUI titlePanel = new roundedPanelUI(30); // Yuvarlak köşe yarıçapı
+        titlePanel.setBounds(20, 25, 950, 130);
+        titlePanel.setBackground(new Color(24, 154, 180)); // Turkuaz
+        titlePanel.setLayout(null);
         JLabel lblTitle = new JLabel("VIEW EXPENSE MENU");
-        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
+        lblTitle.setBounds(375, 44, 280, 32);
+        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 24));
         lblTitle.setForeground(Color.WHITE);
         titlePanel.add(lblTitle);
-        add(titlePanel, BorderLayout.NORTH);
 
-        // Orta kısım: Form ve bilgi paneli
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        JPanel formPanel = new JPanel();
+        formPanel.setOpaque(false); // Arka planın görünmesini sağlamak için paneli şeffaf yap
+        formPanel.setLayout(null);
+        formPanel.add(titlePanel);
 
+        // lblDriverName ekle
         JLabel lblDriverName = new JLabel("Driver Name:");
-        lblDriverName.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        formPanel.add(lblDriverName, gbc);
+        lblDriverName.setBounds(385, 180, 230, 30);
+        lblDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblDriverName.setForeground(Color.WHITE);
+        formPanel.add(lblDriverName);
 
-        txtDriverName = new JTextField(20); // Genişliği artır
-        txtDriverName.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        formPanel.add(txtDriverName, gbc);
+        txtDriverName = new JTextField();
+        txtDriverName.setBounds(385, 220, 230, 30);
+        txtDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        formPanel.add(txtDriverName);
 
+        // btnList ekle
         JButton btnList = new JButton("List");
+        btnList.setBounds(625, 220, 100, 30);
         btnList.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnList.setForeground(Color.WHITE);
-        btnList.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        btnList.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnList.setUI(new roundedButtonUI());
-        gbc.gridx = 3;
-        gbc.gridy = 0;
-        gbc.gridwidth = 1;
-        formPanel.add(btnList, gbc);
+        formPanel.add(btnList);
 
+        // Bilgi paneli ekle
         infoPanel = new JPanel();
+        infoPanel.setBounds(385, 270, 340, 300);
         infoPanel.setBackground(new Color(204, 255, 204)); // Açık yeşil renk
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setBorder(BorderFactory.createTitledBorder("Car and Kilometer Info"));
         infoPanel.setVisible(false); // İlk başta gizli
 
         lblBrand = new JLabel("Brand:");
-        lblBrand.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lblBrand.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblDriver = new JLabel("Driver Name:");
-        lblDriver.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lblDriver.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblKilometer = new JLabel("Kilometer:");
-        lblKilometer.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lblKilometer.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblYearlyCost = new JLabel("Yearly Cost:");
-        lblYearlyCost.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lblYearlyCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblFuelCost = new JLabel("Fuel Cost:");
-        lblFuelCost.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lblFuelCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblYearlyRepairCost = new JLabel("Yearly Repair Cost:");
-        lblYearlyRepairCost.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lblYearlyRepairCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
 
         infoPanel.add(lblBrand);
         infoPanel.add(lblDriver);
@@ -99,28 +104,25 @@ public class viewExpenseMenu extends JFrame {
         infoPanel.add(lblFuelCost);
         infoPanel.add(lblYearlyRepairCost);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 4;
-        gbc.fill = GridBagConstraints.BOTH;
-        formPanel.add(infoPanel, gbc);
+        formPanel.add(infoPanel);
 
-        add(formPanel, BorderLayout.CENTER);
+        getContentPane().add(formPanel, BorderLayout.CENTER);
 
         // Alt kısım: Back butonu
-        JPanel backPanel = new JPanel();
-        JButton btnBack = new JButton("Exit");
-        btnBack.setBackground(new Color(255, 0, 0)); // Kırmızı renk
+        JButton btnBack = new JButton("Back");
+        btnBack.setBounds(380, 580, 345, 56);
+        btnBack.setBackground(new Color(173, 216, 230)); // Açık mavi renk
         btnBack.setForeground(Color.WHITE);
-        btnBack.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        btnBack.setPreferredSize(new Dimension(100, 30));
+        btnBack.setFont(new Font("SansSerif", Font.BOLD, 18));
         btnBack.setUI(new roundedButtonUI());
-        backPanel.add(btnBack);
-        add(backPanel, BorderLayout.SOUTH);
+        formPanel.add(btnBack);
 
         // Butonlara tıklama işlemleri
         btnList.addActionListener(e -> listDriverInfo());
-        btnBack.addActionListener(e -> dispose());
+        btnBack.addActionListener(e -> {
+            dispose();
+            new expenseRecordsMenu().setVisible(true);
+        });
     }
 
     private void listDriverInfo() {

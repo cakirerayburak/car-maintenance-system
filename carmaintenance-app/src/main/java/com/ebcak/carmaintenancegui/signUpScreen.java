@@ -2,7 +2,6 @@ package com.ebcak.carmaintenancegui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -25,123 +24,107 @@ public class signUpScreen extends JFrame {
 
     public signUpScreen() {
         setTitle("Sign Up");
-        setSize(450, 400);
+        setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
 
-        // Üst kısım: Başlık
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(new Color(255, 204, 0)); // Sarı renk
+        // Uygulamanın arka plan rengini ayarla
+        getContentPane().setBackground(new Color(0x023F5C));
+
+        // Başlık paneli ekle
+        roundedPanelUI titlePanel = new roundedPanelUI(30); // Yuvarlak köşe yarıçapı
+        titlePanel.setBounds(20, 25, 950, 130);
+        titlePanel.setBackground(new Color(24, 154, 180)); // Turkuaz
+        titlePanel.setLayout(null);
         JLabel lblTitle = new JLabel("SIGN UP MENU");
+        lblTitle.setBounds(400, 50, 280, 32);
         lblTitle.setFont(new Font("SansSerif", Font.BOLD, 24));
         lblTitle.setForeground(Color.WHITE);
         titlePanel.add(lblTitle);
-        getContentPane().add(titlePanel, BorderLayout.NORTH);
 
-        // Orta kısım: Giriş formu
-        JPanel formPanel = new JPanel(new GridBagLayout());
+        JPanel formPanel = new JPanel();
+        formPanel.setOpaque(false); // Arka planın görünmesini sağlamak için paneli şeffaf yap
+        formPanel.setLayout(null);
+        formPanel.add(titlePanel);
 
         // lblUsername ekle
         JLabel lblUsername = new JLabel("Username");
-        lblUsername.setFont(new Font("SansSerif", Font.PLAIN, 16));
-        GridBagConstraints gbcUsername = new GridBagConstraints();
-        gbcUsername.insets = new Insets(10, 10, 10, 10);
-        gbcUsername.fill = GridBagConstraints.HORIZONTAL;
-        gbcUsername.gridx = 0;
-        gbcUsername.gridy = 0;
-        formPanel.add(lblUsername, gbcUsername);
+        lblUsername.setBounds(385, 180, 230, 30);
+        lblUsername.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblUsername.setForeground(Color.WHITE);
+        formPanel.add(lblUsername);
 
         usernameField = new JTextField();
-        GridBagConstraints gbcUsernameField = new GridBagConstraints();
-        gbcUsernameField.insets = new Insets(10, 10, 10, 10);
-        gbcUsernameField.fill = GridBagConstraints.HORIZONTAL;
-        gbcUsernameField.gridx = 1;
-        gbcUsernameField.gridy = 0;
-        formPanel.add(usernameField, gbcUsernameField);
+        usernameField.setBounds(385, 220, 230, 30);
+        usernameField.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        formPanel.add(usernameField);
 
         // lblPassword ekle
         JLabel lblPassword = new JLabel("Password");
-        lblPassword.setFont(new Font("SansSerif", Font.PLAIN, 16));
-        GridBagConstraints gbcPassword = new GridBagConstraints();
-        gbcPassword.insets = new Insets(10, 10, 10, 10);
-        gbcPassword.fill = GridBagConstraints.HORIZONTAL;
-        gbcPassword.gridx = 0;
-        gbcPassword.gridy = 1;
-        formPanel.add(lblPassword, gbcPassword);
+        lblPassword.setBounds(385, 260, 230, 30);
+        lblPassword.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblPassword.setForeground(Color.WHITE);
+        formPanel.add(lblPassword);
 
         passwordField = new JPasswordField();
-        GridBagConstraints gbcPasswordField = new GridBagConstraints();
-        gbcPasswordField.insets = new Insets(10, 10, 10, 10);
-        gbcPasswordField.fill = GridBagConstraints.HORIZONTAL;
-        gbcPasswordField.gridx = 1;
-        gbcPasswordField.gridy = 1;
-        formPanel.add(passwordField, gbcPasswordField);
+        passwordField.setBounds(385, 300, 230, 30);
+        passwordField.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        formPanel.add(passwordField);
 
         // lblEmail ekle
         JLabel lblEmail = new JLabel("E-Mail");
-        lblEmail.setFont(new Font("SansSerif", Font.PLAIN, 16));
-        GridBagConstraints gbcEmail = new GridBagConstraints();
-        gbcEmail.insets = new Insets(10, 10, 10, 10);
-        gbcEmail.fill = GridBagConstraints.HORIZONTAL;
-        gbcEmail.gridx = 0;
-        gbcEmail.gridy = 2;
-        formPanel.add(lblEmail, gbcEmail);
+        lblEmail.setBounds(385, 340, 230, 30);
+        lblEmail.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblEmail.setForeground(Color.WHITE);
+        formPanel.add(lblEmail);
 
         emailField = new JTextField();
-        GridBagConstraints gbcEmailField = new GridBagConstraints();
-        gbcEmailField.insets = new Insets(10, 10, 10, 10);
-        gbcEmailField.fill = GridBagConstraints.HORIZONTAL;
-        gbcEmailField.gridx = 1;
-        gbcEmailField.gridy = 2;
-        formPanel.add(emailField, gbcEmailField);
+        emailField.setBounds(385, 380, 230, 30);
+        emailField.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        formPanel.add(emailField);
 
         // btnSignUp ekle
         JButton btnSignUp = new JButton("Sign up");
-        btnSignUp.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		String username = usernameField.getText();
-        		String password = new String(passwordField.getPassword());
-        		String email = emailField.getText();
-        		
-        		userControl control = new userControl();
-        		int result = control.registerUser(username, password, email);
-        		
-        		if (result == 0) {
-        		    JOptionPane.showMessageDialog(signUpScreen.this, "Sign up successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        		    dispose();
-        		    new signInScreen().setVisible(true);
-        		} else {
-        		    JOptionPane.showMessageDialog(signUpScreen.this, "Sign up failed!", "Error", JOptionPane.ERROR_MESSAGE);
-        		}
-        	}
-        });
+        btnSignUp.setBounds(385, 420, 230, 40);
         btnSignUp.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnSignUp.setForeground(Color.WHITE);
-        btnSignUp.setFont(new Font("SansSerif", Font.PLAIN, 16));
-        GridBagConstraints gbcBtnSignUp = new GridBagConstraints();
-        gbcBtnSignUp.insets = new Insets(10, 10, 10, 10);
-        gbcBtnSignUp.fill = GridBagConstraints.HORIZONTAL;
-        gbcBtnSignUp.gridx = 1;
-        gbcBtnSignUp.gridy = 3;
-        formPanel.add(btnSignUp, gbcBtnSignUp);
+        btnSignUp.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        btnSignUp.setUI(new roundedButtonUI());
+        btnSignUp.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
+                String email = emailField.getText();
+
+                userControl control = new userControl();
+                int result = control.registerUser(username, password, email);
+
+                if (result == 0) {
+                    JOptionPane.showMessageDialog(signUpScreen.this, "Sign up successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    new signInScreen().setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(signUpScreen.this, "Sign up failed!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        formPanel.add(btnSignUp);
 
         getContentPane().add(formPanel, BorderLayout.CENTER);
 
-        // Geri butonu ekle
-        JPanel backPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        // Alt kısım: Back butonu
         JButton btnBack = new JButton("Back");
-        btnBack.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        backPanel.add(btnBack);
-        getContentPane().add(backPanel, BorderLayout.SOUTH);
-
-        // Butona tıklama işlemi ekleyin
+        btnBack.setBounds(385, 470, 230, 60);
+        btnBack.setBackground(new Color(173, 216, 230)); // Açık mavi renk
+        btnBack.setForeground(Color.WHITE);
+        btnBack.setFont(new Font("SansSerif", Font.BOLD, 18));
+        btnBack.setUI(new roundedButtonUI());
         btnBack.addActionListener(e -> {
-            // Geri butonuna basıldığında yapılacak işlemler
-            // Örneğin, mevcut pencereyi kapatıp önceki pencereyi açma
             dispose();
             new signInScreen().setVisible(true);
         });
+        formPanel.add(btnBack);
     }
 
     public static void main(String[] args) {

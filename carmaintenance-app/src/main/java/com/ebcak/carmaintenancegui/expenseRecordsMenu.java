@@ -19,66 +19,56 @@ public class expenseRecordsMenu extends JFrame {
 
     public expenseRecordsMenu() {
         setTitle("Expense Records Menu");
-        setSize(500, 450); // Pencere boyutunu artırabiliriz
+        setSize(1000, 700); // Pencere boyutunu artırabiliriz
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
 
-        // Üst kısım: Başlık
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(new Color(255, 204, 0)); // Sarı renk
+        // Uygulamanın arka plan rengini ayarla
+        getContentPane().setBackground(new Color(0x023F5C));
+
+        // Başlık paneli ekle
+        roundedPanelUI titlePanel = new roundedPanelUI(30); // Yuvarlak köşe yarıçapı
+        titlePanel.setBounds(20, 25, 950, 130);
+        titlePanel.setBackground(new Color(24, 154, 180)); // Turkuaz
+        titlePanel.setLayout(null);
         JLabel lblTitle = new JLabel("EXPENSE RECORDS MENU");
-        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
+        lblTitle.setBounds(310, 50, 400, 32);
+        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 24));
         lblTitle.setForeground(Color.WHITE);
         titlePanel.add(lblTitle);
-        add(titlePanel, BorderLayout.NORTH);
 
-        // Orta kısım: Menü butonları
-        JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new GridBagLayout());
-        menuPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel formPanel = new JPanel();
+        formPanel.setOpaque(false); // Arka planın görünmesini sağlamak için paneli şeffaf yap
+        formPanel.setLayout(null);
+        formPanel.add(titlePanel);
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        Dimension buttonSize = new Dimension(250, 40); // Buton genişliğini artır
-
+        // Menü butonları ekle
         JButton btnLogExpense = new JButton("LOG EXPENSE");
+        btnLogExpense.setBounds(20, 195, 950, 60);
         btnLogExpense.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnLogExpense.setForeground(Color.WHITE);
-        btnLogExpense.setFont(new Font("SansSerif", Font.BOLD, 16));
-        btnLogExpense.setPreferredSize(buttonSize);
+        btnLogExpense.setFont(new Font("SansSerif", Font.BOLD, 18));
         btnLogExpense.setUI(new roundedButtonUI());
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        menuPanel.add(btnLogExpense, gbc);
+        formPanel.add(btnLogExpense);
 
         JButton btnViewExpense = new JButton("VIEW EXPENSE");
+        btnViewExpense.setBounds(20, 295, 950, 60);
         btnViewExpense.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnViewExpense.setForeground(Color.WHITE);
-        btnViewExpense.setFont(new Font("SansSerif", Font.BOLD, 16));
-        btnViewExpense.setPreferredSize(buttonSize);
+        btnViewExpense.setFont(new Font("SansSerif", Font.BOLD, 18));
         btnViewExpense.setUI(new roundedButtonUI());
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        menuPanel.add(btnViewExpense, gbc);
+        formPanel.add(btnViewExpense);
 
-        JButton btnBack = new JButton("Back");
-        btnBack.setBackground(new Color(173, 216, 230)); // Açık mavi renk
+        JButton btnBack = new JButton("BACK");
+        btnBack.setBounds(20, 400, 950, 60);
+        btnBack.setBackground(new Color(238, 98, 3)); // Açık mavi renk
         btnBack.setForeground(Color.WHITE);
-        btnBack.setFont(new Font("SansSerif", Font.PLAIN, 12));
-        btnBack.setPreferredSize(new Dimension(100, 30)); // Küçük boyut
+        btnBack.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnBack.setUI(new roundedButtonUI());
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        menuPanel.add(btnBack, gbc);
+        formPanel.add(btnBack);
 
-        add(menuPanel, BorderLayout.CENTER);
+        getContentPane().add(formPanel, BorderLayout.CENTER);
 
         // Butonlara tıklama işlemleri
         btnLogExpense.addActionListener(e -> {
@@ -104,4 +94,3 @@ public class expenseRecordsMenu extends JFrame {
         });
     }
 }
-
