@@ -3,6 +3,9 @@ package com.ebcak.carmaintenancegui;
 import com.ebcak.carmaintenancelogiclayer.logicJava;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
 import com.ebcak.carmaintenanceumple.User;
+
+import java.util.List;
+
 import com.ebcak.carmaintenance.DALUser;
 
 public class ServiceRecordControl {
@@ -45,5 +48,12 @@ public class ServiceRecordControl {
 
     public ServiceRecord getServiceRecordByDriverName(String driverName) {
         return logic.getServiceRecordByDriverName(driverName);
+    }
+    public List<ServiceRecord> searchServiceRecords(String searchTerm) {
+        return logic.searchServiceRecords(searchTerm);
+    }
+    
+    public boolean deleteServiceRecordByDriverName(String driverName) {
+        return logic.deleteServiceRecordByDriverName(driverName);
     }
 }

@@ -1,4 +1,5 @@
 package com.ebcak.carmaintenancegui;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -6,7 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import com.ebcak.carmaintenanceumple.ServiceRecord;
 
 public class searchEntryMenu extends JFrame {
 
@@ -25,8 +27,11 @@ public class searchEntryMenu extends JFrame {
     private JLabel lblContactNum;
     private JLabel lblKilometer;
     private JPanel infoPanel;
+    private ServiceRecordControl serviceRecordControl;
 
     public searchEntryMenu() {
+        serviceRecordControl = new ServiceRecordControl();
+
         setTitle("Search Entry Menu");
         setSize(500, 450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -175,24 +180,23 @@ public class searchEntryMenu extends JFrame {
     }
 
     private void searchDriverInfo() {
-        // Bu örnekte, bilgileri manuel olarak giriyoruz. Gerçek uygulamalarda bu bilgiler veritabanından veya başka bir kaynaktan alınabilir.
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a driver name.");
             return;
         }
 
-        // Örnek veriler
-        String brand = "Toyota";
-        String whatToDo = "Oil Change";
-        String contactNum = "123-456-7890";
-        String kilometer = "15000";
+        ServiceRecord serviceRecord = serviceRecordControl.getServiceRecordByDriverName(driverName);
+        if (serviceRecord == null) {
+            JOptionPane.showMessageDialog(this, "No service record found for the driver name: " + driverName);
+            return;
+        }
 
-        lblBrand.setText("Brand: " + brand);
-        lblWhatToDo.setText("What to do: " + whatToDo);
-        lblDriverName.setText("Driver Name: " + driverName);
-        lblContactNum.setText("Contact Num: " + contactNum);
-        lblKilometer.setText("Kilometer: " + kilometer);
+        lblBrand.setText("Brand: " + serviceRecord.getCarBrand());
+        lblWhatToDo.setText("What to do: " + serviceRecord.getWhatToDo());
+        lblDriverName.setText("Driver Name: " + serviceRecord.getDriverName());
+        lblContactNum.setText("Contact Num: " + serviceRecord.getDriverPhone());
+        lblKilometer.setText("Kilometer: " + serviceRecord.getKilometer());
 
         infoPanel.setVisible(true); // Bilgileri göster
     }

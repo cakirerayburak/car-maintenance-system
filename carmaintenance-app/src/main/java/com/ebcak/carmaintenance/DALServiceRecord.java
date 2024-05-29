@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ebcak.carmaintenanceumple.ServiceRecord;
 import com.ebcak.carmaintenanceumple.User;
 
@@ -75,4 +78,45 @@ public class DALServiceRecord {
         }
         return null;
     }
+    
+    public static List<ServiceRecord> searchServiceRecords(String searchTerm) {
+        List<ServiceRecord> serviceRecords = new ArrayList<>();
+        String sql = "SELECT * FROM service_record WHERE driver_name LIKE ?";
+        Connection conn = getConnection();
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, "%" + searchTerm + "%");
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                int recordId = rs.getInt("record_id");
+                String carBrand = rs.getString("car_brand");
+                String whatToDo = rs.getString("what_to_do");
+                String driverName = rs.getString("driver_name");
+                String driverPhone = rs.getString("driver_phone");
+                int kilometer = rs.getInt("kilometer");
+                int userId = rs.getInt("user_id");
+                User user = DALUser.getUserById(userId);
+                ServiceRecord serviceRecord = new ServiceRecord(recordId, carBrand, whatToDo, driverName, driverPhone, kilometer, userId, user);
+                serviceRecords.add(serviceRecord);
+            }
+        } catch (SQLException e) {
+            System.out.println("An error occurred while searching for service records: " + e.getMessage());
+        }
+        return serviceRecords;
+    }
+    public static boolean deleteServiceRecordByDriverName(String driverName) {
+        String sql = "DELETE FROM service_record WHERE driver_name = ?";
+        Connection conn = getConnection();
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, driverName);
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.out.println("An error occurred while deleting the service record: " + e.getMessage());
+            return false;
+        }
+    }
+
 }

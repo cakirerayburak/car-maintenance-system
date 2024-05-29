@@ -2,6 +2,9 @@ package com.ebcak.carmaintenancelogiclayer;
 
 import com.ebcak.carmaintenance.DALUser;
 import com.ebcak.carmaintenanceumple.User;
+
+import java.util.List;
+
 import com.ebcak.carmaintenance.DALServiceRecord;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
 
@@ -26,5 +29,11 @@ public class logicJava {
 
     public ServiceRecord getServiceRecordByDriverName(String driverName) {
         return DALServiceRecord.getServiceRecordByDriverName(driverName);
+    }
+    public List<ServiceRecord> searchServiceRecords(String searchTerm) {
+        return DALServiceRecord.searchServiceRecords(searchTerm);
+    }
+    public boolean deleteServiceRecordByDriverName(String driverName) {
+        return DALServiceRecord.deleteServiceRecordByDriverName(driverName);
     }
 }
