@@ -50,7 +50,7 @@ public class DALUser {
         
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery(); 
             
             if (rs.next()) {
                 return rs.getInt("user_id");
@@ -80,4 +80,5 @@ public class DALUser {
         }
         return null; // Return null if the user is not found
     }
+    
 }

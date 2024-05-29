@@ -5,7 +5,9 @@ import com.ebcak.carmaintenanceumple.User;
 
 import java.util.List;
 
+import com.ebcak.carmaintenance.DALExpenseReport;
 import com.ebcak.carmaintenance.DALServiceRecord;
+import com.ebcak.carmaintenanceumple.ExpenseReport;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
 
 public class logicJava {
@@ -27,7 +29,7 @@ public class logicJava {
         return DALServiceRecord.updateServiceRecord(serviceRecord);
     }
 
-    public ServiceRecord getServiceRecordByDriverName(String driverName) {
+    public static ServiceRecord getServiceRecordByDriverName(String driverName) {
         return DALServiceRecord.getServiceRecordByDriverName(driverName);
     }
     public List<ServiceRecord> searchServiceRecords(String searchTerm) {
@@ -36,4 +38,14 @@ public class logicJava {
     public boolean deleteServiceRecordByDriverName(String driverName) {
         return DALServiceRecord.deleteServiceRecordByDriverName(driverName);
     }
+   
+    public static boolean addExpenseReport(String driverName, double dailyFuel, double annualFuel, double totalCost) {
+        ServiceRecord serviceRecord = DALServiceRecord.getServiceRecordByDriverName(driverName);
+        if (serviceRecord == null) {
+            return false;
+        }
+        ExpenseReport expenseReport = new ExpenseReport(0, new java.sql.Date(System.currentTimeMillis()), dailyFuel, annualFuel, totalCost, serviceRecord.getRecord_id(), serviceRecord);
+        return DALExpenseReport.addExpenseReport(expenseReport);
+    }
+
 }
