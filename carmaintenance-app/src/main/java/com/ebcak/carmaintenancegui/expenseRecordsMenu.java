@@ -2,13 +2,8 @@ package com.ebcak.carmaintenancegui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,6 +41,7 @@ public class expenseRecordsMenu extends JFrame {
         // Menü butonları ekle
         JButton btnLogExpense = new JButton("LOG EXPENSE");
         btnLogExpense.setBounds(20, 195, 950, 60);
+        btnLogExpense.setName("btnLogExpense"); // Set name for testing
         btnLogExpense.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnLogExpense.setForeground(Color.WHITE);
         btnLogExpense.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -54,6 +50,7 @@ public class expenseRecordsMenu extends JFrame {
 
         JButton btnViewExpense = new JButton("VIEW EXPENSE");
         btnViewExpense.setBounds(20, 295, 950, 60);
+        btnViewExpense.setName("btnViewExpense"); // Set name for testing
         btnViewExpense.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnViewExpense.setForeground(Color.WHITE);
         btnViewExpense.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -62,6 +59,7 @@ public class expenseRecordsMenu extends JFrame {
 
         JButton btnBack = new JButton("BACK");
         btnBack.setBounds(20, 400, 950, 60);
+        btnBack.setName("btnBack"); // Set name for testing
         btnBack.setBackground(new Color(238, 98, 3)); // Açık mavi renk
         btnBack.setForeground(Color.WHITE);
         btnBack.setFont(new Font("SansSerif", Font.PLAIN, 18));

@@ -1,22 +1,9 @@
 package com.ebcak.carmaintenancegui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import com.ebcak.carmaintenanceumple.ExpenseReport;
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 public class viewExpenseMenu extends JFrame {
 
@@ -28,8 +15,11 @@ public class viewExpenseMenu extends JFrame {
     private JLabel lblFuelCost;
     private JLabel lblYearlyRepairCost;
     private JPanel infoPanel;
+    public userControl userCtrl; // Made public for testing purposes
 
     public viewExpenseMenu() {
+        userCtrl = new userControl();
+
         setTitle("View Expense Menu");
         setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,6 +55,7 @@ public class viewExpenseMenu extends JFrame {
         txtDriverName = new JTextField();
         txtDriverName.setBounds(385, 220, 230, 30);
         txtDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        txtDriverName.setName("txtDriverName"); // Set name
         formPanel.add(txtDriverName);
 
         // btnList ekle
@@ -74,6 +65,7 @@ public class viewExpenseMenu extends JFrame {
         btnList.setForeground(Color.WHITE);
         btnList.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnList.setUI(new roundedButtonUI());
+        btnList.setName("btnList"); // Set name
         formPanel.add(btnList);
 
         // Bilgi paneli ekle
@@ -83,19 +75,26 @@ public class viewExpenseMenu extends JFrame {
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setBorder(BorderFactory.createTitledBorder("Car and Kilometer Info"));
         infoPanel.setVisible(false); // İlk başta gizli
+        infoPanel.setName("infoPanel"); // Set name
 
         lblBrand = new JLabel("Brand:");
         lblBrand.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblBrand.setName("lblBrand"); // Set name
         lblDriver = new JLabel("Driver Name:");
         lblDriver.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblDriver.setName("lblDriver"); // Set name
         lblKilometer = new JLabel("Kilometer:");
         lblKilometer.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblKilometer.setName("lblKilometer"); // Set name
         lblYearlyCost = new JLabel("Yearly Cost:");
         lblYearlyCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblYearlyCost.setName("lblYearlyCost"); // Set name
         lblFuelCost = new JLabel("Fuel Cost:");
         lblFuelCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblFuelCost.setName("lblFuelCost"); // Set name
         lblYearlyRepairCost = new JLabel("Yearly Repair Cost:");
         lblYearlyRepairCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblYearlyRepairCost.setName("lblYearlyRepairCost"); // Set name
 
         infoPanel.add(lblBrand);
         infoPanel.add(lblDriver);
@@ -115,6 +114,7 @@ public class viewExpenseMenu extends JFrame {
         btnBack.setForeground(Color.WHITE);
         btnBack.setFont(new Font("SansSerif", Font.BOLD, 18));
         btnBack.setUI(new roundedButtonUI());
+        btnBack.setName("btnBack"); // Set name
         formPanel.add(btnBack);
 
         // Butonlara tıklama işlemleri
@@ -126,36 +126,30 @@ public class viewExpenseMenu extends JFrame {
     }
 
     private void listDriverInfo() {
-        // Bu örnekte, bilgileri manuel olarak giriyoruz. Gerçek uygulamalarda bu bilgiler veritabanından veya başka bir kaynaktan alınabilir.
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a driver name.");
             return;
         }
 
-        // Örnek veriler
-        String brand = "Toyota";
-        String kilometer = "12000 km";
-        String yearlyCost = "1000 USD";
-        String fuelCost = "500 USD";
-        String yearlyRepairCost = "200 USD";
+        List<ExpenseReport> expenseReports = userCtrl.getExpenseReportsByDriverName(driverName);
+        if (expenseReports.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No expense reports found for the given driver name.");
+            return;
+        }
 
-        lblBrand.setText("Brand: " + brand);
-        lblDriver.setText("Driver Name: " + driverName);
-        lblKilometer.setText("Kilometer: " + kilometer);
-        lblYearlyCost.setText("Yearly Cost: " + yearlyCost);
-        lblFuelCost.setText("Fuel Cost: " + fuelCost);
-        lblYearlyRepairCost.setText("Yearly Repair Cost: " + yearlyRepairCost);
+        ExpenseReport report = expenseReports.get(0); // Displaying the first report for simplicity
+        lblBrand.setText("Brand: " + report.getServiceRecord().getCarBrand());
+        lblDriver.setText("Driver Name: " + report.getServiceRecord().getDriverName());
+        lblKilometer.setText("Kilometer: " + report.getServiceRecord().getKilometer());
+        lblYearlyCost.setText("Yearly Cost: " + report.getTotalCost());
+        lblFuelCost.setText("Fuel Cost: " + report.getDailyFuel());
+        lblYearlyRepairCost.setText("Yearly Repair Cost: " + report.getAnnualFuel());
 
-        infoPanel.setVisible(true); // Bilgileri göster
+        infoPanel.setVisible(true);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new viewExpenseMenu().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new viewExpenseMenu().setVisible(true));
     }
 }

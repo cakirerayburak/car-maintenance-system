@@ -17,7 +17,7 @@ public class editServiceEntryMenu extends JFrame {
     private JTextField txtContactNum;
     private JTextField txtKilometer;
     private JPanel infoPanel;
-    private userControl userControlInstance;
+    public userControl userControlInstance;
 
     public editServiceEntryMenu() {
         userControlInstance = new userControl();
@@ -45,23 +45,30 @@ public class editServiceEntryMenu extends JFrame {
         JPanel formPanel = new JPanel();
         formPanel.setOpaque(false);
         formPanel.setLayout(null);
+        
         JLabel lblDriverName = new JLabel("Driver Name:");
         lblDriverName.setBounds(239, 159, 108, 24);
         lblDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblDriverName.setForeground(Color.WHITE);
         formPanel.add(lblDriverName);
+        
         txtDriverName = new JTextField(20);
+        txtDriverName.setName("txtDriverName");
         txtDriverName.setBounds(367, 156, 286, 30);
         txtDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
         formPanel.add(txtDriverName);
+        
         JButton btnShow = new JButton("Show");
+        btnShow.setName("btnShow");
         btnShow.setBounds(673, 154, 74, 34);
         btnShow.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnShow.setForeground(Color.WHITE);
         btnShow.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnShow.setUI(new roundedButtonUI());
         formPanel.add(btnShow);
+        
         infoPanel = new JPanel();
+        infoPanel.setName("infoPanel");
         infoPanel.setBounds(239, 208, 508, 196);
         infoPanel.setBackground(new Color(204, 255, 204)); // Açık yeşil renk
         infoPanel.setLayout(new GridBagLayout());
@@ -87,6 +94,7 @@ public class editServiceEntryMenu extends JFrame {
         gbcInfo.gridy = 0;
         gbcInfo.gridwidth = 2;
         txtCarBrand = new JTextField(20);
+        txtCarBrand.setName("txtCarBrand");
         txtCarBrand.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(txtCarBrand, gbcInfo);
 
@@ -107,6 +115,7 @@ public class editServiceEntryMenu extends JFrame {
         gbcInfo.gridy = 1;
         gbcInfo.gridwidth = 2;
         txtWhatToDo = new JTextField(20);
+        txtWhatToDo.setName("txtWhatToDo");
         txtWhatToDo.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(txtWhatToDo, gbcInfo);
 
@@ -127,6 +136,7 @@ public class editServiceEntryMenu extends JFrame {
         gbcInfo.gridy = 2;
         gbcInfo.gridwidth = 2;
         txtDriverNameEdit = new JTextField(20);
+        txtDriverNameEdit.setName("txtDriverNameEdit");
         txtDriverNameEdit.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(txtDriverNameEdit, gbcInfo);
 
@@ -147,6 +157,7 @@ public class editServiceEntryMenu extends JFrame {
         gbcInfo.gridy = 3;
         gbcInfo.gridwidth = 2;
         txtContactNum = new JTextField(20);
+        txtContactNum.setName("txtContactNum");
         txtContactNum.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(txtContactNum, gbcInfo);
 
@@ -167,10 +178,12 @@ public class editServiceEntryMenu extends JFrame {
         gbcInfo.gridy = 4;
         gbcInfo.gridwidth = 2;
         txtKilometer = new JTextField(20);
+        txtKilometer.setName("txtKilometer");
         txtKilometer.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(txtKilometer, gbcInfo);
 
         JButton btnEdit = new JButton("Edit");
+        btnEdit.setName("btnEdit");
         btnEdit.setBounds(239, 435, 508, 34);
         btnEdit.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnEdit.setForeground(Color.WHITE);
@@ -179,6 +192,7 @@ public class editServiceEntryMenu extends JFrame {
         formPanel.add(btnEdit);
 
         JButton btnBack = new JButton("Back");
+        btnBack.setName("btnBack");
         btnBack.setBounds(239, 492, 508, 34);
         btnBack.setBackground(new Color(238, 98, 3)); // Mavi renk
         btnBack.setForeground(Color.WHITE);
@@ -226,7 +240,14 @@ public class editServiceEntryMenu extends JFrame {
         String whatToDo = txtWhatToDo.getText();
         String driverNameEdit = txtDriverNameEdit.getText();
         String contactNum = txtContactNum.getText();
-        int kilometer = Integer.parseInt(txtKilometer.getText());
+        int kilometer;
+
+        try {
+            kilometer = Integer.parseInt(txtKilometer.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Kilometer must be a number.");
+            return;
+        }
 
         ServiceRecord serviceRecord = userControlInstance.getServiceRecordByDriverName(driverName);
         if (serviceRecord == null) {

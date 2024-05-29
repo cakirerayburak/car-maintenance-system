@@ -32,13 +32,23 @@ public class logicJava {
     public static ServiceRecord getServiceRecordByDriverName(String driverName) {
         return DALServiceRecord.getServiceRecordByDriverName(driverName);
     }
+
     public List<ServiceRecord> searchServiceRecords(String searchTerm) {
         return DALServiceRecord.searchServiceRecords(searchTerm);
     }
+
     public boolean deleteServiceRecordByDriverName(String driverName) {
         return DALServiceRecord.deleteServiceRecordByDriverName(driverName);
     }
-    
+
+    public List<ExpenseReport> getExpenseReportsByDriverName(String driverName) {
+        ServiceRecord serviceRecord = DALServiceRecord.getServiceRecordByDriverName(driverName);
+        if (serviceRecord == null) {
+            return null;
+        }
+        return DALExpenseReport.getExpenseReportsByServiceRecordId(serviceRecord.getRecord_id());
+    }
+
     public static boolean addExpenseReport(String driverName, double dailyFuel, double annualFuel, double totalCost) {
         ServiceRecord serviceRecord = DALServiceRecord.getServiceRecordByDriverName(driverName);
         if (serviceRecord == null) {

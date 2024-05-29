@@ -18,7 +18,7 @@ public class createServiceEntryMenu extends JFrame {
     private JTextField txtDriverName;
     private JTextField txtDriverNum;
     private JTextField txtKilometer;
-    private userControl userControlInstance;
+    public userControl userControlInstance;
 
     public createServiceEntryMenu() {
         userControlInstance = new userControl();
@@ -58,6 +58,7 @@ public class createServiceEntryMenu extends JFrame {
         txtCarBrand = new JTextField();
         txtCarBrand.setBounds(385, 205, 230, 30);
         txtCarBrand.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        txtCarBrand.setName("txtCarBrand"); // Set name for testing
         formPanel.add(txtCarBrand);
 
         // lblWhatToDo ekle
@@ -70,6 +71,7 @@ public class createServiceEntryMenu extends JFrame {
         txtWhatToDo = new JTextField();
         txtWhatToDo.setBounds(385, 285, 230, 30);
         txtWhatToDo.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        txtWhatToDo.setName("txtWhatToDo"); // Set name for testing
         formPanel.add(txtWhatToDo);
 
         // lblDriverName ekle
@@ -82,6 +84,7 @@ public class createServiceEntryMenu extends JFrame {
         txtDriverName = new JTextField();
         txtDriverName.setBounds(385, 365, 230, 30);
         txtDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        txtDriverName.setName("txtDriverName"); // Set name for testing
         formPanel.add(txtDriverName);
 
         // lblDriverNum ekle
@@ -94,6 +97,7 @@ public class createServiceEntryMenu extends JFrame {
         txtDriverNum = new JTextField();
         txtDriverNum.setBounds(385, 445, 230, 30);
         txtDriverNum.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        txtDriverNum.setName("txtDriverNum"); // Set name for testing
         formPanel.add(txtDriverNum);
 
         // lblKilometer ekle
@@ -106,6 +110,7 @@ public class createServiceEntryMenu extends JFrame {
         txtKilometer = new JTextField();
         txtKilometer.setBounds(385, 525, 230, 30);
         txtKilometer.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        txtKilometer.setName("txtKilometer"); // Set name for testing
         formPanel.add(txtKilometer);
 
         // btnAdd ekle
@@ -115,6 +120,7 @@ public class createServiceEntryMenu extends JFrame {
         btnAdd.setForeground(Color.WHITE);
         btnAdd.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnAdd.setUI(new roundedButtonUI());
+        btnAdd.setName("btnAdd"); // Set name for testing
         formPanel.add(btnAdd);
 
         // btnBack ekle
@@ -124,6 +130,7 @@ public class createServiceEntryMenu extends JFrame {
         btnBack.setForeground(Color.WHITE);
         btnBack.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnBack.setUI(new roundedButtonUI());
+        btnBack.setName("btnBack"); // Set name for testing
         formPanel.add(btnBack);
 
         getContentPane().add(formPanel, BorderLayout.CENTER);

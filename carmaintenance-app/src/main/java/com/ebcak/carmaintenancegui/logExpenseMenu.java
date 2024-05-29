@@ -27,8 +27,9 @@ public class logExpenseMenu extends JFrame {
     private JLabel lblDriver;
     private JLabel lblKilometer;
     private JPanel infoPanel;
-    private userControl userControlInstance;
+    public userControl userControlInstance;
     private ServiceRecord currentServiceRecord;
+    private static logicJava logicJavaInstance; // Add a static reference to logicJava
 
     public logExpenseMenu() {
         userControlInstance = new userControl();
@@ -66,12 +67,14 @@ public class logExpenseMenu extends JFrame {
         formPanel.add(lblDriverName);
  
         txtDriverName = new JTextField();
+        txtDriverName.setName("txtDriverName");
         txtDriverName.setBounds(385, 239, 230, 30);
         txtDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
         formPanel.add(txtDriverName);
 
         // btnList ekle
         JButton btnList = new JButton("List");
+        btnList.setName("btnList");
         btnList.setBounds(385, 301, 230, 40);
         btnList.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnList.setForeground(Color.WHITE);
@@ -81,6 +84,7 @@ public class logExpenseMenu extends JFrame {
 
         // infoPanel ekle
         infoPanel = new JPanel();
+        infoPanel.setName("infoPanel");
         infoPanel.setBounds(100, 194, 230, 180);
         infoPanel.setBackground(new Color(204, 255, 204)); // Açık yeşil renk
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
@@ -89,10 +93,13 @@ public class logExpenseMenu extends JFrame {
         formPanel.add(infoPanel);
 
         lblBrand = new JLabel("Brand:");
+        lblBrand.setName("lblBrand");
         lblBrand.setFont(new Font("SansSerif", Font.PLAIN, 14));
         lblDriver = new JLabel("Driver Name:");
+        lblDriver.setName("lblDriver");
         lblDriver.setFont(new Font("SansSerif", Font.PLAIN, 14));
         lblKilometer = new JLabel("Kilometer:");
+        lblKilometer.setName("lblKilometer");
         lblKilometer.setFont(new Font("SansSerif", Font.PLAIN, 14));
 
         infoPanel.add(lblBrand);
@@ -107,6 +114,7 @@ public class logExpenseMenu extends JFrame {
         formPanel.add(lblFuelCost);
 
         txtFuelCost = new JTextField();
+        txtFuelCost.setName("txtFuelCost");
         txtFuelCost.setBounds(385, 451, 230, 30);
         txtFuelCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
         formPanel.add(txtFuelCost);
@@ -119,6 +127,7 @@ public class logExpenseMenu extends JFrame {
         formPanel.add(lblYearlyCost);
 
         txtYearlyCost = new JTextField();
+        txtYearlyCost.setName("txtYearlyCost");
         txtYearlyCost.setBounds(385, 545, 230, 30);
         txtYearlyCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
         formPanel.add(txtYearlyCost);
@@ -131,12 +140,14 @@ public class logExpenseMenu extends JFrame {
         formPanel.add(lblYearlyRepairCost);
 
         txtYearlyRepairCost = new JTextField();
+        txtYearlyRepairCost.setName("txtYearlyRepairCost");
         txtYearlyRepairCost.setBounds(385, 625, 230, 30);
         txtYearlyRepairCost.setFont(new Font("SansSerif", Font.PLAIN, 18));
         formPanel.add(txtYearlyRepairCost);
 
         // btnAdd ekle
         JButton btnAdd = new JButton("Add");
+        btnAdd.setName("btnAdd");
         btnAdd.setBounds(385, 665, 230, 40);
         btnAdd.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnAdd.setForeground(Color.WHITE);
@@ -146,6 +157,7 @@ public class logExpenseMenu extends JFrame {
 
         getContentPane().add(formPanel, BorderLayout.CENTER);
         JButton btnBack = new JButton("Back");
+        btnBack.setName("btnBack");
         btnBack.setBounds(385, 725, 230, 40);
         formPanel.add(btnBack);
         btnBack.setBackground(new Color(238, 98, 3)); // Kırmızı renk
@@ -195,7 +207,7 @@ public class logExpenseMenu extends JFrame {
             double yearlyCost = Double.parseDouble(txtYearlyCost.getText());
             double yearlyRepairCost = Double.parseDouble(txtYearlyRepairCost.getText());
 
-            boolean result = logicJava.addExpenseReport(currentServiceRecord.getDriverName(), fuelCost, yearlyCost, yearlyRepairCost);
+            boolean result = logicJavaInstance.addExpenseReport(currentServiceRecord.getDriverName(), fuelCost, yearlyCost, yearlyRepairCost);
 
             if (result) {
                 JOptionPane.showMessageDialog(this, "Expense logged successfully.");
@@ -207,12 +219,11 @@ public class logExpenseMenu extends JFrame {
         }
     }
 
+    public static void setLogicJavaInstance(logicJava instance) {
+        logicJavaInstance = instance;
+    }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new logExpenseMenu().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new logExpenseMenu().setVisible(true));
     }
 }

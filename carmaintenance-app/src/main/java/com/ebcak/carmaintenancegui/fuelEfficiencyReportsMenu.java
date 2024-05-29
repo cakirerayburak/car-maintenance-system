@@ -41,8 +41,10 @@ public class fuelEfficiencyReportsMenu extends JFrame {
         // Menü butonları ekle
         JButton btnCreateReports = new JButton("CREATE REPORTS");
         btnCreateReports.setBounds(20, 230, 950, 60);
+        btnCreateReports.setName("btnCreateReports"); // Set name for testing
         JButton btnBack = new JButton("BACK");
         btnBack.setBounds(20, 400, 950, 60);
+        btnBack.setName("btnBack"); // Set name for testing
 
         btnCreateReports.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnCreateReports.setForeground(Color.WHITE);

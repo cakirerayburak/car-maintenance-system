@@ -1,9 +1,13 @@
 package com.ebcak.carmaintenance;
 
 import com.ebcak.carmaintenanceumple.ExpenseReport;
+import com.ebcak.carmaintenanceumple.ServiceRecord;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DALExpenseReport {
 
@@ -23,5 +27,42 @@ public class DALExpenseReport {
             System.out.println("An error occurred while adding the expense report: " + e.getMessage());
             return false;
         }
-    } 
+    }
+
+    public static List<ExpenseReport> getExpenseReportsByServiceRecordId(int serviceRecordId) {
+        List<ExpenseReport> expenseReports = new ArrayList<>();
+        String sql = "SELECT report_id, report_date, daily_fuel, annual_fuel, total_cost FROM expense_report WHERE service_record_id = ?";
+
+        Connection conn = databaseConnection.getInstance("jdbc:sqlite:./SQLite/carMaintenanceDatabase.db").getConnection();
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, serviceRecordId);
+            ResultSet rs = pstmt.executeQuery();
+
+            ServiceRecord serviceRecord = DALServiceRecord.getServiceRecordById(serviceRecordId); // Retrieve the associated ServiceRecord
+
+            while (rs.next()) {
+                int reportId = rs.getInt("report_id");
+                java.sql.Date reportDate = rs.getDate("report_date");
+                double dailyFuel = rs.getDouble("daily_fuel");
+                double annualFuel = rs.getDouble("annual_fuel");
+                double totalCost = rs.getDouble("total_cost");
+
+                ExpenseReport expenseReport = new ExpenseReport(reportId, reportDate, dailyFuel, annualFuel, totalCost, serviceRecord.getRecord_id(), serviceRecord);
+                expenseReports.add(expenseReport);
+            }
+        } catch (SQLException e) {
+            System.out.println("An error occurred while retrieving the expense reports: " + e.getMessage());
+        }
+
+        return expenseReports;
+    }
+
+    public static List<ExpenseReport> getExpenseReportsByDriverName(String driverName) {
+        ServiceRecord serviceRecord = DALServiceRecord.getServiceRecordByDriverName(driverName);
+        if (serviceRecord != null) {
+            return getExpenseReportsByServiceRecordId(serviceRecord.getRecord_id());
+        }
+        return new ArrayList<>();
+    }
 }

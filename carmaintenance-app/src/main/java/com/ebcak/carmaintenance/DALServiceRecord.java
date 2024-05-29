@@ -1,3 +1,4 @@
+
 package com.ebcak.carmaintenance;
 
 import java.sql.Connection;
@@ -117,6 +118,33 @@ public class DALServiceRecord {
             System.out.println("An error occurred while deleting the service record: " + e.getMessage());
             return false;
         }
+    }
+    public static ServiceRecord getServiceRecordById(int recordId) {
+        String sql = "SELECT * FROM service_record WHERE record_id = ?";
+        Connection conn = databaseConnection.getInstance("jdbc:sqlite:./SQLite/carMaintenanceDatabase.db").getConnection();
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, recordId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("record_id");
+                String carBrand = rs.getString("car_brand");
+                String whatToDo = rs.getString("what_to_do");
+                String driverName = rs.getString("driver_name");
+                String driverPhone = rs.getString("driver_phone");
+                int kilometer = rs.getInt("kilometer");
+                int userId = rs.getInt("user_id");
+
+                // Retrieve associated User
+                User user = DALUser.getUserById(userId);
+
+                return new ServiceRecord(id, carBrand, whatToDo, driverName, driverPhone, kilometer, userId, user);
+            }
+        } catch (SQLException e) {
+            System.out.println("An error occurred while retrieving the service record: " + e.getMessage());
+        }
+        return null;
     }
 
 }

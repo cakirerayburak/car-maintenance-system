@@ -42,6 +42,7 @@ public class maintenanceRemindersMenu extends JFrame {
         // Menü butonları ekle
         JButton btnSetReminder = new JButton("SET REMINDER");
         btnSetReminder.setBounds(20, 190, 950, 60);
+        btnSetReminder.setName("btnSetReminder"); // Set name for testing
         btnSetReminder.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnSetReminder.setForeground(Color.WHITE);
         btnSetReminder.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -50,6 +51,7 @@ public class maintenanceRemindersMenu extends JFrame {
 
         JButton btnViewReminder = new JButton("VIEW REMINDER");
         btnViewReminder.setBounds(20, 282, 950, 60);
+        btnViewReminder.setName("btnViewReminder"); // Set name for testing
         btnViewReminder.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnViewReminder.setForeground(Color.WHITE);
         btnViewReminder.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -58,6 +60,7 @@ public class maintenanceRemindersMenu extends JFrame {
 
         JButton btnBack = new JButton("BACK");
         btnBack.setBounds(20, 370, 950, 60);
+        btnBack.setName("btnBack"); // Set name for testing
         btnBack.setBackground(new Color(238, 98, 3)); // Turuncu renk
         btnBack.setForeground(Color.WHITE);
         btnBack.setFont(new Font("SansSerif", Font.PLAIN, 18));

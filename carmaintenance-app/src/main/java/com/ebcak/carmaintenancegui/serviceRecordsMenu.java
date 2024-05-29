@@ -45,6 +45,7 @@ public class serviceRecordsMenu extends JFrame {
         // Menü butonları ekle
         JButton btnCreateServiceEntry = new JButton("CREATE SERVICE ENTRY");
         btnCreateServiceEntry.setBounds(20, 180, 950, 60);
+        btnCreateServiceEntry.setName("btnCreateServiceEntry");
         btnCreateServiceEntry.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnCreateServiceEntry.setForeground(Color.WHITE);
         btnCreateServiceEntry.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -53,6 +54,7 @@ public class serviceRecordsMenu extends JFrame {
 
         JButton btnEditServiceEntry = new JButton("EDIT SERVICE ENTRY");
         btnEditServiceEntry.setBounds(20, 250, 950, 60);
+        btnEditServiceEntry.setName("btnEditServiceEntry");
         btnEditServiceEntry.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnEditServiceEntry.setForeground(Color.WHITE);
         btnEditServiceEntry.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -61,6 +63,7 @@ public class serviceRecordsMenu extends JFrame {
 
         JButton btnSearchEntry = new JButton("SEARCH ENTRY");
         btnSearchEntry.setBounds(20, 320, 950, 60);
+        btnSearchEntry.setName("btnSearchEntry");
         btnSearchEntry.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnSearchEntry.setForeground(Color.WHITE);
         btnSearchEntry.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -69,6 +72,7 @@ public class serviceRecordsMenu extends JFrame {
 
         JButton btnDeleteServiceEntry = new JButton("DELETE SERVICE ENTRY");
         btnDeleteServiceEntry.setBounds(20, 390, 950, 60);
+        btnDeleteServiceEntry.setName("btnDeleteServiceEntry");
         btnDeleteServiceEntry.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnDeleteServiceEntry.setForeground(Color.WHITE);
         btnDeleteServiceEntry.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -77,6 +81,7 @@ public class serviceRecordsMenu extends JFrame {
 
         JButton btnBack = new JButton("BACK");
         btnBack.setBounds(20, 460, 950, 60);
+        btnBack.setName("btnBack");
         btnBack.setBackground(new Color(238, 98, 3)); // Kırmızı renk
         btnBack.setForeground(Color.WHITE);
         btnBack.setFont(new Font("SansSerif", Font.BOLD, 18));

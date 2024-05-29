@@ -25,7 +25,7 @@ public class deleteServiceEntryMenu extends JFrame {
     private JLabel lblContactNum;
     private JLabel lblKilometer;
     private JPanel infoPanel;
-    private userControl userControlInstance;
+    public userControl userControlInstance;
     private ServiceRecord currentServiceRecord;
 
     public deleteServiceEntryMenu() {
@@ -64,12 +64,14 @@ public class deleteServiceEntryMenu extends JFrame {
         formPanel.add(lblDriverNameLabel);
 
         txtDriverName = new JTextField();
+        txtDriverName.setName("txtDriverName");
         txtDriverName.setBounds(385, 220, 230, 30);
         txtDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
         formPanel.add(txtDriverName);
 
         // btnList ekle
         JButton btnList = new JButton("List");
+        btnList.setName("btnList");
         btnList.setBounds(385, 270, 230, 40);
         btnList.setBackground(new Color(0, 51, 153)); // Mavi renk
         btnList.setForeground(Color.WHITE);
@@ -79,6 +81,7 @@ public class deleteServiceEntryMenu extends JFrame {
 
         // infoPanel ekle
         infoPanel = new JPanel();
+        infoPanel.setName("infoPanel");
         infoPanel.setBounds(385, 330, 230, 180);
         infoPanel.setBackground(new Color(204, 255, 204));
         infoPanel.setBorder(BorderFactory.createTitledBorder("Car and Kilometer Info"));
@@ -87,33 +90,39 @@ public class deleteServiceEntryMenu extends JFrame {
         infoPanel.setLayout(null);
 
         lblBrand = new JLabel("Brand:");
+        lblBrand.setName("lblBrand");
         lblBrand.setBounds(10, 17, 210, 19);
         lblBrand.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(lblBrand);
 
         lblWhatToDo = new JLabel("What to do:");
+        lblWhatToDo.setName("lblWhatToDo");
         lblWhatToDo.setBounds(10, 43, 210, 19);
         lblWhatToDo.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(lblWhatToDo);
 
         lblDriverName = new JLabel("Driver Name:");
+        lblDriverName.setName("lblDriverName");
         lblDriverName.setBounds(10, 72, 210, 19);
         lblDriverName.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(lblDriverName);
 
         lblContactNum = new JLabel("Contact Num:");
+        lblContactNum.setName("lblContactNum");
         lblContactNum.setBounds(10, 101, 210, 19);
         lblContactNum.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(lblContactNum);
 
         lblKilometer = new JLabel("Kilometer:");
+        lblKilometer.setName("lblKilometer");
         lblKilometer.setBounds(10, 130, 210, 19);
         lblKilometer.setFont(new Font("SansSerif", Font.PLAIN, 14));
         infoPanel.add(lblKilometer);
 
         getContentPane().add(formPanel, BorderLayout.CENTER);
-        
+
         JButton btnDelete = new JButton("Delete");
+        btnDelete.setName("btnDelete");
         btnDelete.setBounds(385, 520, 230, 40);
         formPanel.add(btnDelete);
         btnDelete.setBackground(new Color(0, 51, 153)); // Mavi renk
@@ -123,6 +132,7 @@ public class deleteServiceEntryMenu extends JFrame {
         btnDelete.setUI(new roundedButtonUI());
                 
         JButton btnBack = new JButton("Back");
+        btnBack.setName("btnBack");
         btnBack.setBounds(385, 585, 230, 40);
         formPanel.add(btnBack);
         btnBack.setBackground(new Color(238, 98, 3)); // Kırmızı renk
@@ -186,11 +196,6 @@ public class deleteServiceEntryMenu extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new deleteServiceEntryMenu().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new deleteServiceEntryMenu().setVisible(true));
     }
 }

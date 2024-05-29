@@ -3,12 +3,13 @@ package com.ebcak.carmaintenancegui;
 import com.ebcak.carmaintenancelogiclayer.logicJava;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
 import com.ebcak.carmaintenanceumple.User;
+import com.ebcak.carmaintenanceumple.ExpenseReport;
 import com.ebcak.carmaintenance.DALUser;
 
 import java.util.List;
 
 public class userControl {
-    
+
     private logicJava logic;
 
     public userControl() {
@@ -75,5 +76,10 @@ public class userControl {
     // Sürücü adına göre hizmet kaydı silme fonksiyonu
     public boolean deleteServiceRecordByDriverName(String driverName) {
         return logic.deleteServiceRecordByDriverName(driverName);
+    }
+
+    // Sürücü adına göre gider raporlarını getirme fonksiyonu
+    public List<ExpenseReport> getExpenseReportsByDriverName(String driverName) {
+        return logic.getExpenseReportsByDriverName(driverName);
     }
 }
