@@ -73,7 +73,7 @@ It is a reminder system that notifies users when it's time for scheduled mainten
 
 It allows users to log and categorize expenses related to their vehicles, including fuel costs, repairs, and maintenance. Users can track expenses over time and generate reports.
 
-![](assets/maintenanceRecords.png)
+![](assets/expenseRecords.png)
 
 #### Fuel Efficiency Reports
 
