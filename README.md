@@ -5,10 +5,6 @@
 
 The Car Maintenance System Application is a software tool designed to assist users in managing their car's maintenance. This application allows users to create their service history easily, set reminders for the next annual maintenance, manage their expenses, and create their fuel efficiency reports.
 
-## Releases
-
-- [![GitHub release badge](https://badgen.net/github/release/SametKaras/ce204-midterm-samet-karas-java)](https://github.com/SametKaras/ce204-midterm-samet-karas-java/releases/latest)
-
 ## Platforms
 
 - ![Ubuntu badge](assets/badge-ubuntu.svg)
