@@ -61,7 +61,7 @@ It allows users to create accounts for personalized car maintenance tracking and
 
 It provides a way for users to log and track the service history of their vehicles. Users can record details such as service date, type of service (e.g., oil change, tire rotation), service provider, and cost.
 
-![](assets/serviceHistory.png)
+![](assets/serviceRecords.png)
 
 #### Maintenance Reminders
 
@@ -73,13 +73,13 @@ It is a reminder system that notifies users when it's time for scheduled mainten
 
 It allows users to log and categorize expenses related to their vehicles, including fuel costs, repairs, and maintenance. Users can track expenses over time and generate reports.
 
-![](assets/maintenanceReminder.png)
+![](assets/maintenanceRecords.png)
 
 #### Fuel Efficiency Reports
 
 It calculates and provides fuel efficiency reports that show metrics like miles per gallon (MPG) or liters per 100 kilometers (L/100km). Users can see their vehicle's fuel efficiency trends.
 
-![](assets/fuelEfficiency.png)
+![](assets/fuelEfficiencyReports.png)
 
 ### Contact
 
