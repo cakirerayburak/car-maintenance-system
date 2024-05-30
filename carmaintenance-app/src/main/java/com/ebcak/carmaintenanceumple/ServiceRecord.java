@@ -208,11 +208,7 @@ public class ServiceRecord
     return index;
   }
   /* Code from template association_GetMany */
-  public ExpenseReport getExpenseReport(int index)
-  {
-    ExpenseReport aExpenseReport = expenseReports.get(index);
-    return aExpenseReport;
-  }
+  public ExpenseReport getExpenseReport(int index){ExpenseReport aExpenseReport = expenseReports.get(index);return aExpenseReport;}
 
   public List<ExpenseReport> getExpenseReports()
   {

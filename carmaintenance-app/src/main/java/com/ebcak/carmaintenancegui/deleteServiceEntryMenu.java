@@ -9,12 +9,16 @@ import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class deleteServiceEntryMenu extends JFrame {
 
@@ -160,13 +164,13 @@ public class deleteServiceEntryMenu extends JFrame {
     private void listDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a driver name.");
+            showAutoClosingDialog("Please enter a driver name.", 1500);
             return;
         }
 
         currentServiceRecord = userControlInstance.getServiceRecordByDriverName(driverName);
         if (currentServiceRecord == null) {
-            JOptionPane.showMessageDialog(this, "Service record not found for driver: " + driverName);
+            showAutoClosingDialog("Service record not found for driver: " + driverName, 1500);
             return;
         }
 
@@ -181,18 +185,34 @@ public class deleteServiceEntryMenu extends JFrame {
 
     private void deleteDriverInfo() {
         if (currentServiceRecord == null) {
-            JOptionPane.showMessageDialog(this, "Please list the driver information first.");
+            showAutoClosingDialog("Please list the driver information first.", 1500);
             return;
         }
 
         boolean result = userControlInstance.deleteServiceRecordByDriverName(currentServiceRecord.getDriverName());
 
         if (result) {
-            JOptionPane.showMessageDialog(this, "Service entry deleted successfully.");
+            showAutoClosingDialog("Service entry deleted successfully.", 1500);
             infoPanel.setVisible(false);
         } else {
-            JOptionPane.showMessageDialog(this, "Failed to delete service entry.");
+            showAutoClosingDialog("Failed to delete service entry.", 1500);
         }
+    }
+
+    private void showAutoClosingDialog(String message, int milliseconds) {
+        final JOptionPane optionPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
+        final JDialog dialog = optionPane.createDialog(this, "Message");
+
+        Timer timer = new Timer(milliseconds, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.setVisible(false);
+                dialog.dispose();
+            }
+        });
+        timer.setRepeats(false); // Only execute once
+        timer.start();
+        dialog.setVisible(true);
     }
 
     public static void main(String[] args) {

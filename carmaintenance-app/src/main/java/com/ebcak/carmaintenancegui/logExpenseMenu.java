@@ -5,17 +5,20 @@ import com.ebcak.carmaintenanceumple.ServiceRecord;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 public class logExpenseMenu extends JFrame {
 
@@ -65,7 +68,7 @@ public class logExpenseMenu extends JFrame {
         lblDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
         lblDriverName.setForeground(Color.WHITE);
         formPanel.add(lblDriverName);
- 
+
         txtDriverName = new JTextField();
         txtDriverName.setName("txtDriverName");
         txtDriverName.setBounds(385, 239, 230, 30);
@@ -179,13 +182,13 @@ public class logExpenseMenu extends JFrame {
     private void listDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a driver name.");
+            showAutoClosingDialog(this, "Please enter a driver name.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         currentServiceRecord = userControlInstance.getServiceRecordByDriverName(driverName);
         if (currentServiceRecord == null) {
-            JOptionPane.showMessageDialog(this, "Service record not found for driver: " + driverName);
+            showAutoClosingDialog(this, "Service record not found for driver: " + driverName, "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -198,7 +201,7 @@ public class logExpenseMenu extends JFrame {
 
     private void addExpense() {
         if (currentServiceRecord == null) {
-            JOptionPane.showMessageDialog(this, "Please list the driver information first.");
+            showAutoClosingDialog(this, "Please list the driver information first.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -210,13 +213,25 @@ public class logExpenseMenu extends JFrame {
             boolean result = logicJavaInstance.addExpenseReport(currentServiceRecord.getDriverName(), fuelCost, yearlyCost, yearlyRepairCost);
 
             if (result) {
-                JOptionPane.showMessageDialog(this, "Expense logged successfully.");
+                showAutoClosingDialog(this, "Expense logged successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Failed to log expense.");
+                showAutoClosingDialog(this, "Failed to log expense.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter valid numeric values for costs.");
+            showAutoClosingDialog(this, "Please enter valid numeric values for costs.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void showAutoClosingDialog(Component parentComponent, String message, String title, int messageType) {
+        final JOptionPane optionPane = new JOptionPane(message, messageType);
+        final JDialog dialog = optionPane.createDialog(parentComponent, title);
+
+        // Timer to close the dialog after 1.5 seconds
+        Timer timer = new Timer(1500, e -> dialog.dispose());
+        timer.setRepeats(false);
+        timer.start();
+
+        dialog.setVisible(true);
     }
 
     public static void setLogicJavaInstance(logicJava instance) {

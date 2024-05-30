@@ -10,6 +10,8 @@ import com.ebcak.carmaintenancegui.serviceRecordsMenu;
 import com.ebcak.carmaintenancegui.userControl;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.InputEvent;
 
 public class createServiceEntryMenuTest {
 
@@ -22,9 +24,10 @@ public class createServiceEntryMenuTest {
     private JButton btnAdd;
     private JButton btnBack;
     private userControl mockUserControl;
+    private Robot robot;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         createMenu = new createServiceEntryMenu();
         txtCarBrand = (JTextField) TestUtils.getChildNamed(createMenu, "txtCarBrand");
         txtWhatToDo = (JTextField) TestUtils.getChildNamed(createMenu, "txtWhatToDo");
@@ -37,10 +40,40 @@ public class createServiceEntryMenuTest {
         // Mock the userControl class
         mockUserControl = mock(userControl.class);
         createMenu.userControlInstance = mockUserControl;
+
+        // Initialize Robot for simulating button clicks
+        robot = new Robot();
+    }
+
+    private void clickOKButtonOnPopup() throws InterruptedException {
+        // Wait for the dialog to appear
+        Thread.sleep(1000);
+
+        // Find all windows of type JDialog (JOptionPane creates JDialog)
+        for (Window window : Window.getWindows()) {
+            if (window instanceof JDialog) {
+                JDialog dialog = (JDialog) window;
+
+                // Get the OK button from the dialog
+                for (Component component : dialog.getContentPane().getComponents()) {
+                    if (component instanceof JButton) {
+                        JButton okButton = (JButton) component;
+                        if (okButton.getText().equals("OK")) {
+                            // Get location of the OK button
+                            Point location = okButton.getLocationOnScreen();
+                            robot.mouseMove(location.x + okButton.getWidth() / 2, location.y + okButton.getHeight() / 2);
+                            robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+                            robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Test
-    public void testAddButtonSuccess() {
+    public void testAddButtonSuccess() throws InterruptedException {
         when(mockUserControl.addServiceRecord(anyString(), anyString(), anyString(), anyString(), anyInt())).thenReturn(true);
 
         txtCarBrand.setText("Toyota");
@@ -50,13 +83,13 @@ public class createServiceEntryMenuTest {
         txtKilometer.setText("5000");
 
         btnAdd.doClick();
+        clickOKButtonOnPopup();
 
         verify(mockUserControl).addServiceRecord("Toyota", "Oil Change", "John Doe", "12345", 5000);
-        // Assuming there is a way to verify JOptionPane showing success message
     }
 
     @Test
-    public void testAddButtonFailure() {
+    public void testAddButtonFailure() throws InterruptedException {
         when(mockUserControl.addServiceRecord(anyString(), anyString(), anyString(), anyString(), anyInt())).thenReturn(false);
 
         txtCarBrand.setText("Toyota");
@@ -66,13 +99,13 @@ public class createServiceEntryMenuTest {
         txtKilometer.setText("5000");
 
         btnAdd.doClick();
+        clickOKButtonOnPopup();
 
         verify(mockUserControl).addServiceRecord("Toyota", "Oil Change", "John Doe", "12345", 5000);
-        // Assuming there is a way to verify JOptionPane showing failure message
     }
 
     @Test
-    public void testAddButtonInvalidKilometer() {
+    public void testAddButtonInvalidKilometer() throws InterruptedException {
         txtCarBrand.setText("Toyota");
         txtWhatToDo.setText("Oil Change");
         txtDriverName.setText("John Doe");
@@ -80,8 +113,10 @@ public class createServiceEntryMenuTest {
         txtKilometer.setText("invalid");
 
         btnAdd.doClick();
+        clickOKButtonOnPopup();
 
-        // Assuming there is a way to verify JOptionPane showing error message for invalid kilometer
+        // Verify that no service record was added
+        verify(mockUserControl, never()).addServiceRecord(anyString(), anyString(), anyString(), anyString(), anyInt());
     }
 
     @Test

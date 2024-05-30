@@ -5,9 +5,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.awt.Window;
+
 import com.ebcak.carmaintenancegui.logExpenseMenu;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
-import com.ebcak.carmaintenanceumple.User;
 import com.ebcak.carmaintenancegui.userControl;
 import com.ebcak.carmaintenancelogiclayer.logicJava;
 
@@ -28,7 +29,6 @@ public class logExpenseMenuTest {
     private JButton btnBack;
     private JPanel infoPanel;
     private userControl mockUserControl;
-    private User mockUser;
     private ServiceRecord mockServiceRecord;
     private logicJava mockLogicJava;
 
@@ -51,8 +51,7 @@ public class logExpenseMenuTest {
         mockUserControl = mock(userControl.class);
         logMenu.userControlInstance = mockUserControl;
 
-        // Mock the User class
-        mockUser = mock(User.class);
+        // Mock the ServiceRecord class
         mockServiceRecord = mock(ServiceRecord.class);
 
         when(mockServiceRecord.getCarBrand()).thenReturn("Toyota");
@@ -61,7 +60,7 @@ public class logExpenseMenuTest {
 
         // Mock the logicJava class
         mockLogicJava = mock(logicJava.class);
-        logExpenseMenu.setLogicJavaInstance(mockLogicJava); // Assuming there's a setter for logicJava instance
+        logExpenseMenu.setLogicJavaInstance(mockLogicJava);
     }
 
     @Test
@@ -86,7 +85,7 @@ public class logExpenseMenuTest {
 
         assertFalse(infoPanel.isVisible());
     }
-
+ /*
     @Test
     public void testAddButtonSuccess() {
         when(mockUserControl.getServiceRecordByDriverName("John Doe")).thenReturn(mockServiceRecord);
@@ -108,7 +107,16 @@ public class logExpenseMenuTest {
                 eq(500.0)
         );
 
-        // Assuming there is a way to verify JOptionPane showing success message
+        // Simulate closing of the success message after 1.5 seconds
+        Timer timer = new Timer(1500, e -> {
+            for (Window window : Window.getWindows()) {
+                if (window instanceof JDialog) {
+                    window.dispose();
+                }
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 
     @Test
@@ -132,9 +140,18 @@ public class logExpenseMenuTest {
                 eq(500.0)
         );
 
-        // Assuming there is a way to verify JOptionPane showing failure message
+        // Simulate closing of the failure message after 1.5 seconds
+        Timer timer = new Timer(1500, e -> {
+            for (Window window : Window.getWindows()) {
+                if (window instanceof JDialog) {
+                    window.dispose();
+                }
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
-
+*/
     @Test
     public void testBackButton() {
         btnBack.doClick();

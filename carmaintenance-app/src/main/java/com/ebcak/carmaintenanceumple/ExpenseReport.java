@@ -2,7 +2,6 @@ package com.ebcak.carmaintenanceumple;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
-
 import java.sql.Date;
 
 // line 40 "model.ump"
@@ -160,16 +159,16 @@ public class ExpenseReport
     }
   }
 
-
+  @Override
   public String toString()
   {
-    return super.toString() + "["+
-            "report_id" + ":" + getReport_id()+ "," +
-            "dailyFuel" + ":" + getDailyFuel()+ "," +
-            "annualFuel" + ":" + getAnnualFuel()+ "," +
-            "totalCost" + ":" + getTotalCost()+ "," +
-            "serviceRecord_id" + ":" + getServiceRecord_id()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "reportDate" + "=" + (getReportDate() != null ? !getReportDate().equals(this)  ? getReportDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "serviceRecord = "+(getServiceRecord()!=null?Integer.toHexString(System.identityHashCode(getServiceRecord())):"null");
+    return "ExpenseReport[" +
+            "report_id:" + getReport_id() + "," +
+            "dailyFuel:" + getDailyFuel() + "," +
+            "annualFuel:" + getAnnualFuel() + "," +
+            "totalCost:" + getTotalCost() + "," +
+            "serviceRecord_id:" + getServiceRecord_id() + "]\n" +
+            "  reportDate=" + (getReportDate() != null ? getReportDate().toString() : "null") + "\n" +
+            "  serviceRecord = " + (getServiceRecord() != null ? Integer.toHexString(System.identityHashCode(getServiceRecord())) : "null");
   }
 }

@@ -11,12 +11,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 public class searchEntryMenu extends JFrame {
 
@@ -148,13 +150,13 @@ public class searchEntryMenu extends JFrame {
     private void searchDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a driver name.");
+            showAutoClosingDialog("Please enter a driver name.");
             return;
         }
 
         ServiceRecord serviceRecord = userControlInstance.getServiceRecordByDriverName(driverName);
         if (serviceRecord == null) {
-            JOptionPane.showMessageDialog(this, "Service record not found for driver: " + driverName);
+            showAutoClosingDialog("Service record not found for driver: " + driverName);
             return;
         }
 
@@ -165,6 +167,15 @@ public class searchEntryMenu extends JFrame {
         lblKilometer.setText("Kilometer: " + serviceRecord.getKilometer());
 
         infoPanel.setVisible(true); // Bilgileri göster
+    }
+
+    private void showAutoClosingDialog(String message) {
+        final JDialog dialog = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE).createDialog(this, "Message");
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        Timer timer = new Timer(1500, e -> dialog.dispose());
+        timer.setRepeats(false);
+        timer.start();
+        dialog.setVisible(true);
     }
 
     public static void main(String[] args) {

@@ -1,10 +1,6 @@
 package com.ebcak.carmaintenancegui;
 
-import com.ebcak.carmaintenancelogiclayer.logicJava;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
-import com.ebcak.carmaintenanceumple.User;
-import com.ebcak.carmaintenance.DALUser;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -215,13 +211,13 @@ public class editServiceEntryMenu extends JFrame {
     private void showDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a driver name.");
+            showAutoClosingDialog("Please enter a driver name.");
             return;
         }
 
         ServiceRecord serviceRecord = userControlInstance.getServiceRecordByDriverName(driverName);
         if (serviceRecord == null) {
-            JOptionPane.showMessageDialog(this, "Service record not found for driver name: " + driverName);
+            showAutoClosingDialog("Service record not found for driver name: " + driverName);
             return;
         }
 
@@ -245,13 +241,13 @@ public class editServiceEntryMenu extends JFrame {
         try {
             kilometer = Integer.parseInt(txtKilometer.getText());
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Kilometer must be a number.");
+            showAutoClosingDialog("Kilometer must be a number.");
             return;
         }
 
         ServiceRecord serviceRecord = userControlInstance.getServiceRecordByDriverName(driverName);
         if (serviceRecord == null) {
-            JOptionPane.showMessageDialog(this, "Service record not found for driver name: " + driverName);
+            showAutoClosingDialog("Service record not found for driver name: " + driverName);
             return;
         }
 
@@ -265,10 +261,19 @@ public class editServiceEntryMenu extends JFrame {
         );
  
         if (isUpdated) {
-            JOptionPane.showMessageDialog(this, "Service entry updated successfully.");
+            showAutoClosingDialog("Service entry updated successfully.");
         } else {
-            JOptionPane.showMessageDialog(this, "Failed to update service entry.");
+            showAutoClosingDialog("Failed to update service entry.");
         }
+    }
+
+    private void showAutoClosingDialog(String message) {
+        final JDialog dialog = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE).createDialog(this, "Message");
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        Timer timer = new Timer(1500, e -> dialog.dispose());
+        timer.setRepeats(false);
+        timer.start();
+        dialog.setVisible(true);
     }
 
     public static void main(String[] args) {

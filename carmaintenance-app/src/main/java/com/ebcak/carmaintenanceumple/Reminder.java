@@ -83,12 +83,13 @@ public class Reminder {
         }
     }
 
+    @Override
     public String toString() {
-        return super.toString() + "[" +
-                "reminder_id" + ":" + getReminder_id() + "," +
-                "reminderType" + ":" + getReminderType() + "," +
-                "serviceRecord_id" + ":" + getServiceRecord_id() + "]" + System.getProperties().getProperty("line.separator") +
-                "  " + "reminderDate" + "=" + (getReminderDate() != null ? !getReminderDate().equals(this) ? getReminderDate().toString().replaceAll("  ", "    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-                "  " + "serviceRecord = " + (getServiceRecord() != null ? Integer.toHexString(System.identityHashCode(getServiceRecord())) : "null");
+        return "Reminder[" +
+                "reminder_id:" + getReminder_id() + "," +
+                "reminderType:" + getReminderType() + "," +
+                "serviceRecord_id:" + getServiceRecord_id() + "]\n" +
+                "  reminderDate=" + (getReminderDate() != null ? getReminderDate().toString() : "null") + "\n" +
+                "  serviceRecord = " + (getServiceRecord() != null ? Integer.toHexString(System.identityHashCode(getServiceRecord())) : "null");
     }
 }

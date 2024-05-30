@@ -118,12 +118,12 @@ public class signInScreen extends JFrame {
         String password = new String(passwordField.getPassword());
 
         if (userController.loginUser(username, password)) {
-            JOptionPane.showMessageDialog(this, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+            showAutoClosingDialog("Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
             nextScreenVisible = true;
             dispose();
             new carServiceMenuScreen().setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
+            showAutoClosingDialog("Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
             nextScreenVisible = false;
         }
     }
@@ -140,6 +140,15 @@ public class signInScreen extends JFrame {
 
     public boolean isSignUpScreenVisible() {
         return signUpScreenVisible;
+    }
+
+    private void showAutoClosingDialog(String message, String title, int messageType) {
+        final JDialog dialog = new JOptionPane(message, messageType).createDialog(this, title);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        Timer timer = new Timer(1500, e -> dialog.dispose());
+        timer.setRepeats(false);
+        timer.start();
+        dialog.setVisible(true);
     }
 
     public static void main(String[] args) {

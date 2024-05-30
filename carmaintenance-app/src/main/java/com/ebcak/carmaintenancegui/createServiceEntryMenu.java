@@ -4,12 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class createServiceEntryMenu extends JFrame {
 
@@ -157,17 +161,33 @@ public class createServiceEntryMenu extends JFrame {
         try {
             kilometer = Integer.parseInt(txtKilometer.getText());
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Kilometer must be a number.");
+            showAutoClosingDialog("Kilometer must be a number.", 1500);
             return;
         }
 
         boolean isAdded = userControlInstance.addServiceRecord(carBrand, whatToDo, driverName, driverNum, kilometer);
 
         if (isAdded) {
-            JOptionPane.showMessageDialog(this, "Service entry added successfully.");
+            showAutoClosingDialog("Service entry added successfully.", 1500);
         } else {
-            JOptionPane.showMessageDialog(this, "Failed to add service entry.");
+            showAutoClosingDialog("Failed to add service entry.", 1500);
         }
+    }
+
+    private void showAutoClosingDialog(String message, int milliseconds) {
+        final JOptionPane optionPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
+        final JDialog dialog = optionPane.createDialog(this, "Message");
+
+        Timer timer = new Timer(milliseconds, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.setVisible(false);
+                dialog.dispose();
+            }
+        });
+        timer.setRepeats(false); // Only execute once
+        timer.start();
+        dialog.setVisible(true);
     }
 
     public static void main(String[] args) {

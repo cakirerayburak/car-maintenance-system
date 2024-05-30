@@ -128,13 +128,13 @@ public class viewExpenseMenu extends JFrame {
     private void listDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a driver name.");
+            showAutoClosingDialog("Please enter a driver name.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         List<ExpenseReport> expenseReports = userCtrl.getExpenseReportsByDriverName(driverName);
         if (expenseReports.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No expense reports found for the given driver name.");
+            showAutoClosingDialog("No expense reports found for the given driver name.", "Information", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -147,6 +147,15 @@ public class viewExpenseMenu extends JFrame {
         lblYearlyRepairCost.setText("Yearly Repair Cost: " + report.getAnnualFuel());
 
         infoPanel.setVisible(true);
+    }
+
+    private void showAutoClosingDialog(String message, String title, int messageType) {
+        final JDialog dialog = new JOptionPane(message, messageType).createDialog(this, title);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        Timer timer = new Timer(1500, e -> dialog.dispose());
+        timer.setRepeats(false);
+        timer.start();
+        dialog.setVisible(true);
     }
 
     public static void main(String[] args) {
