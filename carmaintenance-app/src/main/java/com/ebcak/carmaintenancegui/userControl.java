@@ -1,25 +1,49 @@
 package com.ebcak.carmaintenancegui;
 
-import com.ebcak.carmaintenancelogiclayer.logicJava;
+import com.ebcak.carmaintenancelogiclayer.logicJava.UserLogic;
+import com.ebcak.carmaintenancelogiclayer.logicJava.ServiceRecordLogic;
+import com.ebcak.carmaintenancelogiclayer.logicJava.ExpenseReportLogic;
+import com.ebcak.carmaintenancelogiclayer.logicJava.ReminderLogic;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
 import com.ebcak.carmaintenanceumple.User;
 import com.ebcak.carmaintenanceumple.ExpenseReport;
 import com.ebcak.carmaintenanceumple.Reminder;
-import com.ebcak.carmaintenance.DALUser;
-
 import java.util.List;
 
 public class userControl {
 
-    private logicJava logic;
+    private UserLogic userLogic;
+    private ServiceRecordLogic serviceRecordLogic;
+    private ExpenseReportLogic expenseReportLogic;
+    private ReminderLogic reminderLogic;
 
     public userControl() {
-        logic = new logicJava();
+        userLogic = new UserLogic();
+        serviceRecordLogic = new ServiceRecordLogic();
+        expenseReportLogic = new ExpenseReportLogic();
+        reminderLogic = new ReminderLogic();
+    }
+
+    // Setter methods for dependency injection
+    public void setUserLogic(UserLogic userLogic) {
+        this.userLogic = userLogic;
+    }
+
+    public void setServiceRecordLogic(ServiceRecordLogic serviceRecordLogic) {
+        this.serviceRecordLogic = serviceRecordLogic;
+    }
+
+    public void setExpenseReportLogic(ExpenseReportLogic expenseReportLogic) {
+        this.expenseReportLogic = expenseReportLogic;
+    }
+
+    public void setReminderLogic(ReminderLogic reminderLogic) {
+        this.reminderLogic = reminderLogic;
     }
 
     public int registerUser(String username, String password, String email) {
         User user = new User(0, username, password, email);
-        int result = logic.register(user);
+        int result = userLogic.add(user);
 
         if (result == 0) {
             return 0;
@@ -28,56 +52,56 @@ public class userControl {
     }
 
     public boolean loginUser(String username, String password) {
-        return DALUser.loginUser(username, password);
+        return userLogic.login(username, password);
     }
 
     public boolean addServiceRecord(String carBrand, String whatToDo, String driverName, String driverPhone, int kilometer) {
-        int userId = DALUser.getUserIdByUsername(driverName);
+        int userId = userLogic.getUserIdByUsername(driverName);
         if (userId == -1) {
             System.out.println("User not found with username: " + driverName);
             return false;
         }
-        User user = DALUser.getUserById(userId);
+        User user = userLogic.getUserById(userId);
         if (user == null) {
             System.out.println("User not found with ID: " + userId);
             return false;
         }
         ServiceRecord serviceRecord = new ServiceRecord(0, carBrand, whatToDo, driverName, driverPhone, kilometer, userId, user);
-        return logic.addServiceRecord(serviceRecord);
+        return serviceRecordLogic.add(serviceRecord) == 0;
     }
 
     public boolean updateServiceRecord(int recordId, String carBrand, String whatToDo, String driverName, String driverPhone, int kilometer) {
-        int userId = DALUser.getUserIdByUsername(driverName);
+        int userId = userLogic.getUserIdByUsername(driverName);
         if (userId == -1) {
             System.out.println("User not found with username: " + driverName);
             return false;
         }
-        User user = DALUser.getUserById(userId);
+        User user = userLogic.getUserById(userId);
         if (user == null) {
             System.out.println("User not found with ID: " + userId);
             return false;
         }
         ServiceRecord serviceRecord = new ServiceRecord(recordId, carBrand, whatToDo, driverName, driverPhone, kilometer, userId, user);
-        return logic.updateServiceRecord(serviceRecord);
+        return serviceRecordLogic.update(serviceRecord);
     }
 
     public ServiceRecord getServiceRecordByDriverName(String driverName) {
-        return logic.getServiceRecordByDriverName(driverName);
+        return serviceRecordLogic.getServiceRecordByDriverName(driverName);
     }
 
     public List<ServiceRecord> searchServiceRecords(String searchTerm) {
-        return logic.searchServiceRecords(searchTerm);
+        return serviceRecordLogic.searchServiceRecords(searchTerm);
     }
 
     public boolean deleteServiceRecordByDriverName(String driverName) {
-        return logic.deleteServiceRecordByDriverName(driverName);
+        return serviceRecordLogic.remove(driverName);
     }
 
     public List<ExpenseReport> getExpenseReportsByDriverName(String driverName) {
-        return logic.getExpenseReportsByDriverName(driverName);
+        return expenseReportLogic.getExpenseReportsByDriverName(driverName);
     }
 
     public boolean addReminder(Reminder reminder) {
-        return logic.addReminder(reminder);
+        return reminderLogic.add(reminder) == 0;
     }
 }

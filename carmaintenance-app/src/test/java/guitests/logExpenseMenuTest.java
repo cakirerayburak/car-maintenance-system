@@ -9,6 +9,7 @@ import java.awt.Window;
 
 import com.ebcak.carmaintenancegui.logExpenseMenu;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
+import com.ebcak.carmaintenanceumple.User;
 import com.ebcak.carmaintenancegui.userControl;
 import com.ebcak.carmaintenancelogiclayer.logicJava;
 
@@ -30,7 +31,8 @@ public class logExpenseMenuTest {
     private JPanel infoPanel;
     private userControl mockUserControl;
     private ServiceRecord mockServiceRecord;
-    private logicJava mockLogicJava;
+    private logicJava.ExpenseReportLogic mockLogicJava;
+    private User mockUser;
 
     @Before
     public void setUp() {
@@ -51,15 +53,14 @@ public class logExpenseMenuTest {
         mockUserControl = mock(userControl.class);
         logMenu.userControlInstance = mockUserControl;
 
-        // Mock the ServiceRecord class
-        mockServiceRecord = mock(ServiceRecord.class);
+        // Mock the User class
+        mockUser = new User(1, "testuser", "password", "testuser@example.com");
 
-        when(mockServiceRecord.getCarBrand()).thenReturn("Toyota");
-        when(mockServiceRecord.getDriverName()).thenReturn("John Doe");
-        when(mockServiceRecord.getKilometer()).thenReturn(5000);
+        // Mock the ServiceRecord class
+        mockServiceRecord = new ServiceRecord(1, "Toyota", "Change oil", "John Doe", "123456789", 5000, 1, mockUser);
 
         // Mock the logicJava class
-        mockLogicJava = mock(logicJava.class);
+        mockLogicJava = mock(logicJava.ExpenseReportLogic.class);
         logExpenseMenu.setLogicJavaInstance(mockLogicJava);
     }
 
@@ -85,7 +86,7 @@ public class logExpenseMenuTest {
 
         assertFalse(infoPanel.isVisible());
     }
- /*
+
     @Test
     public void testAddButtonSuccess() {
         when(mockUserControl.getServiceRecordByDriverName("John Doe")).thenReturn(mockServiceRecord);
@@ -151,7 +152,7 @@ public class logExpenseMenuTest {
         timer.setRepeats(false);
         timer.start();
     }
-*/
+
     @Test
     public void testBackButton() {
         btnBack.doClick();

@@ -1,6 +1,7 @@
 package com.ebcak.carmaintenancegui;
 
-import com.ebcak.carmaintenancelogiclayer.logicJava;
+import com.ebcak.carmaintenancelogiclayer.logicJava.ServiceRecordLogic;
+import com.ebcak.carmaintenancelogiclayer.logicJava.ReminderLogic;
 import com.ebcak.carmaintenanceumple.Reminder;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
 
@@ -16,8 +17,13 @@ public class viewReminder extends JFrame {
     private JLabel lblKilometer;
     private JLabel lblReminder;
     private JPanel infoPanel;
+    private ServiceRecordLogic serviceRecordLogic;
+    private ReminderLogic reminderLogic;
 
     public viewReminder() {
+        serviceRecordLogic = new ServiceRecordLogic();
+        reminderLogic = new ReminderLogic();
+
         setTitle("View Reminder Menu");
         setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -114,13 +120,13 @@ public class viewReminder extends JFrame {
             return;
         }
 
-        ServiceRecord serviceRecord = logicJava.getServiceRecordByDriverName(driverName);
+        ServiceRecord serviceRecord = serviceRecordLogic.getServiceRecordByDriverName(driverName);
         if (serviceRecord == null) {
             JOptionPane.showMessageDialog(this, "No service record found for the given driver name.");
             return;
         }
 
-        List<Reminder> reminders = logicJava.getRemindersByServiceRecordId(serviceRecord.getRecord_id());
+        List<Reminder> reminders = reminderLogic.getRemindersByServiceRecordId(serviceRecord.getRecord_id());
         if (reminders.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No reminders found for the given driver name.");
             return;

@@ -2,7 +2,8 @@ package com.ebcak.carmaintenancegui;
 
 import com.ebcak.carmaintenanceumple.Reminder;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
-import com.ebcak.carmaintenancelogiclayer.logicJava;
+import com.ebcak.carmaintenancelogiclayer.logicJava.ServiceRecordLogic;
+import com.ebcak.carmaintenancelogiclayer.logicJava.ReminderLogic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,10 +21,12 @@ public class addReminder extends JFrame {
     private JTextField txtKilometer;
     private JPanel infoPanel;
     private JTextField textField;
-    private logicJava logic;
+    private ServiceRecordLogic serviceRecordLogic;
+    private ReminderLogic reminderLogic;
 
     public addReminder() {
-        logic = new logicJava();
+        serviceRecordLogic = new ServiceRecordLogic();
+        reminderLogic = new ReminderLogic();
         setTitle("Edit Service Entry");
         setSize(1000, 700); // Pencere boyutu
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -158,7 +161,7 @@ public class addReminder extends JFrame {
             return;
         }
 
-        ServiceRecord serviceRecord = logic.getServiceRecordByDriverName(driverName);
+        ServiceRecord serviceRecord = serviceRecordLogic.getServiceRecordByDriverName(driverName);
         if (serviceRecord == null) {
             JOptionPane.showMessageDialog(this, "Service record not found for the driver name.");
             return;
@@ -194,7 +197,7 @@ public class addReminder extends JFrame {
             return;
         }
 
-        ServiceRecord serviceRecord = logic.getServiceRecordByDriverName(driverName);
+        ServiceRecord serviceRecord = serviceRecordLogic.getServiceRecordByDriverName(driverName);
         if (serviceRecord == null) {
             JOptionPane.showMessageDialog(this, "Service record not found for the driver name.");
             return;
@@ -202,7 +205,7 @@ public class addReminder extends JFrame {
 
         Reminder reminder = new Reminder(0, reminderDate, "Service", serviceRecord.getRecord_id(), serviceRecord);
 
-        boolean result = logic.addReminder(reminder);
+        boolean result = reminderLogic.add(reminder) == 0;
         if (result) {
             JOptionPane.showMessageDialog(this, "Reminder added successfully.");
         } else {
