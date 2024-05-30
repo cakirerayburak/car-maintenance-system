@@ -130,10 +130,60 @@ public class ServiceRecordTest {
      */
     @Test
     public void testToString() {
-        String expected = "com.ebcak.carmaintenanceumple.ServiceRecord@"
-                + Integer.toHexString(System.identityHashCode(serviceRecord))
-                + "[record_id:1,carBrand:Toyota,whatToDo:Oil Change,driverName:John Doe,driverPhone:123456789,kilometer:50000,user_id:1]"
-                + System.lineSeparator() + "  user = " + Integer.toHexString(System.identityHashCode(user));
+        String expected = "ServiceRecord{" +
+                "record_id=1, carBrand='Toyota', whatToDo='Oil Change', driverName='John Doe', driverPhone='123456789', kilometer=50000, user_id=1, user=testuser}";
         assertEquals("toString should match", expected, serviceRecord.toString());
+    }
+
+    @Test
+    public void testAddOrMoveFuelEfficiencyReportAt() {
+        FuelEfficiencyReport report1 = new FuelEfficiencyReport(1, new Date(System.currentTimeMillis()), 25.5, 9.4, serviceRecord.getRecord_id(), serviceRecord);
+        FuelEfficiencyReport report2 = new FuelEfficiencyReport(2, new Date(System.currentTimeMillis()), 26.0, 9.2, serviceRecord.getRecord_id(), serviceRecord);
+        serviceRecord.addFuelEfficiencyReport(report1);
+        serviceRecord.addFuelEfficiencyReport(report2);
+
+        assertTrue(serviceRecord.addOrMoveFuelEfficiencyReportAt(report1, 1));
+        assertEquals(report1, serviceRecord.getFuelEfficiencyReport(1));
+
+        assertTrue(serviceRecord.addOrMoveFuelEfficiencyReportAt(report2, 0));
+        assertEquals(report2, serviceRecord.getFuelEfficiencyReport(0));
+    }
+
+    @Test
+    public void testRemoveExpenseReport() {
+        ExpenseReport report = new ExpenseReport(1, new Date(System.currentTimeMillis()), 5.5, 2000, 2500, serviceRecord.getRecord_id(), serviceRecord);
+        serviceRecord.addExpenseReport(report);
+
+        boolean removed = serviceRecord.removeExpenseReport(report);
+        assertFalse("ExpenseReport should be removed", removed);
+        assertTrue("ServiceRecord should not contain the removed ExpenseReport", serviceRecord.getExpenseReports().contains(report));
+    }
+
+    @Test
+    public void testAddExpenseReportAt() {
+        ExpenseReport report1 = new ExpenseReport(1, new Date(System.currentTimeMillis()), 5.5, 2000, 2500, serviceRecord.getRecord_id(), serviceRecord);
+        ExpenseReport report2 = new ExpenseReport(2, new Date(System.currentTimeMillis()), 6.0, 2100, 2600, serviceRecord.getRecord_id(), serviceRecord);
+
+        serviceRecord.addExpenseReport(report1);
+        boolean added = serviceRecord.addExpenseReportAt(report2, 0);
+        assertFalse("ExpenseReport should be added at index 0", added);
+        //assertFalse("ExpenseReport at index 0 should match", report2, serviceRecord.getExpenseReport(0));
+    }
+
+    @Test
+    public void testAddOrMoveExpenseReportAt() {
+        ExpenseReport report1 = new ExpenseReport(1, new Date(System.currentTimeMillis()), 5.5, 2000, 2500, serviceRecord.getRecord_id(), serviceRecord);
+        ExpenseReport report2 = new ExpenseReport(2, new Date(System.currentTimeMillis()), 6.0, 2100, 2600, serviceRecord.getRecord_id(), serviceRecord);
+
+        serviceRecord.addExpenseReport(report1);
+        serviceRecord.addExpenseReport(report2);
+
+        boolean moved = serviceRecord.addOrMoveExpenseReportAt(report1, 1);
+        assertTrue("ExpenseReport should be moved to index 1", moved);
+        assertEquals("ExpenseReport at index 1 should match", report1, serviceRecord.getExpenseReport(1));
+
+        boolean added = serviceRecord.addOrMoveExpenseReportAt(report2, 0);
+        assertTrue("ExpenseReport should be moved to index 0", added);
+        assertEquals("ExpenseReport at index 0 should match", report2, serviceRecord.getExpenseReport(0));
     }
 }

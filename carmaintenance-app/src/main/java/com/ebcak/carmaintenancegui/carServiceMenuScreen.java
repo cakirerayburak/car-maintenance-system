@@ -45,16 +45,16 @@ public class carServiceMenuScreen extends JFrame {
         menuPanel.add(titlePanel);
 
         JButton btnFuelEfficiencyReports = new JButton("FUEL EFFICIENCY REPORTS MENU");
-        btnFuelEfficiencyReports.setBounds(20, 180, 950, 60);
+        btnFuelEfficiencyReports.setBounds(20, 390, 950, 60);
         btnFuelEfficiencyReports.setName("btnFuelEfficiencyReports");
         JButton btnExpenseRecords = new JButton("EXPENSE RECORDS MENU");
-        btnExpenseRecords.setBounds(20, 250, 950, 60);
+        btnExpenseRecords.setBounds(20, 320, 950, 60);
         btnExpenseRecords.setName("btnExpenseRecords");
         JButton btnServiceRecords = new JButton("SERVICE RECORDS MENU");
-        btnServiceRecords.setBounds(20, 320, 950, 60);
+        btnServiceRecords.setBounds(20, 180, 950, 60);
         btnServiceRecords.setName("btnServiceRecords");
         JButton btnMaintenanceReminders = new JButton("MAINTENANCE REMINDERS MENU");
-        btnMaintenanceReminders.setBounds(20, 390, 950, 60);
+        btnMaintenanceReminders.setBounds(20, 250, 950, 60);
         btnMaintenanceReminders.setName("btnMaintenanceReminders");
         JButton btnBack = new JButton("BACK");
         btnBack.setBounds(20, 460, 950, 60);

@@ -180,13 +180,13 @@ public class logExpenseMenu extends JFrame {
     private void listDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a driver name.");
+            showAutoClosingDialog("Please enter a driver name.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         ServiceRecord currentServiceRecord = userControlInstance.getServiceRecordByDriverName(driverName);
         if (currentServiceRecord == null) {
-            JOptionPane.showMessageDialog(this, "Service record not found for driver: " + driverName);
+            showAutoClosingDialog("Service record not found for driver: " + driverName, "Information", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -203,13 +203,13 @@ public class logExpenseMenu extends JFrame {
     private void addExpense() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a driver name.");
+            showAutoClosingDialog("Please enter a driver name.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         ServiceRecord currentServiceRecord = userControlInstance.getServiceRecordByDriverName(driverName);
         if (currentServiceRecord == null) {
-            JOptionPane.showMessageDialog(this, "Please list the driver information first.");
+            showAutoClosingDialog("Please list the driver information first.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -221,13 +221,28 @@ public class logExpenseMenu extends JFrame {
             boolean result = logicJavaInstance.addExpenseReport(currentServiceRecord.getDriverName(), fuelCost, yearlyCost, yearlyRepairCost);
 
             if (result) {
-                JOptionPane.showMessageDialog(this, "Expense logged successfully.");
+                showAutoClosingDialog("Expense logged successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Failed to log expense.");
+                showAutoClosingDialog("Failed to log expense.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter valid numeric values for costs.");
+            showAutoClosingDialog("Please enter valid numeric values for costs.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    /**
+     * @brief Shows a dialog that automatically closes after a specified time.
+     * @param message The message to display in the dialog.
+     * @param title The title of the dialog.
+     * @param messageType The type of message to display.
+     */
+    private void showAutoClosingDialog(String message, String title, int messageType) {
+        final JDialog dialog = new JOptionPane(message, messageType).createDialog(this, title);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        Timer timer = new Timer(1500, e -> dialog.dispose());
+        timer.setRepeats(false);
+        timer.start();
+        dialog.setVisible(true);
     }
 
     /**
