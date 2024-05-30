@@ -13,10 +13,6 @@ import com.ebcak.carmaintenancegui.userControl;
 
 import javax.swing.*;
 
-/**
- * @class editServiceEntryMenuTest
- * @brief Test class for editServiceEntryMenu GUI.
- */
 public class editServiceEntryMenuTest {
 
     private editServiceEntryMenu editMenu;
@@ -39,6 +35,7 @@ public class editServiceEntryMenuTest {
     @Before
     public void setUp() {
         editMenu = new editServiceEntryMenu();
+        // Initializing the GUI components using TestUtils to find them by their names
         txtDriverName = (JTextField) TestUtils.getChildNamed(editMenu, "txtDriverName");
         txtCarBrand = (JTextField) TestUtils.getChildNamed(editMenu, "txtCarBrand");
         txtWhatToDo = (JTextField) TestUtils.getChildNamed(editMenu, "txtWhatToDo");
@@ -50,11 +47,11 @@ public class editServiceEntryMenuTest {
         btnBack = (JButton) TestUtils.getChildNamed(editMenu, "btnBack");
         infoPanel = (JPanel) TestUtils.getChildNamed(editMenu, "infoPanel");
 
-        // Mock the userControl class
+        // Mocking the userControl class
         mockUserControl = mock(userControl.class);
         editMenu.userControlInstance = mockUserControl;
 
-        // Mock the User class
+        // Mocking the User class
         mockUser = mock(User.class);
     }
 
@@ -63,12 +60,16 @@ public class editServiceEntryMenuTest {
      */
     @Test
     public void testShowButtonWithValidDriver() {
-        ServiceRecord mockRecord = createMockServiceRecord("John Doe");
+        // Creating a mock ServiceRecord object with valid details
+        ServiceRecord mockRecord = new ServiceRecord(1, "Toyota", "Oil Change", "John Doe", "12345", 5000, 1, mockUser);
+        // Defining behavior for getServiceRecordByDriverName method when "John Doe" is provided
         when(mockUserControl.getServiceRecordByDriverName("John Doe")).thenReturn(mockRecord);
 
+        // Setting the driver's name and simulating the Show button click
         txtDriverName.setText("John Doe");
         btnShow.doClick();
 
+        // Asserting that the text fields are populated with the correct details from the mock record
         assertEquals("Toyota", txtCarBrand.getText());
         assertEquals("Oil Change", txtWhatToDo.getText());
         assertEquals("John Doe", txtDriverNameEdit.getText());
@@ -82,11 +83,14 @@ public class editServiceEntryMenuTest {
      */
     @Test
     public void testShowButtonWithInvalidDriver() {
+        // Defining behavior for getServiceRecordByDriverName method when an invalid name is provided
         when(mockUserControl.getServiceRecordByDriverName("Invalid Name")).thenReturn(null);
 
+        // Setting the driver's name to an invalid name and simulating the Show button click
         txtDriverName.setText("Invalid Name");
         btnShow.doClick();
 
+        // Asserting that the information panel is not visible as no valid record was found
         assertFalse(infoPanel.isVisible());
     }
 
@@ -95,21 +99,28 @@ public class editServiceEntryMenuTest {
      */
     @Test
     public void testEditButtonSuccess() {
-        ServiceRecord mockRecord = createMockServiceRecord("John Doe");
+        // Creating a mock ServiceRecord object with valid details
+        ServiceRecord mockRecord = new ServiceRecord(1, "Toyota", "Oil Change", "John Doe", "12345", 5000, 1, mockUser);
+        // Defining behavior for getServiceRecordByDriverName method when "John Doe" is provided
         when(mockUserControl.getServiceRecordByDriverName("John Doe")).thenReturn(mockRecord);
+        // Defining behavior for updateServiceRecord method to return true, indicating success
         when(mockUserControl.updateServiceRecord(anyInt(), anyString(), anyString(), anyString(), anyString(), anyInt())).thenReturn(true);
 
+        // Setting the driver's name and simulating the Show button click
         txtDriverName.setText("John Doe");
         btnShow.doClick();
 
+        // Modifying the text fields to new values
         txtCarBrand.setText("Honda");
         txtWhatToDo.setText("Brake Check");
         txtDriverNameEdit.setText("Jane Doe");
         txtContactNum.setText("67890");
         txtKilometer.setText("6000");
 
+        // Simulating the Edit button click
         btnEdit.doClick();
 
+        // Verifying that updateServiceRecord method was called with the correct arguments
         verify(mockUserControl).updateServiceRecord(
                 eq(1),
                 eq("Honda"),
@@ -127,21 +138,28 @@ public class editServiceEntryMenuTest {
      */
     @Test
     public void testEditButtonFailure() {
-        ServiceRecord mockRecord = createMockServiceRecord("John Doe");
+        // Creating a mock ServiceRecord object with valid details
+        ServiceRecord mockRecord = new ServiceRecord(1, "Toyota", "Oil Change", "John Doe", "12345", 5000, 1, mockUser);
+        // Defining behavior for getServiceRecordByDriverName method when "John Doe" is provided
         when(mockUserControl.getServiceRecordByDriverName("John Doe")).thenReturn(mockRecord);
+        // Defining behavior for updateServiceRecord method to return false, indicating failure
         when(mockUserControl.updateServiceRecord(anyInt(), anyString(), anyString(), anyString(), anyString(), anyInt())).thenReturn(false);
 
+        // Setting the driver's name and simulating the Show button click
         txtDriverName.setText("John Doe");
         btnShow.doClick();
 
+        // Modifying the text fields to new values
         txtCarBrand.setText("Honda");
         txtWhatToDo.setText("Brake Check");
         txtDriverNameEdit.setText("Jane Doe");
         txtContactNum.setText("67890");
         txtKilometer.setText("6000");
 
+        // Simulating the Edit button click
         btnEdit.doClick();
 
+        // Verifying that updateServiceRecord method was called with the correct arguments
         verify(mockUserControl).updateServiceRecord(
                 eq(1),
                 eq("Honda"),
@@ -159,6 +177,7 @@ public class editServiceEntryMenuTest {
      */
     @Test
     public void testBackButton() {
+        // Simulating the Back button click
         btnBack.doClick();
         // Assuming there is a way to verify serviceRecordsMenu is opened
         assertFalse(editMenu.isVisible());
@@ -166,14 +185,13 @@ public class editServiceEntryMenuTest {
 
     /**
      * @brief Helper method to create a mock ServiceRecord.
-     * @param driverName The name of the driver for the service record.
-     * @return A mock ServiceRecord object.
+     * @return A mock ServiceRecord object with predefined values.
      */
-    private ServiceRecord createMockServiceRecord(String driverName) {
+    private ServiceRecord createMockServiceRecord() {
         ServiceRecord mockRecord = mock(ServiceRecord.class);
         when(mockRecord.getCarBrand()).thenReturn("Toyota");
         when(mockRecord.getWhatToDo()).thenReturn("Oil Change");
-        when(mockRecord.getDriverName()).thenReturn(driverName);
+        when(mockRecord.getDriverName()).thenReturn("John Doe");
         when(mockRecord.getDriverPhone()).thenReturn("12345");
         when(mockRecord.getKilometer()).thenReturn(5000);
         return mockRecord;

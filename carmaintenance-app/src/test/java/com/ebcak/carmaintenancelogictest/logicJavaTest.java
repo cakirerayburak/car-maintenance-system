@@ -38,10 +38,9 @@ public class logicJavaTest {
     @Test
     public void testUserLogin() {
         String username = "testuser";
-        String password = "password";
+        String password = "password123";
 
         mock(DALUser.class);
-        when(DALUser.loginUser(username, password)).thenReturn(true);
 
         boolean loginResult = userLogic.login(username, password);
 
@@ -98,16 +97,9 @@ public class logicJavaTest {
         ExpenseReport expenseReport2 = new ExpenseReport(2, new Date(System.currentTimeMillis()), 60.0, 300.0, 1200.0, 1, serviceRecord);
 
         mock(DALServiceRecord.class);
-        when(DALServiceRecord.getServiceRecordByDriverName(driverName)).thenReturn(serviceRecord);
 
         mock(DALExpenseReport.class);
-        when(DALExpenseReport.getExpenseReportsByServiceRecordId(1)).thenReturn(Arrays.asList(expenseReport1, expenseReport2));
-
         List<ExpenseReport> expenseReports = expenseReportLogic.getExpenseReportsByDriverName(driverName);
-
-        assertNotNull(expenseReports);
-        assertEquals(2, expenseReports.size());
-        assertEquals(expenseReport1, expenseReports.get(0));
-        assertEquals(expenseReport2, expenseReports.get(1));
+        assertNotNull(expenseReports);assertEquals(2, expenseReports.size());assertEquals(expenseReport1, expenseReports.get(0));assertEquals(expenseReport2, expenseReports.get(1));
     }
 }
