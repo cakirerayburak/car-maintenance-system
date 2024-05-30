@@ -1,3 +1,8 @@
+/**
+ * @file serviceRecordsMenuTest.java
+ * @brief This file contains JUnit tests for the serviceRecordsMenu class.
+ */
+
 package guitests;
 
 import com.ebcak.carmaintenancegui.serviceRecordsMenu;
@@ -13,6 +18,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.awt.*;
 
+/**
+ * @brief JUnit tests for the serviceRecordsMenu class.
+ */
 public class serviceRecordsMenuTest {
 
     private serviceRecordsMenu serviceRecordsMenu;
@@ -22,6 +30,9 @@ public class serviceRecordsMenuTest {
     private JButton btnDeleteServiceEntry;
     private JButton btnBack;
 
+    /**
+     * @brief Sets up the necessary objects before each test.
+     */
     @Before
     public void setUp() {
         serviceRecordsMenu = new serviceRecordsMenu();
@@ -32,120 +43,150 @@ public class serviceRecordsMenuTest {
         btnBack = (JButton) TestUtils.getChildNamed(serviceRecordsMenu, "btnBack");
     }
 
+    /**
+     * @brief Test for the "CREATE SERVICE ENTRY" button.
+     */
     @Test
     public void testCreateServiceEntryButton() {
         assertNotNull(btnCreateServiceEntry);
-        // Butonun görünür olup olmadığını kontrol et
+        // Check if the button is visible
         assertTrue(btnCreateServiceEntry.isVisible());
-        // Butonun etiketini kontrol et
+        // Check the button label
         assertEquals("CREATE SERVICE ENTRY", btnCreateServiceEntry.getText());
     }
 
+    /**
+     * @brief Test for the "EDIT SERVICE ENTRY" button.
+     */
     @Test
     public void testEditServiceEntryButton() {
         assertNotNull(btnEditServiceEntry);
-        // Butonun görünür olup olmadığını kontrol et
+        // Check if the button is visible
         assertTrue(btnEditServiceEntry.isVisible());
-        // Butonun etiketini kontrol et
+        // Check the button label
         assertEquals("EDIT SERVICE ENTRY", btnEditServiceEntry.getText());
     }
 
+    /**
+     * @brief Test for the "SEARCH ENTRY" button.
+     */
     @Test
     public void testSearchEntryButton() {
         assertNotNull(btnSearchEntry);
-        // Butonun görünür olup olmadığını kontrol et
+        // Check if the button is visible
         assertTrue(btnSearchEntry.isVisible());
-        // Butonun etiketini kontrol et
+        // Check the button label
         assertEquals("SEARCH ENTRY", btnSearchEntry.getText());
     }
 
+    /**
+     * @brief Test for the "DELETE SERVICE ENTRY" button.
+     */
     @Test
     public void testDeleteServiceEntryButton() {
         assertNotNull(btnDeleteServiceEntry);
-        // Butonun görünür olup olmadığını kontrol et
+        // Check if the button is visible
         assertTrue(btnDeleteServiceEntry.isVisible());
-        // Butonun etiketini kontrol et
+        // Check the button label
         assertEquals("DELETE SERVICE ENTRY", btnDeleteServiceEntry.getText());
     }
 
+    /**
+     * @brief Test for the "BACK" button.
+     */
     @Test
     public void testBackButton() {
         assertNotNull(btnBack);
-        // Butonun görünür olup olmadığını kontrol et
+        // Check if the button is visible
         assertTrue(btnBack.isVisible());
-        // Butonun etiketini kontrol et
+        // Check the button label
         assertEquals("BACK", btnBack.getText());
     }
 
+    /**
+     * @brief Test action for the "CREATE SERVICE ENTRY" button.
+     */
     @Test
     public void testCreateServiceEntryButtonAction() {
-        // Yeni bir pencere açılmadan önce
+        // Before opening a new window
         Frame[] beforeFrames = Frame.getFrames();
         int beforeFrameCount = beforeFrames.length;
 
         btnCreateServiceEntry.doClick();
 
-        // Yeni bir pencere açıldıktan sonra
+        // After opening a new window
         Frame[] afterFrames = Frame.getFrames();
         int afterFrameCount = afterFrames.length;
 
         assertTrue(afterFrameCount > beforeFrameCount);
     }
 
+    /**
+     * @brief Test action for the "EDIT SERVICE ENTRY" button.
+     */
     @Test
     public void testEditServiceEntryButtonAction() {
-        // Yeni bir pencere açılmadan önce
+        // Before opening a new window
         Frame[] beforeFrames = Frame.getFrames();
         int beforeFrameCount = beforeFrames.length;
 
         btnEditServiceEntry.doClick();
 
-        // Yeni bir pencere açıldıktan sonra
+        // After opening a new window
         Frame[] afterFrames = Frame.getFrames();
         int afterFrameCount = afterFrames.length;
 
         assertTrue(afterFrameCount > beforeFrameCount);
     }
 
+    /**
+     * @brief Test action for the "SEARCH ENTRY" button.
+     */
     @Test
     public void testSearchEntryButtonAction() {
-        // Yeni bir pencere açılmadan önce
+        // Before opening a new window
         Frame[] beforeFrames = Frame.getFrames();
         int beforeFrameCount = beforeFrames.length;
 
         btnSearchEntry.doClick();
 
-        // Yeni bir pencere açıldıktan sonra
+        // After opening a new window
         Frame[] afterFrames = Frame.getFrames();
         int afterFrameCount = afterFrames.length;
 
         assertTrue(afterFrameCount > beforeFrameCount);
     }
 
+    /**
+     * @brief Test action for the "DELETE SERVICE ENTRY" button.
+     */
     @Test
     public void testDeleteServiceEntryButtonAction() {
-        // Yeni bir pencere açılmadan önce
+        // Before opening a new window
         Frame[] beforeFrames = Frame.getFrames();
         int beforeFrameCount = beforeFrames.length;
 
         btnDeleteServiceEntry.doClick();
 
-        // Yeni bir pencere açıldıktan sonra
+        // After opening a new window
         Frame[] afterFrames = Frame.getFrames();
         int afterFrameCount = afterFrames.length;
 
         assertTrue(afterFrameCount > beforeFrameCount);
     }
 
+    /**
+     * @brief Test action for the "BACK" button.
+     */
     @Test
     public void testBackButtonAction() {
-        // Yeni bir pencere açılmadan önce
+        // Before opening a new window
         Frame[] beforeFrames = Frame.getFrames();
         int beforeFrameCount = beforeFrames.length;
 
         btnBack.doClick();
 
-        // Yeni bir pencere açıldıktan sonra
+        // After opening a new window
         Frame[] afterFrames = Frame.getFrames();
         int afterFrameCount = afterFrames.length;
 

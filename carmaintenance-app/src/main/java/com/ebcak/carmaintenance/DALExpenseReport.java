@@ -1,3 +1,8 @@
+/**
+ * @file DALExpenseReport.java
+ * @brief This file contains data access layer methods for ExpenseReport operations.
+ */
+
 package com.ebcak.carmaintenance;
 
 import com.ebcak.carmaintenanceumple.ExpenseReport;
@@ -11,6 +16,11 @@ import java.util.List;
 
 public class DALExpenseReport {
 
+    /**
+     * @brief Adds a new expense report to the database.
+     * @param expenseReport The expense report to be added.
+     * @return true if the expense report is successfully added, false otherwise.
+     */
     public static boolean addExpenseReport(ExpenseReport expenseReport) {
         String sql = "INSERT INTO expense_report(report_date, daily_fuel, annual_fuel, total_cost, service_record_id) VALUES(?, ?, ?, ?, ?)";
         Connection conn = databaseConnection.getInstance("jdbc:sqlite:./SQLite/carMaintenanceDatabase.db").getConnection();
@@ -29,6 +39,11 @@ public class DALExpenseReport {
         }
     }
 
+    /**
+     * @brief Retrieves a list of expense reports associated with a given service record ID.
+     * @param serviceRecordId The ID of the service record.
+     * @return A list of expense reports associated with the given service record ID.
+     */
     public static List<ExpenseReport> getExpenseReportsByServiceRecordId(int serviceRecordId) {
         List<ExpenseReport> expenseReports = new ArrayList<>();
         String sql = "SELECT report_id, report_date, daily_fuel, annual_fuel, total_cost FROM expense_report WHERE service_record_id = ?";
@@ -58,6 +73,11 @@ public class DALExpenseReport {
         return expenseReports;
     }
 
+    /**
+     * @brief Retrieves a list of expense reports associated with a given driver name.
+     * @param driverName The name of the driver.
+     * @return A list of expense reports associated with the given driver name.
+     */
     public static List<ExpenseReport> getExpenseReportsByDriverName(String driverName) {
         ServiceRecord serviceRecord = DALServiceRecord.getServiceRecordByDriverName(driverName);
         if (serviceRecord != null) {

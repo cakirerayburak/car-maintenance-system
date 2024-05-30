@@ -1,25 +1,34 @@
+/**
+ * @file fuelEfficiencyReportsMenuTest.java
+ * @brief Bu dosya, fuelEfficiencyReportsMenu sınıfının JUnit testlerini içerir.
+ */
+
 package guitests;
 
 import org.junit.Before;
 import org.junit.Test;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
 
 import com.ebcak.carmaintenancegui.fuelEfficiencyReportsMenu;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @brief fuelEfficiencyReportsMenu sınıfının JUnit testleri.
+ */
 public class fuelEfficiencyReportsMenuTest {
 
     private fuelEfficiencyReportsMenu fuelEfficiencyReportsMenu;
     private JButton btnCreateReports;
     private JButton btnBack;
 
+    /**
+     * @brief Testlerin öncesinde yürütülecek işlemleri hazırlar.
+     */
     @Before
     public void setUp() {
         fuelEfficiencyReportsMenu = new fuelEfficiencyReportsMenu();
@@ -27,6 +36,9 @@ public class fuelEfficiencyReportsMenuTest {
         btnBack = (JButton) TestUtils.getChildNamed(fuelEfficiencyReportsMenu, "btnBack");
     }
 
+    /**
+     * @brief "CREATE REPORTS" butonunun testi.
+     */
     @Test
     public void testCreateReportsButton() {
         assertNotNull(btnCreateReports);
@@ -36,6 +48,9 @@ public class fuelEfficiencyReportsMenuTest {
         assertEquals("CREATE REPORTS", btnCreateReports.getText());
     }
 
+    /**
+     * @brief "BACK" butonunun testi.
+     */
     @Test
     public void testBackButton() {
         assertNotNull(btnBack);
@@ -45,6 +60,9 @@ public class fuelEfficiencyReportsMenuTest {
         assertEquals("BACK", btnBack.getText());
     }
 
+    /**
+     * @brief "CREATE REPORTS" butonunun eyleminin testi.
+     */
     @Test
     public void testCreateReportsButtonAction() {
         // Yeni bir pencere açılmadan önce
@@ -60,6 +78,9 @@ public class fuelEfficiencyReportsMenuTest {
         assertTrue(afterFrameCount > beforeFrameCount);
     }
 
+    /**
+     * @brief "BACK" butonunun eyleminin testi.
+     */
     @Test
     public void testBackButtonAction() {
         // Yeni bir pencere açılmadan önce

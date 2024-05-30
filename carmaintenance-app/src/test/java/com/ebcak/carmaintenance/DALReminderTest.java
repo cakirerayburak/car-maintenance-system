@@ -1,3 +1,8 @@
+/**
+ * @file DALReminderTest.java
+ * @brief This file contains unit tests for the DALReminder class.
+ */
+
 package com.ebcak.carmaintenance;
 
 import com.ebcak.carmaintenanceumple.Reminder;
@@ -19,11 +24,18 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * @class DALReminderTest
+ * @brief Unit tests for the DALReminder class.
+ */
 public class DALReminderTest {
 
     private Connection connection;
     private static final String TEST_DB_URL = "jdbc:sqlite:./SQLite/test_carMaintenanceDatabase.db";
 
+    /**
+     * @brief Set up the database connection and create tables before each test.
+     */
     @Before
     public void setUp() {
         connection = databaseConnection.getInstance(TEST_DB_URL).getConnection();
@@ -58,6 +70,9 @@ public class DALReminderTest {
         }
     }
 
+    /**
+     * @brief Test case for adding a reminder.
+     */
     @Test
     public void testAddReminder() {
         String username = "testuser";
@@ -80,6 +95,9 @@ public class DALReminderTest {
         assertTrue("Reminder addition should be successful", result);
     }
 
+    /**
+     * @brief Test case for retrieving reminders by service record ID.
+     */
     @Test
     public void testGetRemindersByServiceRecordId() {
         String username = "testuser2";
@@ -106,6 +124,9 @@ public class DALReminderTest {
         assertFalse("Reminders list should not be empty", reminders.isEmpty());
     }
 
+    /**
+     * @brief Test case for handling SQLException when retrieving reminders by service record ID.
+     */
     @Test
     public void testGetRemindersByServiceRecordIdWithSQLException() {
         // Mock the DALReminder.getConnection method to throw SQLException
@@ -137,6 +158,9 @@ public class DALReminderTest {
         assertTrue("Reminders list should be empty due to SQLException", reminders.isEmpty());
     }
 
+    /**
+     * @brief Tear down the database connection and delete the test database after each test.
+     */
     @After
     public void tearDown() {
         if (connection != null) {

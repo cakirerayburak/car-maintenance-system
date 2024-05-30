@@ -1,3 +1,8 @@
+/**
+ * @file fuelEfficiencyReportsMenu.java
+ * @brief This file contains the GUI class for the Fuel Efficiency Reports Menu in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import java.awt.Color;
@@ -11,6 +16,9 @@ import javax.swing.SwingUtilities;
 
 public class fuelEfficiencyReportsMenu extends JFrame {
 
+    /**
+     * @brief Constructor for fuelEfficiencyReportsMenu class to initialize the GUI components.
+     */
     public fuelEfficiencyReportsMenu() {
         setTitle("Fuel Efficiency Reports Menu");
         setSize(1000, 700);
@@ -72,6 +80,10 @@ public class fuelEfficiencyReportsMenu extends JFrame {
         });
     }
 
+    /**
+     * @brief Main method to run the fuelEfficiencyReportsMenu GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

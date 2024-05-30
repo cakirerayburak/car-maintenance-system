@@ -1,5 +1,9 @@
-package guitests;
+/**
+ * @file expenseRecordsMenuTest.java
+ * @brief Bu dosya, expenseRecordsMenu sınıfının JUnit testlerini içerir.
+ */
 
+package guitests;
 
 import com.ebcak.carmaintenancegui.expenseRecordsMenu;
 
@@ -14,6 +18,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.awt.*;
 
+/**
+ * @brief expenseRecordsMenu sınıfının JUnit testleri.
+ */
 public class expenseRecordsMenuTest {
 
     private expenseRecordsMenu expenseRecordsMenu;
@@ -21,6 +28,9 @@ public class expenseRecordsMenuTest {
     private JButton btnViewExpense;
     private JButton btnBack;
 
+    /**
+     * @brief Testlerin öncesinde yürütülecek işlemleri hazırlar.
+     */
     @Before
     public void setUp() {
         expenseRecordsMenu = new expenseRecordsMenu();
@@ -29,6 +39,9 @@ public class expenseRecordsMenuTest {
         btnBack = (JButton) TestUtils.getChildNamed(expenseRecordsMenu, "btnBack");
     }
 
+    /**
+     * @brief "LOG EXPENSE" butonunun testi.
+     */
     @Test
     public void testLogExpenseButton() {
         assertNotNull(btnLogExpense);
@@ -38,6 +51,9 @@ public class expenseRecordsMenuTest {
         assertEquals("LOG EXPENSE", btnLogExpense.getText());
     }
 
+    /**
+     * @brief "VIEW EXPENSE" butonunun testi.
+     */
     @Test
     public void testViewExpenseButton() {
         assertNotNull(btnViewExpense);
@@ -47,6 +63,9 @@ public class expenseRecordsMenuTest {
         assertEquals("VIEW EXPENSE", btnViewExpense.getText());
     }
 
+    /**
+     * @brief "BACK" butonunun testi.
+     */
     @Test
     public void testBackButton() {
         assertNotNull(btnBack);
@@ -56,6 +75,9 @@ public class expenseRecordsMenuTest {
         assertEquals("BACK", btnBack.getText());
     }
 
+    /**
+     * @brief "LOG EXPENSE" butonunun eyleminin testi.
+     */
     @Test
     public void testLogExpenseButtonAction() {
         // Yeni bir pencere açılmadan önce
@@ -71,6 +93,9 @@ public class expenseRecordsMenuTest {
         assertTrue(afterFrameCount > beforeFrameCount);
     }
 
+    /**
+     * @brief "VIEW EXPENSE" butonunun eyleminin testi.
+     */
     @Test
     public void testViewExpenseButtonAction() {
         // Yeni bir pencere açılmadan önce
@@ -86,6 +111,9 @@ public class expenseRecordsMenuTest {
         assertTrue(afterFrameCount > beforeFrameCount);
     }
 
+    /**
+     * @brief "BACK" butonunun eyleminin testi.
+     */
     @Test
     public void testBackButtonAction() {
         // Yeni bir pencere açılmadan önce

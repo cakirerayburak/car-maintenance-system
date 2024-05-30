@@ -1,3 +1,8 @@
+/**
+ * @file carServiceMenuScreen.java
+ * @brief This file contains the GUI class for the Car Service Menu in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import java.awt.Color;
@@ -12,6 +17,9 @@ import javax.swing.SwingUtilities;
 
 public class carServiceMenuScreen extends JFrame {
 
+    /**
+     * @brief Constructor for carServiceMenuScreen class to initialize the GUI components.
+     */
     public carServiceMenuScreen() {
         setTitle("Car Service Menu");
         setSize(1000, 700);
@@ -111,6 +119,10 @@ public class carServiceMenuScreen extends JFrame {
         });
     }
 
+    /**
+     * @brief Main method to run the carServiceMenuScreen GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new carServiceMenuScreen().setVisible(true));
     }

@@ -1,3 +1,8 @@
+/**
+ * @file viewReminder.java
+ * @brief This file contains the class for viewing reminders.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import com.ebcak.carmaintenancelogiclayer.logicJava.ServiceRecordLogic;
@@ -9,6 +14,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * @class viewReminder
+ * @brief Class for viewing reminders for a service record.
+ */
 public class viewReminder extends JFrame {
 
     private JTextField txtDriverName;
@@ -20,6 +29,9 @@ public class viewReminder extends JFrame {
     private ServiceRecordLogic serviceRecordLogic;
     private ReminderLogic reminderLogic;
 
+    /**
+     * @brief Constructor for initializing the view reminder menu.
+     */
     public viewReminder() {
         serviceRecordLogic = new ServiceRecordLogic();
         reminderLogic = new ReminderLogic();
@@ -30,13 +42,13 @@ public class viewReminder extends JFrame {
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
 
-        // Uygulamanın arka plan rengini ayarla
+        // Set background color
         getContentPane().setBackground(new Color(0x023F5C));
 
-        // Başlık paneli ekle
-        roundedPanelUI titlePanel = new roundedPanelUI(30); // Yuvarlak köşe yarıçapı
+        // Add title panel
+        roundedPanelUI titlePanel = new roundedPanelUI(30); // Rounded corners with radius 30
         titlePanel.setBounds(20, 25, 950, 130);
-        titlePanel.setBackground(new Color(24, 154, 180)); // Turkuaz
+        titlePanel.setBackground(new Color(24, 154, 180)); // Turquoise color
         titlePanel.setLayout(null);
         JLabel lblTitle = new JLabel("VIEW REMINDER MENU");
         lblTitle.setBounds(385, 43, 280, 32);
@@ -45,11 +57,11 @@ public class viewReminder extends JFrame {
         titlePanel.add(lblTitle);
 
         JPanel formPanel = new JPanel();
-        formPanel.setOpaque(false); // Arka planın görünmesini sağlamak için paneli şeffaf yap
+        formPanel.setOpaque(false); // Transparent background
         formPanel.setLayout(null);
         formPanel.add(titlePanel);
 
-        // lblDriverName ekle
+        // Add driver name label
         JLabel lblDriverName = new JLabel("Driver Name:");
         lblDriverName.setBounds(385, 180, 230, 30);
         lblDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
@@ -61,22 +73,22 @@ public class viewReminder extends JFrame {
         txtDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
         formPanel.add(txtDriverName);
 
-        // btnList ekle
+        // Add list button
         JButton btnList = new JButton("List");
         btnList.setBounds(625, 220, 100, 30);
-        btnList.setBackground(new Color(0, 51, 153)); // Mavi renk
+        btnList.setBackground(new Color(0, 51, 153)); // Blue color
         btnList.setForeground(Color.WHITE);
         btnList.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnList.setUI(new roundedButtonUI());
         formPanel.add(btnList);
 
-        // Bilgi paneli ekle
+        // Add info panel
         infoPanel = new JPanel();
         infoPanel.setBounds(385, 270, 340, 160);
-        infoPanel.setBackground(new Color(204, 255, 204)); // Açık yeşil renk
+        infoPanel.setBackground(new Color(204, 255, 204)); // Light green color
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setBorder(BorderFactory.createTitledBorder("Car and Kilometer Info"));
-        infoPanel.setVisible(false); // İlk başta gizli
+        infoPanel.setVisible(false); // Initially hidden
 
         lblBrand = new JLabel("Brand:");
         lblBrand.setFont(new Font("SansSerif", Font.PLAIN, 18));
@@ -96,16 +108,16 @@ public class viewReminder extends JFrame {
 
         getContentPane().add(formPanel, BorderLayout.CENTER);
 
-        // Alt kısım: Back butonu
+        // Add back button
         JButton btnBack = new JButton("Back");
         btnBack.setBounds(385, 463, 345, 56);
-        btnBack.setBackground(new Color(238, 98, 3)); // Açık mavi renk
+        btnBack.setBackground(new Color(238, 98, 3)); // Light blue color
         btnBack.setForeground(Color.WHITE);
         btnBack.setFont(new Font("SansSerif", Font.BOLD, 18));
         btnBack.setUI(new roundedButtonUI());
         formPanel.add(btnBack);
 
-        // Butonlara tıklama işlemleri
+        // Button action listeners
         btnList.addActionListener(e -> listDriverInfo());
         btnBack.addActionListener(e -> {
             dispose();
@@ -113,6 +125,9 @@ public class viewReminder extends JFrame {
         });
     }
 
+    /**
+     * @brief Lists driver information and reminders.
+     */
     private void listDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
@@ -132,21 +147,20 @@ public class viewReminder extends JFrame {
             return;
         }
 
-        Reminder reminder = reminders.get(0); // İlk hatırlatmayı göster
+        Reminder reminder = reminders.get(0); // Displaying the first reminder for simplicity
         lblBrand.setText("Brand: " + serviceRecord.getCarBrand());
         lblDriver.setText("Driver Name: " + serviceRecord.getDriverName());
         lblKilometer.setText("Kilometer: " + serviceRecord.getKilometer());
         lblReminder.setText("Reminder: " + reminder.getReminderDate().toString());
 
-        infoPanel.setVisible(true); // Bilgileri göster
+        infoPanel.setVisible(true); // Show information
     }
 
+    /**
+     * @brief Main method to run the view reminder menu.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new viewReminder().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new viewReminder().setVisible(true));
     }
 }

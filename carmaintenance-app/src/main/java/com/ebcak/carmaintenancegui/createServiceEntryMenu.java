@@ -1,3 +1,8 @@
+/**
+ * @file createServiceEntryMenu.java
+ * @brief This file contains the GUI class for creating a service entry in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import java.awt.BorderLayout;
@@ -24,6 +29,9 @@ public class createServiceEntryMenu extends JFrame {
     private JTextField txtKilometer;
     public userControl userControlInstance;
 
+    /**
+     * @brief Constructor for createServiceEntryMenu class to initialize the GUI components.
+     */
     public createServiceEntryMenu() {
         userControlInstance = new userControl();
         
@@ -151,6 +159,9 @@ public class createServiceEntryMenu extends JFrame {
         });
     }
 
+    /**
+     * @brief Adds a service entry based on the entered details.
+     */
     private void addServiceEntry() {
         String carBrand = txtCarBrand.getText();
         String whatToDo = txtWhatToDo.getText();
@@ -174,6 +185,11 @@ public class createServiceEntryMenu extends JFrame {
         }
     }
 
+    /**
+     * @brief Displays an auto-closing dialog with the specified message.
+     * @param message The message to display in the dialog.
+     * @param milliseconds The duration for which the dialog should be displayed.
+     */
     private void showAutoClosingDialog(String message, int milliseconds) {
         final JOptionPane optionPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
         final JDialog dialog = optionPane.createDialog(this, "Message");
@@ -190,6 +206,10 @@ public class createServiceEntryMenu extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * @brief Main method to run the createServiceEntryMenu GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

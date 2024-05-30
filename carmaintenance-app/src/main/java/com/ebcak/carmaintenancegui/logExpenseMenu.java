@@ -1,3 +1,8 @@
+/**
+ * @file logExpenseMenu.java
+ * @brief This file contains the GUI class for logging an expense in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import com.ebcak.carmaintenancelogiclayer.logicJava;
@@ -21,6 +26,9 @@ public class logExpenseMenu extends JFrame {
     public userControl userControlInstance; // Public for testing purposes
     private static logicJava.ExpenseReportLogic logicJavaInstance; // Static reference to logicJava
 
+    /**
+     * @brief Constructor for logExpenseMenu class to initialize the GUI components.
+     */
     public logExpenseMenu() {
         userControlInstance = new userControl();
 
@@ -166,6 +174,9 @@ public class logExpenseMenu extends JFrame {
         btnAdd.addActionListener(e -> addExpense());
     }
 
+    /**
+     * @brief Lists the driver information based on the entered driver name.
+     */
     private void listDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
@@ -186,6 +197,9 @@ public class logExpenseMenu extends JFrame {
         infoPanel.setVisible(true); // Bilgileri göster
     }
 
+    /**
+     * @brief Adds an expense based on the entered details.
+     */
     private void addExpense() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
@@ -216,10 +230,18 @@ public class logExpenseMenu extends JFrame {
         }
     }
 
+    /**
+     * @brief Sets the logicJava instance for expense report operations.
+     * @param instance The logicJava.ExpenseReportLogic instance.
+     */
     public static void setLogicJavaInstance(logicJava.ExpenseReportLogic instance) {
         logicJavaInstance = instance;
     }
 
+    /**
+     * @brief Main method to run the logExpenseMenu GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new logExpenseMenu().setVisible(true));
     }

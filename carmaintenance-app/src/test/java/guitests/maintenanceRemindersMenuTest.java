@@ -1,5 +1,9 @@
-package guitests;
+/**
+ * @file maintenanceRemindersMenuTest.java
+ * @brief Bu dosya, maintenanceRemindersMenu sınıfının JUnit testlerini içerir.
+ */
 
+package guitests;
 
 import com.ebcak.carmaintenancegui.maintenanceRemindersMenu;
 
@@ -14,6 +18,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.awt.*;
 
+/**
+ * @brief maintenanceRemindersMenu sınıfının JUnit testleri.
+ */
 public class maintenanceRemindersMenuTest {
 
     private maintenanceRemindersMenu maintenanceRemindersMenu;
@@ -21,6 +28,9 @@ public class maintenanceRemindersMenuTest {
     private JButton btnViewReminder;
     private JButton btnBack;
 
+    /**
+     * @brief Testlerin öncesinde yürütülecek işlemleri hazırlar.
+     */
     @Before
     public void setUp() {
         maintenanceRemindersMenu = new maintenanceRemindersMenu();
@@ -29,6 +39,9 @@ public class maintenanceRemindersMenuTest {
         btnBack = (JButton) TestUtils.getChildNamed(maintenanceRemindersMenu, "btnBack");
     }
 
+    /**
+     * @brief "SET REMINDER" butonunun testi.
+     */
     @Test
     public void testSetReminderButton() {
         assertNotNull(btnSetReminder);
@@ -38,6 +51,9 @@ public class maintenanceRemindersMenuTest {
         assertEquals("SET REMINDER", btnSetReminder.getText());
     }
 
+    /**
+     * @brief "VIEW REMINDER" butonunun testi.
+     */
     @Test
     public void testViewReminderButton() {
         assertNotNull(btnViewReminder);
@@ -47,6 +63,9 @@ public class maintenanceRemindersMenuTest {
         assertEquals("VIEW REMINDER", btnViewReminder.getText());
     }
 
+    /**
+     * @brief "BACK" butonunun testi.
+     */
     @Test
     public void testBackButton() {
         assertNotNull(btnBack);
@@ -56,6 +75,9 @@ public class maintenanceRemindersMenuTest {
         assertEquals("BACK", btnBack.getText());
     }
 
+    /**
+     * @brief "SET REMINDER" butonunun eyleminin testi.
+     */
     @Test
     public void testSetReminderButtonAction() {
         // Yeni bir pencere açılmadan önce
@@ -71,6 +93,9 @@ public class maintenanceRemindersMenuTest {
         assertTrue(afterFrameCount > beforeFrameCount);
     }
 
+    /**
+     * @brief "VIEW REMINDER" butonunun eyleminin testi.
+     */
     @Test
     public void testViewReminderButtonAction() {
         // Yeni bir pencere açılmadan önce
@@ -86,6 +111,9 @@ public class maintenanceRemindersMenuTest {
         assertTrue(afterFrameCount > beforeFrameCount);
     }
 
+    /**
+     * @brief "BACK" butonunun eyleminin testi.
+     */
     @Test
     public void testBackButtonAction() {
         // Yeni bir pencere açılmadan önce

@@ -1,3 +1,8 @@
+/**
+ * @file maintenanceRemindersMenu.java
+ * @brief This file contains the GUI class for the Maintenance Reminders Menu in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import java.awt.BorderLayout;
@@ -13,6 +18,9 @@ import java.awt.event.ActionEvent;
 
 public class maintenanceRemindersMenu extends JFrame {
 
+    /**
+     * @brief Constructor for maintenanceRemindersMenu class to initialize the GUI components.
+     */
     public maintenanceRemindersMenu() {
         setTitle("Maintenance Reminders Menu");
         setSize(1000, 700); // Pencere boyutunu artırabiliriz
@@ -95,6 +103,10 @@ public class maintenanceRemindersMenu extends JFrame {
         });
     }
 
+    /**
+     * @brief Main method to run the maintenanceRemindersMenu GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

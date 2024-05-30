@@ -12,17 +12,27 @@ import java.sql.Date;
 
 import static org.junit.Assert.*;
 
+/**
+ * @class ServiceRecordTest
+ * @brief Test class for testing ServiceRecord functionalities.
+ */
 public class ServiceRecordTest {
 
     private User user;
     private ServiceRecord serviceRecord;
 
+    /**
+     * @brief Setup method to initialize objects before each test.
+     */
     @Before
     public void setUp() {
         user = new User(1, "testuser", "password123", "testuser@example.com");
         serviceRecord = new ServiceRecord(1, "Toyota", "Oil Change", "John Doe", "123456789", 50000, user.getUser_id(), user);
     }
 
+    /**
+     * @brief Test method to verify the creation of a ServiceRecord object.
+     */
     @Test
     public void testCreateServiceRecord() {
         assertNotNull("ServiceRecord should be created successfully", serviceRecord);
@@ -36,11 +46,18 @@ public class ServiceRecordTest {
         assertEquals("User should match", user, serviceRecord.getUser());
     }
 
+    /**
+     * @brief Test method to verify the creation of a ServiceRecord without a User.
+     * @throws RuntimeException when a null User is provided.
+     */
     @Test(expected = RuntimeException.class)
     public void testCreateServiceRecordWithoutUser() {
         new ServiceRecord(2, "Honda", "Tire Change", "Jane Doe", "987654321", 60000, 2, null);
     }
 
+    /**
+     * @brief Test method to verify getters and setters of ServiceRecord.
+     */
     @Test
     public void testSettersAndGetters() {
         serviceRecord.setRecord_id(2);
@@ -60,6 +77,9 @@ public class ServiceRecordTest {
         assertEquals("User ID should match", 2, serviceRecord.getUser_id());
     }
 
+    /**
+     * @brief Test method to verify the association between ServiceRecord and Reminder.
+     */
     @Test
     public void testReminderAssociation() {
         Reminder reminder = new Reminder(1, new Date(System.currentTimeMillis()), "Check Engine", serviceRecord.getRecord_id(), serviceRecord);
@@ -69,6 +89,9 @@ public class ServiceRecordTest {
         assertEquals("Reminder's ServiceRecord should match", serviceRecord, reminder.getServiceRecord());
     }
 
+    /**
+     * @brief Test method to verify the association between ServiceRecord and FuelEfficiencyReport.
+     */
     @Test
     public void testFuelEfficiencyReportAssociation() {
         FuelEfficiencyReport report = new FuelEfficiencyReport(1, new Date(System.currentTimeMillis()), 25.5, 9.4, serviceRecord.getRecord_id(), serviceRecord);
@@ -78,6 +101,9 @@ public class ServiceRecordTest {
         assertEquals("FuelEfficiencyReport's ServiceRecord should match", serviceRecord, report.getServiceRecord());
     }
 
+    /**
+     * @brief Test method to verify the association between ServiceRecord and ExpenseReport.
+     */
     @Test
     public void testExpenseReportAssociation() {
         ExpenseReport report = new ExpenseReport(1, new Date(System.currentTimeMillis()), 5.5, 2000, 2500, serviceRecord.getRecord_id(), serviceRecord);
@@ -87,6 +113,9 @@ public class ServiceRecordTest {
         assertEquals("ExpenseReport's ServiceRecord should match", serviceRecord, report.getServiceRecord());
     }
 
+    /**
+     * @brief Test method to verify the deletion of a ServiceRecord.
+     */
     @Test
     public void testDeleteServiceRecord() {
         serviceRecord.delete();
@@ -96,6 +125,9 @@ public class ServiceRecordTest {
         assertTrue("ExpenseReports should be empty after delete", serviceRecord.getExpenseReports().isEmpty());
     }
 
+    /**
+     * @brief Test method to verify the toString method of ServiceRecord.
+     */
     @Test
     public void testToString() {
         String expected = "com.ebcak.carmaintenanceumple.ServiceRecord@"

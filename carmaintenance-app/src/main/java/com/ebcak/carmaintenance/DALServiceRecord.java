@@ -1,3 +1,7 @@
+/**
+ * @file DALServiceRecord.java
+ * @brief This file contains data access layer methods for ServiceRecord operations.
+ */
 
 package com.ebcak.carmaintenance;
 
@@ -13,10 +17,19 @@ import com.ebcak.carmaintenanceumple.User;
 
 public class DALServiceRecord {
 
+    /**
+     * @brief Retrieves a connection to the database.
+     * @return A Connection object to the database.
+     */
     private static Connection getConnection() {
         return databaseConnection.getInstance("jdbc:sqlite:./SQLite/carMaintenanceDatabase.db").getConnection();
     }
 
+    /**
+     * @brief Adds a new service record to the database.
+     * @param serviceRecord The service record to be added.
+     * @return true if the service record is successfully added, false otherwise.
+     */
     public static boolean addServiceRecord(ServiceRecord serviceRecord) {
         String sql = "INSERT INTO service_record(car_brand, what_to_do, driver_name, driver_phone, kilometer, user_id) VALUES(?, ?, ?, ?, ?, ?)";
         Connection conn = getConnection();
@@ -29,13 +42,18 @@ public class DALServiceRecord {
             pstmt.setInt(5, serviceRecord.getKilometer());
             pstmt.setInt(6, serviceRecord.getUser_id());
             int result = pstmt.executeUpdate();
-            return result > 0;  
+            return result > 0;
         } catch (SQLException e) {
             System.out.println("An error occurred during adding service record: " + e.getMessage());
             return false;
         }
     }
 
+    /**
+     * @brief Updates an existing service record in the database.
+     * @param serviceRecord The service record to be updated.
+     * @return true if the service record is successfully updated, false otherwise.
+     */
     public static boolean updateServiceRecord(ServiceRecord serviceRecord) {
         String sql = "UPDATE service_record SET car_brand = ?, what_to_do = ?, driver_name = ?, driver_phone = ?, kilometer = ?, user_id = ? WHERE record_id = ?";
         Connection conn = getConnection();
@@ -53,9 +71,14 @@ public class DALServiceRecord {
         } catch (SQLException e) {
             System.out.println("An error occurred during updating service record: " + e.getMessage());
             return false;
-        } 
+        }
     }
 
+    /**
+     * @brief Retrieves a service record by driver name.
+     * @param driverName The name of the driver.
+     * @return A ServiceRecord object if found, null otherwise.
+     */
     public static ServiceRecord getServiceRecordByDriverName(String driverName) {
         String sql = "SELECT * FROM service_record WHERE driver_name = ?";
         Connection conn = getConnection();
@@ -63,7 +86,7 @@ public class DALServiceRecord {
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, driverName);
             ResultSet rs = pstmt.executeQuery();
-            
+
             if (rs.next()) {
                 int recordId = rs.getInt("record_id");
                 String carBrand = rs.getString("car_brand");
@@ -79,16 +102,21 @@ public class DALServiceRecord {
         }
         return null;
     }
-    
+
+    /**
+     * @brief Searches service records by a given search term.
+     * @param searchTerm The search term to be used.
+     * @return A list of service records matching the search term.
+     */
     public static List<ServiceRecord> searchServiceRecords(String searchTerm) {
         List<ServiceRecord> serviceRecords = new ArrayList<>();
         String sql = "SELECT * FROM service_record WHERE driver_name LIKE ?";
         Connection conn = getConnection();
-        
+
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, "%" + searchTerm + "%");
             ResultSet rs = pstmt.executeQuery();
-            
+
             while (rs.next()) {
                 int recordId = rs.getInt("record_id");
                 String carBrand = rs.getString("car_brand");
@@ -106,10 +134,16 @@ public class DALServiceRecord {
         }
         return serviceRecords;
     }
+
+    /**
+     * @brief Deletes a service record by driver name.
+     * @param driverName The name of the driver.
+     * @return true if the service record is successfully deleted, false otherwise.
+     */
     public static boolean deleteServiceRecordByDriverName(String driverName) {
         String sql = "DELETE FROM service_record WHERE driver_name = ?";
         Connection conn = getConnection();
-        
+
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, driverName);
             int affectedRows = pstmt.executeUpdate();
@@ -119,6 +153,12 @@ public class DALServiceRecord {
             return false;
         }
     }
+
+    /**
+     * @brief Retrieves a service record by record ID.
+     * @param recordId The ID of the service record.
+     * @return A ServiceRecord object if found, null otherwise.
+     */
     public static ServiceRecord getServiceRecordById(int recordId) {
         String sql = "SELECT * FROM service_record WHERE record_id = ?";
         Connection conn = databaseConnection.getInstance("jdbc:sqlite:./SQLite/carMaintenanceDatabase.db").getConnection();

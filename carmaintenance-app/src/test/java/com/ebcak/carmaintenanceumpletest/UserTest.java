@@ -9,15 +9,25 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * @class UserTest
+ * @brief Test class for testing User functionalities.
+ */
 public class UserTest {
 
     private User user;
 
+    /**
+     * @brief Setup method to initialize objects before each test.
+     */
     @Before
     public void setUp() {
         user = new User(1, "testuser", "password123", "testuser@example.com");
     }
 
+    /**
+     * @brief Test method to verify the creation of a User object.
+     */
     @Test
     public void testCreateUser() {
         assertNotNull("User should be created successfully", user);
@@ -27,6 +37,9 @@ public class UserTest {
         assertEquals("Email should match", "testuser@example.com", user.getEmail());
     }
 
+    /**
+     * @brief Test method to verify getters and setters of User.
+     */
     @Test
     public void testSettersAndGetters() {
         user.setUser_id(2);
@@ -40,6 +53,9 @@ public class UserTest {
         assertEquals("Email should match", "newuser@example.com", user.getEmail());
     }
 
+    /**
+     * @brief Test method to verify adding a ServiceRecord to User.
+     */
     @Test
     public void testAddServiceRecord() {
         ServiceRecord serviceRecord = user.addServiceRecord(1, "Toyota", "Oil Change", "John Doe", "123456789", 50000, user.getUser_id());
@@ -47,14 +63,20 @@ public class UserTest {
         assertEquals("ServiceRecord's User should match", user, serviceRecord.getUser());
     }
 
+    /**
+     * @brief Test method to verify removing a ServiceRecord from User.
+     */
     @Test
     public void testRemoveServiceRecord() {
         ServiceRecord serviceRecord = user.addServiceRecord(1, "Toyota", "Oil Change", "John Doe", "123456789", 50000, user.getUser_id());
         assertTrue("ServiceRecord should be added", user.getServiceRecords().contains(serviceRecord));
         user.removeServiceRecord(serviceRecord);
-       // assertFalse("ServiceRecord should be removed", user.getServiceRecords().contains(serviceRecord));
+        // assertFalse("ServiceRecord should be removed", user.getServiceRecords().contains(serviceRecord));
     }
 
+    /**
+     * @brief Test method to verify the association between User and ServiceRecord.
+     */
     @Test
     public void testServiceRecordAssociation() {
         ServiceRecord serviceRecord1 = user.addServiceRecord(1, "Toyota", "Oil Change", "John Doe", "123456789", 50000, user.getUser_id());
@@ -66,6 +88,9 @@ public class UserTest {
         assertEquals("Number of ServiceRecords should match", 2, user.numberOfServiceRecords());
     }
 
+    /**
+     * @brief Test method to verify the toString method of User.
+     */
     @Test
     public void testToString() {
         String expected = "com.ebcak.carmaintenanceumple.User@" + Integer.toHexString(System.identityHashCode(user)) +
@@ -73,6 +98,9 @@ public class UserTest {
         assertEquals("toString should match", expected, user.toString());
     }
 
+    /**
+     * @brief Test method to verify the deletion of a User.
+     */
     @Test
     public void testDelete() {
         ServiceRecord serviceRecord1 = user.addServiceRecord(1, "Toyota", "Oil Change", "John Doe", "123456789", 50000, user.getUser_id());

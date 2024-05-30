@@ -1,3 +1,8 @@
+/**
+ * @file signUpScreen.java
+ * @brief This file contains the GUI class for the Sign Up screen in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import java.awt.BorderLayout;
@@ -17,11 +22,18 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * @class signUpScreen
+ * @brief Class for the Sign Up screen GUI in the car maintenance application.
+ */
 public class signUpScreen extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JTextField emailField;
 
+    /**
+     * @brief Constructor that initializes the sign up screen.
+     */
     public signUpScreen() {
         setTitle("Sign Up");
         setSize(1000, 700);
@@ -127,6 +139,10 @@ public class signUpScreen extends JFrame {
         formPanel.add(btnBack);
     }
 
+    /**
+     * @brief Main method to run the signUpScreen GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

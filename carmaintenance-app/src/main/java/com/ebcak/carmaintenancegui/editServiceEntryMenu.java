@@ -1,3 +1,8 @@
+/**
+ * @file editServiceEntryMenu.java
+ * @brief This file contains the GUI class for editing a service entry in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import com.ebcak.carmaintenanceumple.ServiceRecord;
@@ -15,6 +20,9 @@ public class editServiceEntryMenu extends JFrame {
     private JPanel infoPanel;
     public userControl userControlInstance;
 
+    /**
+     * @brief Constructor for editServiceEntryMenu class to initialize the GUI components.
+     */
     public editServiceEntryMenu() {
         userControlInstance = new userControl();
         
@@ -208,6 +216,9 @@ public class editServiceEntryMenu extends JFrame {
         btnEdit.addActionListener(e -> editServiceRecord());
     }
 
+    /**
+     * @brief Displays the driver information based on the entered driver name.
+     */
     private void showDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
@@ -230,6 +241,9 @@ public class editServiceEntryMenu extends JFrame {
         infoPanel.setVisible(true); // Bilgileri göster
     }
 
+    /**
+     * @brief Edits the service record based on the entered details.
+     */
     private void editServiceRecord() {
         String driverName = txtDriverName.getText();
         String carBrand = txtCarBrand.getText();
@@ -267,6 +281,10 @@ public class editServiceEntryMenu extends JFrame {
         }
     }
 
+    /**
+     * @brief Displays an auto-closing dialog with the specified message.
+     * @param message The message to display in the dialog.
+     */
     private void showAutoClosingDialog(String message) {
         final JDialog dialog = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE).createDialog(this, "Message");
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -276,6 +294,10 @@ public class editServiceEntryMenu extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * @brief Main method to run the editServiceEntryMenu GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new editServiceEntryMenu().setVisible(true));
     }

@@ -13,6 +13,10 @@ import com.ebcak.carmaintenancegui.userControl;
 
 import javax.swing.*;
 
+/**
+ * @class editServiceEntryMenuTest
+ * @brief Test class for editServiceEntryMenu GUI.
+ */
 public class editServiceEntryMenuTest {
 
     private editServiceEntryMenu editMenu;
@@ -29,6 +33,9 @@ public class editServiceEntryMenuTest {
     private userControl mockUserControl;
     private User mockUser;
 
+    /**
+     * @brief Setup method to initialize GUI components and mock objects before each test.
+     */
     @Before
     public void setUp() {
         editMenu = new editServiceEntryMenu();
@@ -51,9 +58,12 @@ public class editServiceEntryMenuTest {
         mockUser = mock(User.class);
     }
 
+    /**
+     * @brief Test method to verify the show button functionality with a valid driver name.
+     */
     @Test
     public void testShowButtonWithValidDriver() {
-        ServiceRecord mockRecord = new ServiceRecord(1, "Toyota", "Oil Change", "John Doe", "12345", 5000, 1, mockUser);
+        ServiceRecord mockRecord = createMockServiceRecord("John Doe");
         when(mockUserControl.getServiceRecordByDriverName("John Doe")).thenReturn(mockRecord);
 
         txtDriverName.setText("John Doe");
@@ -67,6 +77,9 @@ public class editServiceEntryMenuTest {
         assertTrue(infoPanel.isVisible());
     }
 
+    /**
+     * @brief Test method to verify the show button functionality with an invalid driver name.
+     */
     @Test
     public void testShowButtonWithInvalidDriver() {
         when(mockUserControl.getServiceRecordByDriverName("Invalid Name")).thenReturn(null);
@@ -77,9 +90,12 @@ public class editServiceEntryMenuTest {
         assertFalse(infoPanel.isVisible());
     }
 
+    /**
+     * @brief Test method to verify the edit button functionality when editing is successful.
+     */
     @Test
     public void testEditButtonSuccess() {
-        ServiceRecord mockRecord = new ServiceRecord(1, "Toyota", "Oil Change", "John Doe", "12345", 5000, 1, mockUser);
+        ServiceRecord mockRecord = createMockServiceRecord("John Doe");
         when(mockUserControl.getServiceRecordByDriverName("John Doe")).thenReturn(mockRecord);
         when(mockUserControl.updateServiceRecord(anyInt(), anyString(), anyString(), anyString(), anyString(), anyInt())).thenReturn(true);
 
@@ -106,9 +122,12 @@ public class editServiceEntryMenuTest {
         // Assuming there is a way to verify JOptionPane showing success message
     }
 
+    /**
+     * @brief Test method to verify the edit button functionality when editing fails.
+     */
     @Test
     public void testEditButtonFailure() {
-        ServiceRecord mockRecord = new ServiceRecord(1, "Toyota", "Oil Change", "John Doe", "12345", 5000, 1, mockUser);
+        ServiceRecord mockRecord = createMockServiceRecord("John Doe");
         when(mockUserControl.getServiceRecordByDriverName("John Doe")).thenReturn(mockRecord);
         when(mockUserControl.updateServiceRecord(anyInt(), anyString(), anyString(), anyString(), anyString(), anyInt())).thenReturn(false);
 
@@ -135,6 +154,9 @@ public class editServiceEntryMenuTest {
         // Assuming there is a way to verify JOptionPane showing failure message
     }
 
+    /**
+     * @brief Test method to verify the back button functionality.
+     */
     @Test
     public void testBackButton() {
         btnBack.doClick();
@@ -142,11 +164,16 @@ public class editServiceEntryMenuTest {
         assertFalse(editMenu.isVisible());
     }
 
-    private ServiceRecord createMockServiceRecord() {
+    /**
+     * @brief Helper method to create a mock ServiceRecord.
+     * @param driverName The name of the driver for the service record.
+     * @return A mock ServiceRecord object.
+     */
+    private ServiceRecord createMockServiceRecord(String driverName) {
         ServiceRecord mockRecord = mock(ServiceRecord.class);
         when(mockRecord.getCarBrand()).thenReturn("Toyota");
         when(mockRecord.getWhatToDo()).thenReturn("Oil Change");
-        when(mockRecord.getDriverName()).thenReturn("John Doe");
+        when(mockRecord.getDriverName()).thenReturn(driverName);
         when(mockRecord.getDriverPhone()).thenReturn("12345");
         when(mockRecord.getKilometer()).thenReturn(5000);
         return mockRecord;

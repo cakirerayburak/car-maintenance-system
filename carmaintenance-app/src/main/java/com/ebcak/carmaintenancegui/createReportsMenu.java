@@ -1,12 +1,14 @@
+/**
+ * @file createReportsMenu.java
+ * @brief This file contains the GUI class for creating reports in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -23,6 +25,9 @@ public class createReportsMenu extends JFrame {
     private JTextField txtDriverName;
     private JPanel infoPanel;
 
+    /**
+     * @brief Constructor for createReportsMenu class to initialize the GUI components.
+     */
     public createReportsMenu() {
         setTitle("Create Reports Menu");
         setSize(1000, 700);
@@ -113,6 +118,12 @@ public class createReportsMenu extends JFrame {
         btnList.addActionListener(e -> listDriverInfo(lblBrand, lblDriver, lblKilometer));
     }
 
+    /**
+     * @brief Lists the driver information based on the entered driver name.
+     * @param lblBrand JLabel to display the brand information.
+     * @param lblDriver JLabel to display the driver name.
+     * @param lblKilometer JLabel to display the kilometer information.
+     */
     private void listDriverInfo(JLabel lblBrand, JLabel lblDriver, JLabel lblKilometer) {
         // Bu örnekte, bilgileri manuel olarak giriyoruz. Gerçek uygulamalarda bu bilgiler veritabanından veya başka bir kaynaktan alınabilir.
         String driverName = txtDriverName.getText();
@@ -132,6 +143,10 @@ public class createReportsMenu extends JFrame {
         infoPanel.setVisible(true); // "List" butonuna tıklandığında paneli görünür yap
     }
 
+    /**
+     * @brief Main method to run the createReportsMenu GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

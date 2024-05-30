@@ -1,3 +1,8 @@
+/**
+ * @file addReminder.java
+ * @brief This file contains the GUI class for adding reminders in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import com.ebcak.carmaintenanceumple.Reminder;
@@ -24,6 +29,9 @@ public class addReminder extends JFrame {
     private ServiceRecordLogic serviceRecordLogic;
     private ReminderLogic reminderLogic;
 
+    /**
+     * @brief Constructor for addReminder class to initialize the GUI components.
+     */
     public addReminder() {
         serviceRecordLogic = new ServiceRecordLogic();
         reminderLogic = new ReminderLogic();
@@ -154,6 +162,9 @@ public class addReminder extends JFrame {
         btnEdit.addActionListener(e -> addReminder());
     }
 
+    /**
+     * @brief Displays the driver information based on the entered driver name.
+     */
     private void showDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
@@ -176,6 +187,9 @@ public class addReminder extends JFrame {
         infoPanel.setVisible(true); // Bilgileri göster
     }
 
+    /**
+     * @brief Adds a reminder for the service record based on the entered details.
+     */
     private void addReminder() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
@@ -213,6 +227,10 @@ public class addReminder extends JFrame {
         }
     }
 
+    /**
+     * @brief Main method to run the addReminder GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

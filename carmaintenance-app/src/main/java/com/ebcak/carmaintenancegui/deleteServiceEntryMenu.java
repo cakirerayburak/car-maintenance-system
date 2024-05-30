@@ -1,8 +1,11 @@
+/**
+ * @file deleteServiceEntryMenu.java
+ * @brief This file contains the GUI class for deleting a service entry in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import com.ebcak.carmaintenanceumple.ServiceRecord;
-import com.ebcak.carmaintenancelogiclayer.logicJava;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,6 +35,9 @@ public class deleteServiceEntryMenu extends JFrame {
     public userControl userControlInstance;
     private ServiceRecord currentServiceRecord;
 
+    /**
+     * @brief Constructor for deleteServiceEntryMenu class to initialize the GUI components.
+     */
     public deleteServiceEntryMenu() {
         userControlInstance = new userControl();
 
@@ -161,6 +167,9 @@ public class deleteServiceEntryMenu extends JFrame {
         btnList.addActionListener(e -> listDriverInfo());
     }
 
+    /**
+     * @brief Lists the driver information based on the entered driver name.
+     */
     private void listDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
@@ -183,6 +192,9 @@ public class deleteServiceEntryMenu extends JFrame {
         infoPanel.setVisible(true); // Bilgileri göster
     }
 
+    /**
+     * @brief Deletes the service entry based on the current service record.
+     */
     private void deleteDriverInfo() {
         if (currentServiceRecord == null) {
             showAutoClosingDialog("Please list the driver information first.", 1500);
@@ -199,6 +211,11 @@ public class deleteServiceEntryMenu extends JFrame {
         }
     }
 
+    /**
+     * @brief Displays an auto-closing dialog with the specified message.
+     * @param message The message to display in the dialog.
+     * @param milliseconds The duration for which the dialog should be displayed.
+     */
     private void showAutoClosingDialog(String message, int milliseconds) {
         final JOptionPane optionPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
         final JDialog dialog = optionPane.createDialog(this, "Message");
@@ -215,6 +232,10 @@ public class deleteServiceEntryMenu extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * @brief Main method to run the deleteServiceEntryMenu GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new deleteServiceEntryMenu().setVisible(true));
     }

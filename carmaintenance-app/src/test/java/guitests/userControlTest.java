@@ -1,3 +1,8 @@
+/**
+ * @file userControlTest.java
+ * @brief This file contains tests for the userControl class.
+ */
+
 package guitests;
 
 import com.ebcak.carmaintenancegui.userControl;
@@ -22,6 +27,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * @brief Tests for the userControl class.
+ */
 public class userControlTest {
 
     private userControl control;
@@ -30,6 +38,9 @@ public class userControlTest {
     private ExpenseReportLogic mockExpenseReportLogic;
     private ReminderLogic mockReminderLogic;
 
+    /**
+     * @brief Sets up mock objects and initializes the userControl instance for testing.
+     */
     @Before
     public void setUp() {
         mockUserLogic = mock(UserLogic.class);
@@ -44,6 +55,9 @@ public class userControlTest {
         control.setReminderLogic(mockReminderLogic);
     }
 
+    /**
+     * @brief Tests the searchServiceRecords method.
+     */
     @Test
     public void testSearchServiceRecords() {
         User mockUser = new User(1, "testuser", "password123", "testuser@example.com");
@@ -56,6 +70,9 @@ public class userControlTest {
         assertEquals(serviceRecord, results.get(0));
     }
 
+    /**
+     * @brief Tests the getExpenseReportsByDriverName method.
+     */
     @Test
     public void testGetExpenseReportsByDriverName() {
         User mockUser = new User(1, "testuser", "password123", "testuser@example.com");
@@ -69,6 +86,9 @@ public class userControlTest {
         assertEquals(expenseReport, results.get(0));
     }
 
+    /**
+     * @brief Tests the getServiceRecordByDriverName method.
+     */
     @Test
     public void testGetServiceRecordByDriverName() {
         User mockUser = new User(1, "testuser", "password123", "testuser@example.com");
@@ -80,6 +100,9 @@ public class userControlTest {
         assertEquals(serviceRecord, result);
     }
 
+    /**
+     * @brief Tests the addReminder method.
+     */
     @Test
     public void testAddReminder() {
         User mockUser = new User(1, "testuser", "password123", "testuser@example.com");

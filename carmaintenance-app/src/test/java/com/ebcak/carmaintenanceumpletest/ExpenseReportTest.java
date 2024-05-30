@@ -10,12 +10,19 @@ import java.sql.Date;
 
 import static org.junit.Assert.*;
 
+/**
+ * @class ExpenseReportTest
+ * @brief Test class for testing ExpenseReport functionalities.
+ */
 public class ExpenseReportTest {
 
     private User user;
     private ServiceRecord serviceRecord;
     private ExpenseReport expenseReport;
 
+    /**
+     * @brief Setup method to initialize objects before each test.
+     */
     @Before
     public void setUp() {
         user = new User(1, "testuser", "password123", "testuser@example.com");
@@ -23,6 +30,9 @@ public class ExpenseReportTest {
         expenseReport = new ExpenseReport(1, new Date(System.currentTimeMillis()), 5.5, 2000, 2500, serviceRecord.getRecord_id(), serviceRecord);
     }
 
+    /**
+     * @brief Test method to verify the creation of an ExpenseReport object.
+     */
     @Test
     public void testCreateExpenseReport() {
         assertNotNull("ExpenseReport should be created successfully", expenseReport);
@@ -34,11 +44,18 @@ public class ExpenseReportTest {
         assertEquals("Service Record should match", serviceRecord, expenseReport.getServiceRecord());
     }
 
+    /**
+     * @brief Test method to verify the creation of an ExpenseReport without a ServiceRecord.
+     * @throws RuntimeException when a null ServiceRecord is provided.
+     */
     @Test(expected = RuntimeException.class)
     public void testCreateExpenseReportWithoutServiceRecord() {
         new ExpenseReport(2, new Date(System.currentTimeMillis()), 6.0, 2100, 2600, 2, null);
     }
 
+    /**
+     * @brief Test method to verify getters and setters of ExpenseReport.
+     */
     @Test
     public void testSettersAndGetters() {
         expenseReport.setReport_id(2);
@@ -55,6 +72,9 @@ public class ExpenseReportTest {
         assertEquals("Service Record ID should match", 2, expenseReport.getServiceRecord_id());
     }
 
+    /**
+     * @brief Test method to verify the association between ExpenseReport and ServiceRecord.
+     */
     @Test
     public void testServiceRecordAssociation() {
         ServiceRecord newServiceRecord = new ServiceRecord(2, "Honda", "Tire Change", "Jane Doe", "987654321", 60000, user.getUser_id(), user);
@@ -65,6 +85,9 @@ public class ExpenseReportTest {
         assertTrue("New Service Record should contain ExpenseReport", newServiceRecord.getExpenseReports().contains(expenseReport));
     }
 
+    /**
+     * @brief Test method to verify the deletion of an ExpenseReport.
+     */
     @Test
     public void testDeleteExpenseReport() {
         expenseReport.delete();
@@ -72,6 +95,9 @@ public class ExpenseReportTest {
         assertTrue("Service Record should not contain ExpenseReport after delete", serviceRecord.getExpenseReports().isEmpty());
     }
 
+    /**
+     * @brief Test method to verify the toString method of ExpenseReport.
+     */
     @Test
     public void testToString() {
         String expected = "ExpenseReport[report_id:1,dailyFuel:5.5,annualFuel:2000.0,totalCost:2500.0,serviceRecord_id:1]\n" +

@@ -1,3 +1,8 @@
+/**
+ * @file logicJava.java
+ * @brief This file contains the logic layer classes for various operations in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancelogiclayer;
 
 import com.ebcak.carmaintenance.DALExpenseReport;
@@ -12,8 +17,17 @@ import com.ebcak.carmaintenanceumple.User;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * @class logicJava
+ * @brief Contains logic layer classes and interfaces for various operations.
+ */
 public class logicJava {
 
+    /**
+     * @interface LogicLayer
+     * @brief Interface for basic CRUD operations.
+     * @tparam T Type of the item to be managed.
+     */
     public interface LogicLayer<T> {
         int add(T item);
         boolean remove(String identifier);
@@ -21,6 +35,11 @@ public class logicJava {
         List<T> getAll();
     }
 
+    /**
+     * @class AbstractOperations
+     * @brief Abstract class that implements basic CRUD operations.
+     * @tparam T Type of the item to be managed.
+     */
     public static abstract class AbstractOperations<T> implements LogicLayer<T> {
         @Override
         public int add(T item) {
@@ -61,6 +80,10 @@ public class logicJava {
         protected abstract List<T> performGetAll();
     }
 
+    /**
+     * @class UserLogic
+     * @brief Logic class for managing users.
+     */
     public static class UserLogic extends AbstractOperations<User> {
 
         @Override
@@ -90,19 +113,39 @@ public class logicJava {
             return null; // DALUser.getUsers(); Bu yöntem henüz tanımlı değil.
         }
 
+        /**
+         * @brief Logs in a user with the given username and password.
+         * @param username The username of the user.
+         * @param password The password of the user.
+         * @return True if the login is successful, false otherwise.
+         */
         public boolean login(String username, String password) {
             return DALUser.loginUser(username, password);
         }
 
+        /**
+         * @brief Retrieves a user by their ID.
+         * @param userId The ID of the user.
+         * @return The User object.
+         */
         public User getUserById(int userId) {
             return DALUser.getUserById(userId);
         }
 
+        /**
+         * @brief Retrieves a user ID by their username.
+         * @param username The username of the user.
+         * @return The user ID.
+         */
         public int getUserIdByUsername(String username) {
             return DALUser.getUserIdByUsername(username);
         }
     }
 
+    /**
+     * @class ServiceRecordLogic
+     * @brief Logic class for managing service records.
+     */
     public static class ServiceRecordLogic extends AbstractOperations<ServiceRecord> {
 
         @Override
@@ -132,15 +175,29 @@ public class logicJava {
             return null; // DALServiceRecord.getAllServiceRecords(); Bu yöntem henüz tanımlı değil.
         }
 
+        /**
+         * @brief Retrieves a service record by driver name.
+         * @param driverName The driver name.
+         * @return The ServiceRecord object.
+         */
         public ServiceRecord getServiceRecordByDriverName(String driverName) {
             return DALServiceRecord.getServiceRecordByDriverName(driverName);
         }
 
+        /**
+         * @brief Searches service records by a search term.
+         * @param searchTerm The search term.
+         * @return A list of ServiceRecord objects.
+         */
         public List<ServiceRecord> searchServiceRecords(String searchTerm) {
             return DALServiceRecord.searchServiceRecords(searchTerm);
         }
     }
 
+    /**
+     * @class ReminderLogic
+     * @brief Logic class for managing reminders.
+     */
     public static class ReminderLogic extends AbstractOperations<Reminder> {
 
         @Override
@@ -169,11 +226,20 @@ public class logicJava {
             return null; // DALReminder.getAllReminders(); Bu yöntem henüz tanımlı değil.
         }
 
+        /**
+         * @brief Retrieves reminders by service record ID.
+         * @param serviceRecordId The service record ID.
+         * @return A list of Reminder objects.
+         */
         public List<Reminder> getRemindersByServiceRecordId(int serviceRecordId) {
             return DALReminder.getRemindersByServiceRecordId(serviceRecordId);
         }
     }
 
+    /**
+     * @class ExpenseReportLogic
+     * @brief Logic class for managing expense reports.
+     */
     public static class ExpenseReportLogic extends AbstractOperations<ExpenseReport> {
 
         @Override
@@ -201,6 +267,11 @@ public class logicJava {
             return null; // DALExpenseReport.getAllExpenseReports(); Bu yöntem henüz tanımlı değil.
         }
 
+        /**
+         * @brief Retrieves expense reports by driver name.
+         * @param driverName The driver name.
+         * @return A list of ExpenseReport objects.
+         */
         public List<ExpenseReport> getExpenseReportsByDriverName(String driverName) {
             ServiceRecord serviceRecord = DALServiceRecord.getServiceRecordByDriverName(driverName);
             if (serviceRecord == null) {
@@ -209,6 +280,14 @@ public class logicJava {
             return DALExpenseReport.getExpenseReportsByServiceRecordId(serviceRecord.getRecord_id());
         }
 
+        /**
+         * @brief Adds an expense report.
+         * @param driverName The driver name.
+         * @param dailyFuel The daily fuel cost.
+         * @param annualFuel The annual fuel cost.
+         * @param totalCost The total cost.
+         * @return True if the expense report is added successfully, false otherwise.
+         */
         public boolean addExpenseReport(String driverName, double dailyFuel, double annualFuel, double totalCost) {
             ServiceRecord serviceRecord = DALServiceRecord.getServiceRecordByDriverName(driverName);
             if (serviceRecord == null) {

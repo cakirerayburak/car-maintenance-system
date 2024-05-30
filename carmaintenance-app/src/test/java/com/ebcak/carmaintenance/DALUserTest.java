@@ -1,3 +1,8 @@
+/**
+ * @file DALUserTest.java
+ * @brief This file contains unit tests for the DALUser class.
+ */
+
 package com.ebcak.carmaintenance;
 
 import org.junit.After;
@@ -10,11 +15,18 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * @class DALUserTest
+ * @brief Unit tests for the DALUser class.
+ */
 public class DALUserTest {
 
     private Connection connection;
     private static final String TEST_DB_URL = "jdbc:sqlite:./SQLite/test_carMaintenanceDatabase.db";
 
+    /**
+     * @brief Set up the database connection and create tables before each test.
+     */
     @Before
     public void setUp() {
         // Test başlamadan önce veritabanı bağlantısını kur ve test tablosunu oluştur
@@ -31,6 +43,9 @@ public class DALUserTest {
         }
     }
 
+    /**
+     * @brief Test case for registering a user.
+     */
     @Test
     public void testRegisterUser() {
         // Kullanıcı kaydı test et
@@ -42,6 +57,9 @@ public class DALUserTest {
         assertFalse("Duplicate user registration should fail", duplicateResult);
     }
 
+    /**
+     * @brief Test case for logging in a user.
+     */
     @Test
     public void testLoginUser() {
         // Kullanıcıyı kaydet ve giriş yapmayı test et
@@ -57,6 +75,9 @@ public class DALUserTest {
         assertFalse("Login with wrong password should fail", wrongPasswordResult);
     }
 
+    /**
+     * @brief Tear down the database connection and delete the test database after each test.
+     */
     @After
     public void tearDown() {
         // Test sonrasında bağlantıyı kapat ve test veritabanını sil

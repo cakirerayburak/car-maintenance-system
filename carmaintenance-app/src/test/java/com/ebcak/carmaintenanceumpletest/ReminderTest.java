@@ -10,12 +10,19 @@ import java.sql.Date;
 
 import static org.junit.Assert.*;
 
+/**
+ * @class ReminderTest
+ * @brief Test class for testing Reminder functionalities.
+ */
 public class ReminderTest {
 
     private User user;
     private ServiceRecord serviceRecord;
     private Reminder reminder;
 
+    /**
+     * @brief Setup method to initialize objects before each test.
+     */
     @Before
     public void setUp() {
         user = new User(1, "testuser", "password123", "testuser@example.com");
@@ -23,6 +30,9 @@ public class ReminderTest {
         reminder = new Reminder(1, new Date(System.currentTimeMillis()), "Check Engine", serviceRecord.getRecord_id(), serviceRecord);
     }
 
+    /**
+     * @brief Test method to verify the creation of a Reminder object.
+     */
     @Test
     public void testCreateReminder() {
         assertNotNull("Reminder should be created successfully", reminder);
@@ -32,11 +42,18 @@ public class ReminderTest {
         assertEquals("Service Record should match", serviceRecord, reminder.getServiceRecord());
     }
 
+    /**
+     * @brief Test method to verify the creation of a Reminder without a ServiceRecord.
+     * @throws RuntimeException when a null ServiceRecord is provided.
+     */
     @Test(expected = RuntimeException.class)
     public void testCreateReminderWithoutServiceRecord() {
         new Reminder(2, new Date(System.currentTimeMillis()), "Check Oil", 2, null);
     }
 
+    /**
+     * @brief Test method to verify getters and setters of Reminder.
+     */
     @Test
     public void testSettersAndGetters() {
         reminder.setReminder_id(2);
@@ -49,6 +66,9 @@ public class ReminderTest {
         assertEquals("Service Record ID should match", 2, reminder.getServiceRecord_id());
     }
 
+    /**
+     * @brief Test method to verify the association between Reminder and ServiceRecord.
+     */
     @Test
     public void testServiceRecordAssociation() {
         ServiceRecord newServiceRecord = new ServiceRecord(2, "Honda", "Tire Change", "Jane Doe", "987654321", 60000, user.getUser_id(), user);
@@ -59,6 +79,9 @@ public class ReminderTest {
         assertTrue("New Service Record should contain Reminder", newServiceRecord.getReminders().contains(reminder));
     }
 
+    /**
+     * @brief Test method to verify the deletion of a Reminder.
+     */
     @Test
     public void testDeleteReminder() {
         reminder.delete();
@@ -66,6 +89,9 @@ public class ReminderTest {
         assertTrue("Service Record should not contain Reminder after delete", serviceRecord.getReminders().isEmpty());
     }
 
+    /**
+     * @brief Test method to verify the toString method of Reminder.
+     */
     @Test
     public void testToString() {
         String expected = "Reminder[reminder_id:1,reminderType:Check Engine,serviceRecord_id:1]\n" +

@@ -1,3 +1,8 @@
+/**
+ * @file serviceRecordsMenu.java
+ * @brief This file contains the GUI class for the Service Records Menu in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import java.awt.BorderLayout;
@@ -16,6 +21,9 @@ import javax.swing.SwingUtilities;
 
 public class serviceRecordsMenu extends JFrame {
 
+    /**
+     * @brief Constructor for serviceRecordsMenu class to initialize the GUI components.
+     */
     public serviceRecordsMenu() {
         setTitle("Service Records Menu");
         setSize(1000, 700); // Pencere boyutunu artırdım
@@ -118,6 +126,10 @@ public class serviceRecordsMenu extends JFrame {
         
     }
 
+    /**
+     * @brief Main method to run the serviceRecordsMenu GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

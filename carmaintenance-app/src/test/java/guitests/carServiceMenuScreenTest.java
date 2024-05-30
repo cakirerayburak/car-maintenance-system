@@ -2,18 +2,15 @@ package guitests;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
-import static org.mockito.Mockito.*;
 
 import com.ebcak.carmaintenancegui.carServiceMenuScreen;
-import com.ebcak.carmaintenancegui.signInScreen;
-import com.ebcak.carmaintenancegui.fuelEfficiencyReportsMenu;
-import com.ebcak.carmaintenancegui.expenseRecordsMenu;
-import com.ebcak.carmaintenancegui.serviceRecordsMenu;
-import com.ebcak.carmaintenancegui.maintenanceRemindersMenu;
 
 import javax.swing.*;
 
+/**
+ * @class carServiceMenuScreenTest
+ * @brief Test class for carServiceMenuScreen GUI.
+ */
 public class carServiceMenuScreenTest {
 
     private carServiceMenuScreen menuScreen;
@@ -23,6 +20,9 @@ public class carServiceMenuScreenTest {
     private JButton btnMaintenanceReminders;
     private JButton btnBack;
 
+    /**
+     * @brief Setup method to initialize GUI components before each test.
+     */
     @Before
     public void setUp() {
         menuScreen = new carServiceMenuScreen();
@@ -33,6 +33,9 @@ public class carServiceMenuScreenTest {
         btnBack = (JButton) TestUtils.getChildNamed(menuScreen, "btnBack");
     }
 
+    /**
+     * @brief Test method to verify the functionality of the Fuel Efficiency Reports button.
+     */
     @Test
     public void testFuelEfficiencyReportsButton() {
         btnFuelEfficiencyReports.doClick();
@@ -40,6 +43,9 @@ public class carServiceMenuScreenTest {
         // Assuming there's a way to verify it, like checking some static state
     }
 
+    /**
+     * @brief Test method to verify the functionality of the Expense Records button.
+     */
     @Test
     public void testExpenseRecordsButton() {
         btnExpenseRecords.doClick();
@@ -47,6 +53,9 @@ public class carServiceMenuScreenTest {
         // Assuming there's a way to verify it, like checking some static state
     }
 
+    /**
+     * @brief Test method to verify the functionality of the Service Records button.
+     */
     @Test
     public void testServiceRecordsButton() {
         btnServiceRecords.doClick();
@@ -54,6 +63,9 @@ public class carServiceMenuScreenTest {
         // Assuming there's a way to verify it, like checking some static state
     }
 
+    /**
+     * @brief Test method to verify the functionality of the Maintenance Reminders button.
+     */
     @Test
     public void testMaintenanceRemindersButton() {
         btnMaintenanceReminders.doClick();
@@ -61,6 +73,9 @@ public class carServiceMenuScreenTest {
         // Assuming there's a way to verify it, like checking some static state
     }
 
+    /**
+     * @brief Test method to verify the functionality of the Back button.
+     */
     @Test
     public void testBackButton() {
         btnBack.doClick();

@@ -1,3 +1,8 @@
+/**
+ * @file DALExpenseReportTest.java
+ * @brief This file contains unit tests for the DALExpenseReport class.
+ */
+
 package com.ebcak.carmaintenance;
 
 import com.ebcak.carmaintenanceumple.ExpenseReport;
@@ -16,11 +21,18 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * @class DALExpenseReportTest
+ * @brief Unit tests for the DALExpenseReport class.
+ */
 public class DALExpenseReportTest {
 
     private Connection connection;
     private static final String TEST_DB_URL = "jdbc:sqlite:./SQLite/test_carMaintenanceDatabase.db";
 
+    /**
+     * @brief Set up the database connection and create tables before each test.
+     */
     @Before
     public void setUp() {
         connection = databaseConnection.getInstance(TEST_DB_URL).getConnection();
@@ -57,6 +69,9 @@ public class DALExpenseReportTest {
         }
     }
 
+    /**
+     * @brief Test case for adding an expense report.
+     */
     @Test
     public void testAddExpenseReport() {
         String username = "testuser";
@@ -79,6 +94,9 @@ public class DALExpenseReportTest {
         assertTrue("Expense report addition should be successful", result);
     }
 
+    /**
+     * @brief Test case for retrieving expense reports by service record ID.
+     */
     @Test
     public void testGetExpenseReportsByServiceRecordId() {
         String username = "testuser2";
@@ -105,6 +123,9 @@ public class DALExpenseReportTest {
         assertFalse("Expense reports list should not be empty", expenseReports.isEmpty());
     }
 
+    /**
+     * @brief Test case for retrieving expense reports by driver name.
+     */
     @Test
     public void testGetExpenseReportsByDriverName() {
         String username = "testuser3";
@@ -135,6 +156,9 @@ public class DALExpenseReportTest {
         assertEquals("Should find two reports", 2, expenseReports.size());
     }
 
+    /**
+     * @brief Tear down the database connection and delete the test database after each test.
+     */
     @After
     public void tearDown() {
         if (connection != null) {

@@ -1,9 +1,11 @@
+/**
+ * @file searchEntryMenu.java
+ * @brief This file contains the GUI class for searching a service entry in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
-import com.ebcak.carmaintenancelogiclayer.logicJava;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
-import com.ebcak.carmaintenanceumple.User;
-import com.ebcak.carmaintenance.DALUser;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,6 +33,9 @@ public class searchEntryMenu extends JFrame {
     private JPanel infoPanel;
     public userControl userControlInstance;
 
+    /**
+     * @brief Constructor for searchEntryMenu class to initialize the GUI components.
+     */
     public searchEntryMenu() {
         userControlInstance = new userControl();
 
@@ -147,6 +152,9 @@ public class searchEntryMenu extends JFrame {
         btnSearch.addActionListener(e -> searchDriverInfo());
     }
 
+    /**
+     * @brief Searches for the driver information based on the entered driver name.
+     */
     private void searchDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
@@ -169,6 +177,10 @@ public class searchEntryMenu extends JFrame {
         infoPanel.setVisible(true); // Bilgileri göster
     }
 
+    /**
+     * @brief Shows a dialog that closes automatically after a specified time.
+     * @param message The message to be displayed in the dialog.
+     */
     private void showAutoClosingDialog(String message) {
         final JDialog dialog = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE).createDialog(this, "Message");
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -178,6 +190,10 @@ public class searchEntryMenu extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * @brief Main method to run the searchEntryMenu GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

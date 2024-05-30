@@ -1,3 +1,8 @@
+/**
+ * @file expenseRecordsMenu.java
+ * @brief This file contains the GUI class for the Expense Records Menu in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import java.awt.BorderLayout;
@@ -12,6 +17,9 @@ import javax.swing.SwingUtilities;
 
 public class expenseRecordsMenu extends JFrame {
 
+    /**
+     * @brief Constructor for expenseRecordsMenu class to initialize the GUI components.
+     */
     public expenseRecordsMenu() {
         setTitle("Expense Records Menu");
         setSize(1000, 700); // Pencere boyutunu artırabiliriz
@@ -83,6 +91,10 @@ public class expenseRecordsMenu extends JFrame {
         });
     }
 
+    /**
+     * @brief Main method to run the expenseRecordsMenu GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

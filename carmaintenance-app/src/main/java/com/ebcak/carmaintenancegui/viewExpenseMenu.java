@@ -1,3 +1,8 @@
+/**
+ * @file viewExpenseMenu.java
+ * @brief This file contains the class for viewing expense reports.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import com.ebcak.carmaintenanceumple.ExpenseReport;
@@ -5,6 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * @class viewExpenseMenu
+ * @brief Class for viewing expense reports of a driver.
+ */
 public class viewExpenseMenu extends JFrame {
 
     private JTextField txtDriverName;
@@ -17,6 +26,9 @@ public class viewExpenseMenu extends JFrame {
     private JPanel infoPanel;
     public userControl userCtrl; // Made public for testing purposes
 
+    /**
+     * @brief Constructor for initializing the view expense menu.
+     */
     public viewExpenseMenu() {
         userCtrl = new userControl();
 
@@ -26,13 +38,13 @@ public class viewExpenseMenu extends JFrame {
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
 
-        // Uygulamanın arka plan rengini ayarla
+        // Set background color
         getContentPane().setBackground(new Color(0x023F5C));
 
-        // Başlık paneli ekle
-        roundedPanelUI titlePanel = new roundedPanelUI(30); // Yuvarlak köşe yarıçapı
+        // Add title panel
+        roundedPanelUI titlePanel = new roundedPanelUI(30); // Rounded corners with radius 30
         titlePanel.setBounds(20, 25, 950, 130);
-        titlePanel.setBackground(new Color(24, 154, 180)); // Turkuaz
+        titlePanel.setBackground(new Color(24, 154, 180)); // Turquoise color
         titlePanel.setLayout(null);
         JLabel lblTitle = new JLabel("VIEW EXPENSE MENU");
         lblTitle.setBounds(375, 44, 280, 32);
@@ -41,11 +53,11 @@ public class viewExpenseMenu extends JFrame {
         titlePanel.add(lblTitle);
 
         JPanel formPanel = new JPanel();
-        formPanel.setOpaque(false); // Arka planın görünmesini sağlamak için paneli şeffaf yap
+        formPanel.setOpaque(false); // Transparent background
         formPanel.setLayout(null);
         formPanel.add(titlePanel);
 
-        // lblDriverName ekle
+        // Add driver name label
         JLabel lblDriverName = new JLabel("Driver Name:");
         lblDriverName.setBounds(385, 180, 230, 30);
         lblDriverName.setFont(new Font("SansSerif", Font.PLAIN, 18));
@@ -58,23 +70,23 @@ public class viewExpenseMenu extends JFrame {
         txtDriverName.setName("txtDriverName"); // Set name
         formPanel.add(txtDriverName);
 
-        // btnList ekle
+        // Add list button
         JButton btnList = new JButton("List");
         btnList.setBounds(625, 220, 100, 30);
-        btnList.setBackground(new Color(0, 51, 153)); // Mavi renk
+        btnList.setBackground(new Color(0, 51, 153)); // Blue color
         btnList.setForeground(Color.WHITE);
         btnList.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnList.setUI(new roundedButtonUI());
         btnList.setName("btnList"); // Set name
         formPanel.add(btnList);
 
-        // Bilgi paneli ekle
+        // Add info panel
         infoPanel = new JPanel();
         infoPanel.setBounds(385, 270, 340, 300);
-        infoPanel.setBackground(new Color(204, 255, 204)); // Açık yeşil renk
+        infoPanel.setBackground(new Color(204, 255, 204)); // Light green color
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setBorder(BorderFactory.createTitledBorder("Car and Kilometer Info"));
-        infoPanel.setVisible(false); // İlk başta gizli
+        infoPanel.setVisible(false); // Initially hidden
         infoPanel.setName("infoPanel"); // Set name
 
         lblBrand = new JLabel("Brand:");
@@ -107,17 +119,17 @@ public class viewExpenseMenu extends JFrame {
 
         getContentPane().add(formPanel, BorderLayout.CENTER);
 
-        // Alt kısım: Back butonu
+        // Add back button
         JButton btnBack = new JButton("Back");
         btnBack.setBounds(380, 580, 345, 56);
-        btnBack.setBackground(new Color(173, 216, 230)); // Açık mavi renk
+        btnBack.setBackground(new Color(173, 216, 230)); // Light blue color
         btnBack.setForeground(Color.WHITE);
         btnBack.setFont(new Font("SansSerif", Font.BOLD, 18));
         btnBack.setUI(new roundedButtonUI());
         btnBack.setName("btnBack"); // Set name
         formPanel.add(btnBack);
 
-        // Butonlara tıklama işlemleri
+        // Button action listeners
         btnList.addActionListener(e -> listDriverInfo());
         btnBack.addActionListener(e -> {
             dispose();
@@ -125,6 +137,9 @@ public class viewExpenseMenu extends JFrame {
         });
     }
 
+    /**
+     * @brief Lists driver information and expense reports.
+     */
     private void listDriverInfo() {
         String driverName = txtDriverName.getText();
         if (driverName.isEmpty()) {
@@ -149,6 +164,12 @@ public class viewExpenseMenu extends JFrame {
         infoPanel.setVisible(true);
     }
 
+    /**
+     * @brief Shows a dialog that automatically closes after a specified time.
+     * @param message The message to display in the dialog.
+     * @param title The title of the dialog.
+     * @param messageType The type of message to display.
+     */
     private void showAutoClosingDialog(String message, String title, int messageType) {
         final JDialog dialog = new JOptionPane(message, messageType).createDialog(this, title);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -158,6 +179,10 @@ public class viewExpenseMenu extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * @brief Main method to run the view expense menu.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new viewExpenseMenu().setVisible(true));
     }

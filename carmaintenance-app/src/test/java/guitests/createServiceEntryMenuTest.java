@@ -13,6 +13,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.InputEvent;
 
+/**
+ * @class createServiceEntryMenuTest
+ * @brief Test class for createServiceEntryMenu GUI.
+ */
 public class createServiceEntryMenuTest {
 
     private createServiceEntryMenu createMenu;
@@ -26,6 +30,9 @@ public class createServiceEntryMenuTest {
     private userControl mockUserControl;
     private Robot robot;
 
+    /**
+     * @brief Setup method to initialize GUI components and mock objects before each test.
+     */
     @Before
     public void setUp() throws Exception {
         createMenu = new createServiceEntryMenu();
@@ -45,6 +52,9 @@ public class createServiceEntryMenuTest {
         robot = new Robot();
     }
 
+    /**
+     * @brief Helper method to click the OK button on a popup dialog.
+     */
     private void clickOKButtonOnPopup() throws InterruptedException {
         // Wait for the dialog to appear
         Thread.sleep(1000);
@@ -72,6 +82,9 @@ public class createServiceEntryMenuTest {
         }
     }
 
+    /**
+     * @brief Test method to verify successful addition of a service record.
+     */
     @Test
     public void testAddButtonSuccess() throws InterruptedException {
         when(mockUserControl.addServiceRecord(anyString(), anyString(), anyString(), anyString(), anyInt())).thenReturn(true);
@@ -88,6 +101,9 @@ public class createServiceEntryMenuTest {
         verify(mockUserControl).addServiceRecord("Toyota", "Oil Change", "John Doe", "12345", 5000);
     }
 
+    /**
+     * @brief Test method to verify behavior when adding a service record fails.
+     */
     @Test
     public void testAddButtonFailure() throws InterruptedException {
         when(mockUserControl.addServiceRecord(anyString(), anyString(), anyString(), anyString(), anyInt())).thenReturn(false);
@@ -104,6 +120,9 @@ public class createServiceEntryMenuTest {
         verify(mockUserControl).addServiceRecord("Toyota", "Oil Change", "John Doe", "12345", 5000);
     }
 
+    /**
+     * @brief Test method to verify behavior when an invalid kilometer value is entered.
+     */
     @Test
     public void testAddButtonInvalidKilometer() throws InterruptedException {
         txtCarBrand.setText("Toyota");
@@ -119,6 +138,9 @@ public class createServiceEntryMenuTest {
         verify(mockUserControl, never()).addServiceRecord(anyString(), anyString(), anyString(), anyString(), anyInt());
     }
 
+    /**
+     * @brief Test method to verify the back button functionality.
+     */
     @Test
     public void testBackButton() {
         btnBack.doClick();

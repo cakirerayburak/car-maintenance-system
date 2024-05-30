@@ -1,8 +1,17 @@
+/**
+ * @file signInScreen.java
+ * @brief This file contains the GUI class for the Sign In screen in the car maintenance application.
+ */
+
 package com.ebcak.carmaintenancegui;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @class signInScreen
+ * @brief Class for the Sign In screen GUI in the car maintenance application.
+ */
 public class signInScreen extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -10,12 +19,17 @@ public class signInScreen extends JFrame {
     private boolean nextScreenVisible = false;
     private boolean signUpScreenVisible = false;
 
-    // Varsayılan yapıcı (parametresiz)
+    /**
+     * @brief Default constructor that initializes the sign in screen with a default userControl.
+     */
     public signInScreen() {
         this(new userControl()); // Varsayılan userControl ile oluştur
     }
 
-    // userControl parametresi alan yapıcı
+    /**
+     * @brief Constructor that initializes the sign in screen with a specified userControl.
+     * @param userController The userControl instance to be used.
+     */
     public signInScreen(userControl userController) {
         this.userController = userController;
 
@@ -113,6 +127,9 @@ public class signInScreen extends JFrame {
         });
     }
 
+    /**
+     * @brief Performs the sign in action by validating the user credentials.
+     */
     private void performSignIn() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
@@ -128,20 +145,37 @@ public class signInScreen extends JFrame {
         }
     }
 
+    /**
+     * @brief Performs the sign up action by opening the sign up screen.
+     */
     private void performSignUp() {
         dispose();
         signUpScreenVisible = true;
         new signUpScreen().setVisible(true);
     }
 
+    /**
+     * @brief Checks if the next screen (after sign in) is visible.
+     * @return true if the next screen is visible, false otherwise.
+     */
     public boolean isNextScreenVisible() {
         return nextScreenVisible;
     }
 
+    /**
+     * @brief Checks if the sign up screen is visible.
+     * @return true if the sign up screen is visible, false otherwise.
+     */
     public boolean isSignUpScreenVisible() {
         return signUpScreenVisible;
     }
 
+    /**
+     * @brief Shows a dialog that closes automatically after a specified time.
+     * @param message The message to be displayed in the dialog.
+     * @param title The title of the dialog.
+     * @param messageType The type of message to be displayed (e.g., JOptionPane.INFORMATION_MESSAGE).
+     */
     private void showAutoClosingDialog(String message, String title, int messageType) {
         final JDialog dialog = new JOptionPane(message, messageType).createDialog(this, title);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -150,7 +184,10 @@ public class signInScreen extends JFrame {
         timer.start();
         dialog.setVisible(true);
     }
-
+    /**
+     * @brief Main method to run the signInScreen GUI.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         userControl userController = new userControl();
         SwingUtilities.invokeLater(() -> new signInScreen(userController).setVisible(true));

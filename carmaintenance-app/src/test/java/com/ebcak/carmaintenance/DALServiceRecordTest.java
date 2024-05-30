@@ -1,3 +1,8 @@
+/**
+ * @file DALServiceRecordTest.java
+ * @brief This file contains unit tests for the DALServiceRecord class.
+ */
+
 package com.ebcak.carmaintenance;
 
 import org.junit.After;
@@ -14,11 +19,18 @@ import java.util.List;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
 import com.ebcak.carmaintenanceumple.User;
 
+/**
+ * @class DALServiceRecordTest
+ * @brief Unit tests for the DALServiceRecord class.
+ */
 public class DALServiceRecordTest {
 
     private Connection connection;
     private static final String TEST_DB_URL = "jdbc:sqlite:./SQLite/test_carMaintenanceDatabase.db";
 
+    /**
+     * @brief Set up the database connection and create tables before each test.
+     */
     @Before
     public void setUp() {
         connection = databaseConnection.getInstance(TEST_DB_URL).getConnection();
@@ -45,6 +57,9 @@ public class DALServiceRecordTest {
         }
     }
 
+    /**
+     * @brief Test case for adding a service record.
+     */
     @Test
     public void testAddServiceRecord() {
         String username = "testuser";
@@ -60,6 +75,9 @@ public class DALServiceRecordTest {
         assertTrue("Service record addition should be successful", result);
     }
 
+    /**
+     * @brief Test case for updating a service record.
+     */
     @Test
     public void testUpdateServiceRecord() {
         String username = "testuser2";
@@ -79,6 +97,9 @@ public class DALServiceRecordTest {
         assertTrue("Service record update should be successful", result);
     }
 
+    /**
+     * @brief Test case for retrieving a service record by driver name.
+     */
     @Test
     public void testGetServiceRecordByDriverName() {
         String username = "testuser3";
@@ -97,6 +118,9 @@ public class DALServiceRecordTest {
         assertEquals("Driver name should match", "Alice Smith", retrievedRecord.getDriverName());
     }
 
+    /**
+     * @brief Test case for searching service records.
+     */
     @Test
     public void testSearchServiceRecords() {
         String username = "testuser4";
@@ -118,6 +142,9 @@ public class DALServiceRecordTest {
         assertEquals("Should find one record", 1, records.size());
     }
 
+    /**
+     * @brief Test case for deleting a service record by driver name.
+     */
     @Test
     public void testDeleteServiceRecordByDriverName() {
         String username = "testuser5";
@@ -138,6 +165,9 @@ public class DALServiceRecordTest {
         assertNull("Deleted service record should not be found", deletedRecord);
     }
 
+    /**
+     * @brief Tear down the database connection and delete the test database after each test.
+     */
     @After
     public void tearDown() {
         if (connection != null) {

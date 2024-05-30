@@ -1,9 +1,15 @@
+/**
+ * @file viewExpenseMenuTest.java
+ * @brief This file contains tests for the viewExpenseMenu class.
+ */
+
 package guitests;
 
 import com.ebcak.carmaintenancegui.viewExpenseMenu;
 import com.ebcak.carmaintenanceumple.ExpenseReport;
 import com.ebcak.carmaintenanceumple.ServiceRecord;
 import com.ebcak.carmaintenancegui.userControl;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -18,6 +24,9 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * @brief Tests for the viewExpenseMenu class.
+ */
 public class viewExpenseMenuTest {
 
     private viewExpenseMenu expenseMenu;
@@ -35,6 +44,9 @@ public class viewExpenseMenuTest {
     private ServiceRecord mockServiceRecord;
     private ExpenseReport mockExpenseReport;
 
+    /**
+     * @brief Sets up the viewExpenseMenu instance and its mock dependencies for testing.
+     */
     @Before
     public void setUp() {
         expenseMenu = new viewExpenseMenu();
@@ -69,6 +81,9 @@ public class viewExpenseMenuTest {
         btnBack = getComponent(expenseMenu, "btnBack", JButton.class);
     }
 
+    /**
+     * @brief Tests the listButtonWithValidDriver method.
+     */
     @Test
     public void testListButtonWithValidDriver() {
         List<ExpenseReport> expenseReports = new ArrayList<>();
@@ -87,6 +102,9 @@ public class viewExpenseMenuTest {
         assertTrue(infoPanel.isVisible());
     }
 
+    /**
+     * @brief Tests the listButtonWithInvalidDriver method.
+     */
     @Test
     public void testListButtonWithInvalidDriver() {
         when(mockUserControl.getExpenseReportsByDriverName("Invalid Name")).thenReturn(new ArrayList<>());
@@ -97,6 +115,9 @@ public class viewExpenseMenuTest {
         assertFalse(infoPanel.isVisible());
     }
 
+    /**
+     * @brief Tests the backButton method.
+     */
     @Test
     public void testBackButton() {
         btnBack.doClick();
@@ -104,6 +125,13 @@ public class viewExpenseMenuTest {
         assertFalse(expenseMenu.isVisible());
     }
 
+    /**
+     * @brief Helper method to retrieve a named component from a container.
+     * @param container The container to search within.
+     * @param name The name of the component to find.
+     * @param componentClass The class of the component to find.
+     * @return The found component if it exists, null otherwise.
+     */
     private <T extends Component> T getComponent(Container container, String name, Class<T> componentClass) {
         for (Component component : container.getComponents()) {
             if (componentClass.isInstance(component)) {

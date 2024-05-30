@@ -1,3 +1,8 @@
+/**
+ * @file logExpenseMenuTest.java
+ * @brief Bu dosya, logExpenseMenu sınıfının JUnit testlerini içerir.
+ */
+
 package guitests;
 
 import org.junit.Before;
@@ -15,6 +20,9 @@ import com.ebcak.carmaintenancelogiclayer.logicJava;
 
 import javax.swing.*;
 
+/**
+ * @brief logExpenseMenu sınıfının JUnit testleri.
+ */
 public class logExpenseMenuTest {
 
     private logExpenseMenu logMenu;
@@ -34,6 +42,9 @@ public class logExpenseMenuTest {
     private logicJava.ExpenseReportLogic mockLogicJava;
     private User mockUser;
 
+    /**
+     * @brief Testlerin öncesinde yürütülecek işlemleri hazırlar.
+     */
     @Before
     public void setUp() {
         logMenu = new logExpenseMenu();
@@ -64,6 +75,9 @@ public class logExpenseMenuTest {
         logExpenseMenu.setLogicJavaInstance(mockLogicJava);
     }
 
+    /**
+     * @brief "List" butonunun geçerli sürücü için testi.
+     */
     @Test
     public void testListButtonWithValidDriver() {
         when(mockUserControl.getServiceRecordByDriverName("John Doe")).thenReturn(mockServiceRecord);
@@ -77,6 +91,9 @@ public class logExpenseMenuTest {
         assertTrue(infoPanel.isVisible());
     }
 
+    /**
+     * @brief "List" butonunun geçersiz sürücü için testi.
+     */
     @Test
     public void testListButtonWithInvalidDriver() {
         when(mockUserControl.getServiceRecordByDriverName("Invalid Name")).thenReturn(null);
@@ -87,6 +104,9 @@ public class logExpenseMenuTest {
         assertFalse(infoPanel.isVisible());
     }
 
+    /**
+     * @brief "Add" butonunun başarılı senaryo testi.
+     */
     @Test
     public void testAddButtonSuccess() {
         when(mockUserControl.getServiceRecordByDriverName("John Doe")).thenReturn(mockServiceRecord);
@@ -120,6 +140,9 @@ public class logExpenseMenuTest {
         timer.start();
     }
 
+    /**
+     * @brief "Add" butonunun başarısız senaryo testi.
+     */
     @Test
     public void testAddButtonFailure() {
         when(mockUserControl.getServiceRecordByDriverName("John Doe")).thenReturn(mockServiceRecord);
@@ -153,6 +176,9 @@ public class logExpenseMenuTest {
         timer.start();
     }
 
+    /**
+     * @brief "Back" butonunun testi.
+     */
     @Test
     public void testBackButton() {
         btnBack.doClick();

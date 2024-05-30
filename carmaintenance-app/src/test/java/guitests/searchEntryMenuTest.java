@@ -1,3 +1,8 @@
+/**
+ * @file searchEntryMenuTest.java
+ * @brief Bu dosya, searchEntryMenu sınıfının JUnit testlerini içerir.
+ */
+
 package guitests;
 
 import org.junit.Before;
@@ -13,6 +18,9 @@ import com.ebcak.carmaintenancegui.userControl;
 
 import javax.swing.*;
 
+/**
+ * @brief searchEntryMenu sınıfının JUnit testleri.
+ */
 public class searchEntryMenuTest {
 
     private searchEntryMenu searchMenu;
@@ -28,6 +36,9 @@ public class searchEntryMenuTest {
     private userControl mockUserControl;
     private User mockUser;
 
+    /**
+     * @brief Testlerin öncesinde yürütülecek işlemleri hazırlar.
+     */
     @Before
     public void setUp() {
         searchMenu = new searchEntryMenu();
@@ -49,6 +60,9 @@ public class searchEntryMenuTest {
         mockUser = mock(User.class);
     }
 
+    /**
+     * @brief "Search" butonunun geçerli sürücü için testi.
+     */
     @Test
     public void testSearchButtonWithValidDriver() {
         ServiceRecord mockRecord = new ServiceRecord(1, "Toyota", "Oil Change", "John Doe", "12345", 5000, 1, mockUser);
@@ -65,6 +79,9 @@ public class searchEntryMenuTest {
         assertTrue(infoPanel.isVisible());
     }
 
+    /**
+     * @brief "Search" butonunun geçersiz sürücü için testi.
+     */
     @Test
     public void testSearchButtonWithInvalidDriver() {
         when(mockUserControl.getServiceRecordByDriverName("Invalid Name")).thenReturn(null);
@@ -75,6 +92,9 @@ public class searchEntryMenuTest {
         assertFalse(infoPanel.isVisible());
     }
 
+    /**
+     * @brief "Back" butonunun testi.
+     */
     @Test
     public void testBackButton() {
         btnBack.doClick();
