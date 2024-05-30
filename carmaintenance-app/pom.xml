@@ -179,7 +179,7 @@
                 <version>2.22.1</version>
                 <configuration>
                     <includes>
-						<include>**/**Test.java</include>
+						<include>*/*Test.java</include>
                     </includes>
                 </configuration>
             </plugin>
@@ -235,7 +235,7 @@
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>
-                                        com.ebcak.carmaintenance.CarMaintenanceApp</mainClass>
+                                        com.ebcak.carmaintenancegui.signInScreen</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
